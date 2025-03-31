@@ -1,1 +1,34 @@
 /* You can add global styles to this file, and also import other style files */
+
+@font-face {
+  font-family: 'montserrat';
+  src: url('./assets/fonts/Montserrat-VariableFont_wght.ttf') format('truetype');
+}
+
+:root {
+  --white: #f3f3e7;
+  --black: #1c1c1c;
+  --gradient-first: linear-gradient(to bottom right, 
+    #edaf32, 
+    #d15711, 
+    #c22f06, 
+    #7d1b0c,
+    #521316, 
+    #331911 
+  );
+  --gradient-second: linear-gradient(to bottom left, 
+    #edaf32, 
+    #d15711, 
+    #c22f06, 
+    #7d1b0c,
+    #521316, 
+    #331911 
+  );
+}
+
+body{
+  height: 100vh;
+  margin: 0;
+  background-color: var(--white);
+
+}
