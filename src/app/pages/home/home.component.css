@@ -1,10 +1,10 @@
-header{
+header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-h1{
+h1 {
   margin: 0;
   font-family: 'montserrat';
   color: var(--black);
@@ -19,7 +19,7 @@ h1{
   color: var(--white);
   border: 0;
   border-radius: 5px;
-  position: relative; /* Necesario para posicionar las capas */
+  position: relative; 
 }
 
 #identify::before, #identify::after {
@@ -58,28 +58,75 @@ h1{
   cursor: pointer;
 }
 
+main > header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
 
-/* Movile */
+main > header > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+/* Phone */
 @media (max-width: 768px) {
-  #identify{
+  #identify {
     border-radius: 50%;
   }
 
-  #identify > span{
+  #identify > span {
     display: none;
   }
+
+  main > header {
+    margin-top: 25px;
+    gap: 10px;
+  }
+
+  main > header > div {
+    width: 100%;
+  }
+
+  app-genre-group {
+    width: 100%;
+  }
+
 }
 
-/* Portable */
+/* Laptop */
 @media (min-width: 769px) {
   
-  #identify{
-    padding: 0 10px;
+  #identify {
+    width: 180px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 15px;
     font-family: 'montserrat';
     font-weight: 700;
   }
 
-  #identify > span{
-    margin-right: 20px;
+
+  main > header {
+    margin-top: 35px;
+    gap: 20px;
   }
+
+  main > header > div {
+    width: 93%;
+  }
+
+  #filters{
+    height: 53px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+  }
+
 }

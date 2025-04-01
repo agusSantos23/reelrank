@@ -1,0 +1,62 @@
+.genre-group {
+  display: flex;
+  overflow-x: hidden; 
+  scroll-snap-type: x mandatory;
+  justify-content: flex-start; 
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  white-space: nowrap; 
+}
+
+.genre-group::-webkit-scrollbar {
+  height: 5px;
+  background-color: var(--white);
+}
+
+.genre-group::-webkit-scrollbar-thumb {
+  background: var(--black);
+  border-radius: 4px;
+  transition: .2s ease;
+  cursor: grab;
+}
+
+.genre-group::-webkit-scrollbar-thumb:active { 
+  background: var(--gradient-first); 
+}
+
+.genre-group::-webkit-scrollbar-track {
+  background-color: var(--white);
+}
+
+app-toggle{
+  left: 0;
+  position: sticky;
+  object-fit: cover;
+  scroll-snap-align: center;
+}
+
+.mb-5{
+  margin-bottom: 5px;
+}
+
+
+/* Phone */
+@media (max-width: 768px) {
+  .genre-group {
+    overflow-x: auto; 
+  }
+
+  .genre-group::-webkit-scrollbar{
+    display: none;
+  }
+}
+
+/* Laptop */
+@media (min-width: 769px) {
+  .genre-group {
+    gap: 10px;
+  }
+
+
+}
