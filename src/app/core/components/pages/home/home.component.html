@@ -17,10 +17,26 @@
         <app-search (searchSubmitted)="onSearch($event)"/>
       </div>
 
-      <app-genre-group [genres]="genres" [width]="'100%'" (selectedGenresChange)="onSelectedGenresChange($event)"/>
 
       <app-bar style="width: 95%;" width="100%" height="5px" />
 
+      <div>
+        <div id="info-data">
+          <h3>Movies</h3>
+    
+          <div>
+            @for (genre of selectedGenres; track genre; let i = $index) {
+    
+              <span>{{ genre | titlecase }}</span>
+    
+              @if (i < selectedGenres.length - 1) {
+                <span> • </span>
+              }
+            }
+          </div>
+    
+        </div>
+      </div>
     </header>
 
   }@else {
@@ -32,14 +48,40 @@
 
         <app-bar width="5px" height="35px" />
 
-        <app-genre-group [genres]="genres" (selectedGenresChange)="onSelectedGenresChange($event)"/>
       </div>
       <app-search (searchSubmitted)="onSearch($event)"/>
     </div>
+
     <app-bar style="width: 95%;" width="100%" height="5px" />
+
+    <div>
+      <div id="info-data">
+        <h3>Movies</h3>
+  
+        <div>
+          @for (genre of selectedGenres; track genre; let i = $index) {
+  
+            <span>{{ genre | titlecase }}</span>
+  
+            @if (i < selectedGenres.length - 1) {
+              <span> • </span>
+            }
+          }
+        </div>
+  
+      </div>
+    </div>
+    
   </header>
 
   }
 
+  <div id="list-movies">
+    @for (movie of movies; track movie.id) {
+      <app-movie-card [movie]="movie" />
+    }@empty {
+      
+    }
+  </div>
 
 </main>

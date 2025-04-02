@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, Renderer2, OnDestroy } from '@angular/core';
-import { SelectOption } from '../models/selectOption.model';
+import { SelectOption } from '../../../../inputs/models/selectOption.model';
 
 @Component({
   selector: 'app-select',

@@ -27,8 +27,8 @@
 }
 
 body{
-  height: 100vh;
-  margin: 0;
   background-color: var(--white);
-  cursor: none;
 }
+
+
+
