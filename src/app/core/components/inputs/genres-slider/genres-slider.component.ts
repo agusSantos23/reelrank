@@ -1,0 +1,67 @@
+import { Component, ElementRef, EventEmitter, HostListener, Input, Output, ViewChild } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+@Component({
+  selector: 'app-genres-slider',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './genres-slider.component.html',
+  styleUrl: './genres-slider.component.css'
+})
+export class GenresSliderComponent {
+  @Input() genres?: string[];
+  @Output() genderEmitter = new EventEmitter<string>();
+  @ViewChild('container') container!: ElementRef;
+
+  private isDragging: boolean = false;
+  private startX: number = 0;
+  private scrollLeft: number = 0;
+  private hasMoved: boolean = false; 
+
+
+  selectedGender(gender: string): void {
+    if (!this.hasMoved) this.genderEmitter.emit(gender);
+    
+    this.hasMoved = false; 
+  }
+
+  onMouseDown(e: MouseEvent): void {
+    this.isDragging = true;
+    this.hasMoved = false; 
+    this.startX = e.pageX - this.container.nativeElement.offsetLeft;
+    this.scrollLeft = this.container.nativeElement.scrollLeft;
+    this.container.nativeElement.style.cursor = 'grabbing';
+  }
+
+  onMouseMove(e: MouseEvent): void {
+    if (!this.isDragging) return;
+
+    this.hasMoved = true; 
+    const walk = (e.pageX - this.container.nativeElement.offsetLeft - this.startX) * 1;
+    this.container.nativeElement.scrollLeft = this.scrollLeft - walk;
+  }
+
+  onMouseUp(): void {
+    this.isDragging = false;
+    this.container.nativeElement.style.cursor = 'grab';
+
+    setTimeout(() => {
+      this.hasMoved = false; 
+    }, 200);
+  }
+
+  @HostListener('window:mouseup', ['$event'])
+  onMouseUpWindow(event: MouseEvent): void {
+    if (this.isDragging) {
+      this.isDragging = false;
+
+      if (this.container && this.container.nativeElement) {
+        this.container.nativeElement.style.cursor = 'grab';
+
+      }
+
+      this.hasMoved = false; 
+
+    }
+  }
+}

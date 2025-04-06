@@ -6,18 +6,18 @@ import { SelectComponent } from '../../inputs/select/select.component';
 import { MovieBasicInfo, MovieService } from '../../../services/movie/movie.service';
 import { MovieCardComponent } from "../../movie-card/movie-card.component";
 import { TitlePageComponent } from "../../ui/title-page/title-page.component";
+import { GenresSliderComponent } from "../../inputs/genres-slider/genres-slider.component";
 
 @Component({
   selector: 'app-home',
-  imports: [SelectComponent, BarComponent, SearchComponent, MovieCardComponent, TitlePageComponent],
+  imports: [SelectComponent, BarComponent, SearchComponent, MovieCardComponent, TitlePageComponent, GenresSliderComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
 export class HomeComponent implements OnInit {
 
   movies: MovieBasicInfo[] = [];
- 
-  selectedGenres: string[] = []
+  possibleGenres: string[] = ["War", "History", "Family", "Western", "Documentary", "Thriller", "Fantasy", "Animation", "Horror", "Music", "Comedy", "Drama", "Adventure", "Action", "Mystery", "Romance", "TV Movie", "Crime", "Science Fiction"];
   isMobile: boolean = false;
   selectValue?: string;
 
@@ -40,17 +40,17 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  onSelectionChange(value: string) {
+  onSelectionChange(value: string): void {
     this.selectValue = value;
   }
-  
-  onSelectedGenresChange(selectedGenres: string[]) {
-    this.selectedGenres = selectedGenres
-    console.log('Generos seleccionados:', selectedGenres);
+
+  onSearch(term: string): void {
+    console.log(term);
   }
 
-  onSearch(term: string){
-    console.log(term);
+  onNewGenderSearch(gender: string): void{
+    console.log(gender);
+    
   }
 
   onMovieClick(movieId: string){    
