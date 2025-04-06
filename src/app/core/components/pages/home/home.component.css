@@ -5,11 +5,6 @@ header {
   font-family: 'montserrat';
 }
 
-h1 {
-  margin: 0;
-  color: var(--black);
-}
-
 #identify {
   min-width: 40px;
   height: 40px;
@@ -59,6 +54,7 @@ h1 {
 }
 
 main{
+  width: 100%;
   font-family: 'montserrat';
 }
 
@@ -71,9 +67,14 @@ main > header {
 }
 
 main > header > div {
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+main > header > app-bar {
+  width: 100%;
 }
 
 #info-data{
@@ -131,7 +132,7 @@ main > header > div {
   }
 
   #list-movies {
-    gap: 5px;
+    gap: 10px;
   }
 }
 
@@ -153,9 +154,6 @@ main > header > div {
     gap: 20px;
   }
 
-  main > header > div {
-    width: 93%;
-  }
 
   #filters{
     height: 53px;
@@ -166,7 +164,7 @@ main > header > div {
   }
 
   #list-movies {
-    gap: 20px;
+    gap: 25px;
   }
 
 }

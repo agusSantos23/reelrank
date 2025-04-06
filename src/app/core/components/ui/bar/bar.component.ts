@@ -11,7 +11,9 @@ import { Component, Input } from '@angular/core';
     }
   `]
 })
-export class BarComponent {
+export class BarComponent{
   @Input() width: string = '100px';
   @Input() height: string = '10px';
+
+
 }

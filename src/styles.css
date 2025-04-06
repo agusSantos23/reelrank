@@ -30,5 +30,23 @@ body{
   background-color: var(--white);
 }
 
+/* Phone */
+@media (max-width: 768px) {
+  body{
+    margin: .5em;
+
+  }
+}
+
+/* Laptop */
+@media (min-width: 769px) {
+  body{
+    margin: 2em;
+
+  }
+
+
+}
+
 
 

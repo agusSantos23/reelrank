@@ -3,7 +3,7 @@
 #container {
   border-radius: 5px;
   background-color: var(--black);
-  
+  cursor: pointer;
   transition: background-color 3s ease;
 }
 
