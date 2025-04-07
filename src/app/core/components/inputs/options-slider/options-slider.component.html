@@ -1,10 +1,10 @@
 <div id="shadow">
   <div #container id="container" (mousedown)="onMouseDown($event)" (mousemove)="onMouseMove($event)"
     (mouseup)="onMouseUp()">
-    @for (gender of genres; track gender) {
-    <div class="btn-container" (click)="selectedGender(gender)">
+    @for (option of options; track option) {
+    <div class="btn-container" (click)="selectedOption(option)">
       <div class="btn-content">
-        <span>{{ gender }}</span>
+        <span>{{ option }}</span>
       </div>
     </div>
     }

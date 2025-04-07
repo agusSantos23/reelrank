@@ -6,11 +6,11 @@ import { SelectComponent } from '../../inputs/select/select.component';
 import { MovieBasicInfo, MovieService } from '../../../services/movie/movie.service';
 import { MovieCardComponent } from "../../movie-card/movie-card.component";
 import { TitlePageComponent } from "../../ui/title-page/title-page.component";
-import { GenresSliderComponent } from "../../inputs/genres-slider/genres-slider.component";
+import { OptionsSliderComponent } from "../../inputs/options-slider/options-slider.component";
 
 @Component({
   selector: 'app-home',
-  imports: [SelectComponent, BarComponent, SearchComponent, MovieCardComponent, TitlePageComponent, GenresSliderComponent],
+  imports: [SelectComponent, BarComponent, SearchComponent, MovieCardComponent, TitlePageComponent, OptionsSliderComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })

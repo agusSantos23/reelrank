@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GenresSliderComponent } from './genres-slider.component';
+import { GenresSliderComponent } from './options-slider.component';
 
 describe('GenresSliderComponent', () => {
   let component: GenresSliderComponent;

@@ -2,15 +2,15 @@ import { Component, ElementRef, EventEmitter, HostListener, Input, Output, ViewC
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-genres-slider',
+  selector: 'app-options-slider',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './genres-slider.component.html',
-  styleUrl: './genres-slider.component.css'
+  templateUrl: './options-slider.component.html',
+  styleUrl: './options-slider.component.css'
 })
-export class GenresSliderComponent {
-  @Input() genres?: string[];
-  @Output() genderEmitter = new EventEmitter<string>();
+export class OptionsSliderComponent {
+  @Input() options?: string[];
+  @Output() optionEmitter = new EventEmitter<string>();
   @ViewChild('container') container!: ElementRef;
 
   private isDragging: boolean = false;
@@ -19,8 +19,8 @@ export class GenresSliderComponent {
   private hasMoved: boolean = false; 
 
 
-  selectedGender(gender: string): void {
-    if (!this.hasMoved) this.genderEmitter.emit(gender);
+  selectedOption(option: string): void {
+    if (!this.hasMoved) this.optionEmitter.emit(option);
     
     this.hasMoved = false; 
   }

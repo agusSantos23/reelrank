@@ -35,8 +35,9 @@
       <app-search (searchSubmitted)="onSearch($event)"/>
     </div>
 
-    <app-genres-slider [genres]="possibleGenres" (genderEmitter)="onNewGenderSearch($event)" />
 
+    <app-options-slider [options]="possibleGenres" (optionEmitter)="onNewGenderSearch($event)"/>
+    
     <app-bar width="100%" height="5px" />
 
     
