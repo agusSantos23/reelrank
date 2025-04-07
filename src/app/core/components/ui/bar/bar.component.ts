@@ -6,7 +6,7 @@ import { Component, Input } from '@angular/core';
   template: `<div [style.width]="width" [style.height]="height"></div>`,
   styles:  [`
     div {
-      background-image: var(--gradient-first);
+      background-image: var(--gradient);
       border-radius: 5px;
     }
   `]

@@ -8,7 +8,8 @@
 :root {
   --white: #f3f3e7;
   --black: #1c1c1c;
-  --gradient-first: linear-gradient(to bottom right, 
+  --orange: #ba480e;
+  --gradient: linear-gradient(to bottom right, 
     #edaf32, 
     #d15711, 
     #c22f06, 
@@ -16,14 +17,8 @@
     #521316, 
     #331911 
   );
-  --gradient-second: linear-gradient(to bottom left, 
-    #edaf32, 
-    #d15711, 
-    #c22f06, 
-    #7d1b0c,
-    #521316, 
-    #331911 
-  );
+
+ 
 }
 
 body{

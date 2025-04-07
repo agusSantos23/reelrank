@@ -1,0 +1,66 @@
+
+button {
+  height: 45px;
+  padding: 5px;
+  border: 0;
+  border-radius: 5px;
+  font-size: 20px;
+  font-weight: 700;
+  font-family: "montserrat";
+  letter-spacing: 1px;
+  background-image: var(--gradient);
+  color: var(--white);
+  cursor: pointer;
+}
+
+div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+  border-radius: 5px;
+  transition: .3s ease-in;
+}
+
+
+
+button:hover div {
+  background-color: var(--white);
+  color: var(--orange);
+}
+
+button:hover path {
+  fill: var(--orange);
+}
+
+
+/* Phone */
+@media (max-width: 768px) {
+  button {
+    min-width: 40px;
+    padding: 0;
+  }
+
+  div {
+    min-height: 30px;
+    justify-content: center;
+
+  }
+
+  span{
+    display: none;
+  }
+
+}
+
+/* Laptop */
+@media (min-width: 769px) {
+  button {
+    min-width: 180px;
+  }
+  
+  div {
+    min-width: 170px;
+  }
+
+}

@@ -1,5 +1,4 @@
 import { Component, HostListener, OnInit  } from '@angular/core';
-import { Router } from '@angular/router';
 import { BarComponent } from "../../ui/bar/bar.component";
 import { SearchComponent } from "../../inputs/search/search.component";
 import { SelectComponent } from '../../inputs/select/select.component';
@@ -7,10 +6,12 @@ import { MovieBasicInfo, MovieService } from '../../../services/movie/movie.serv
 import { MovieCardComponent } from "../../movie-card/movie-card.component";
 import { TitlePageComponent } from "../../ui/title-page/title-page.component";
 import { OptionsSliderComponent } from "../../inputs/options-slider/options-slider.component";
+import { BtnAuthComponent } from "../../inputs/btn-auth/btn-auth.component";
+import { UpwardComponent } from "../../inputs/upward/upward.component";
 
 @Component({
   selector: 'app-home',
-  imports: [SelectComponent, BarComponent, SearchComponent, MovieCardComponent, TitlePageComponent, OptionsSliderComponent],
+  imports: [SelectComponent, BarComponent, SearchComponent, MovieCardComponent, TitlePageComponent, OptionsSliderComponent, BtnAuthComponent, UpwardComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
@@ -21,7 +22,7 @@ export class HomeComponent implements OnInit {
   isMobile: boolean = false;
   selectValue?: string;
 
-  constructor(private movieService: MovieService, private router: Router){}
+  constructor(private movieService: MovieService){}
 
   ngOnInit(){
     this.movies = this.movieService.getMovies();
@@ -53,7 +54,4 @@ export class HomeComponent implements OnInit {
     
   }
 
-  onMovieClick(movieId: string){    
-    this.router.navigate(['/details/movie', {id: movieId}]);
-  }
 }

@@ -9,7 +9,7 @@
 
 .gradient{
   background-color: transparent;
-  background-image: var(--gradient-first);
+  background-image: var(--gradient);
 }
 
 #container-body {
