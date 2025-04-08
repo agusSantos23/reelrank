@@ -34,10 +34,6 @@ main > header > app-bar {
   width: 100%;
 }
 
-app-upward {
-  
-}
-
 
 #list-movies {
   display: flex;

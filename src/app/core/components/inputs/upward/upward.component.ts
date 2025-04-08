@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, Input, Renderer2 } from '@angular/core';
+import { Component, ElementRef, HostListener, inject, Input, Renderer2 } from '@angular/core';
 
 @Component({
   selector: 'app-upward',
@@ -17,28 +17,19 @@ import { Component, ElementRef, HostListener, Input, Renderer2 } from '@angular/
   styleUrl: './upward.component.css'
 })
 export class UpwardComponent {
-  @Input() scrollOffset: number = 50;
+  @Input() scrollOffset: number = 500;
 
   protected showButton: boolean = false;
-  private renderer: Renderer2;
-  private el: ElementRef;
 
-  constructor(renderer: Renderer2, el: ElementRef) {
-    this.renderer = renderer;
-    this.el = el;
-  }
 
   @HostListener('window:scroll', [])
   onWindowScroll() {   
-     
-    if (window.scrollY > this.scrollOffset) {
-      this.showButton = true;
-    } else {
-      this.showButton = false;
-    }
+    
+    this.showButton = window.scrollY > this.scrollOffset
   }
 
   scrollToTop() {
-    this.renderer.setProperty(this.el.nativeElement.ownerDocument.documentElement, 'scrollTop', 0);
+    window.scrollTo(0, 0);
+
   }
 }

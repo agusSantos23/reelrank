@@ -1,9 +1,9 @@
-import { Component, Input, Output } from '@angular/core';
-import { MovieBasicInfo } from '../../services/movie/movie.service';
+import { Component, Input } from '@angular/core';
 import { TruncatePipe } from '../../pipe/truncate.pipe';
-import { cardArrivesAnimation } from '../../animations/cardArrives.animation';
-import { cardEnlarge } from '../../animations/cardEnlarge';
+import { cardArrivesAnimation } from '../../directive/animations/cardArrives.animation';
+import { cardEnlarge } from '../../directive/animations/cardEnlarge';
 import { Router } from '@angular/router';
+import { MovieBasicInfo } from '../../models/movie/movieBasicInfo';
 
 @Component({
   selector: 'app-movie-card',
@@ -16,7 +16,7 @@ import { Router } from '@angular/router';
   ]
 })
 export class MovieCardComponent {
-  @Input() index!: number; 
+  @Input() indexInBatch!: number; 
   @Input() movie!: MovieBasicInfo;
 
   private animationParams = { delay: 0 };
@@ -25,11 +25,12 @@ export class MovieCardComponent {
 
   constructor(private router: Router){}
 
-  ngOnInit(): void {    
-    this.animationParams.delay = this.index * 100 + 200;
+  ngOnInit(): void {   
+ 
+    this.animationParams.delay = this.indexInBatch * 100 + 200;
   }
 
-  onMovieClick() {
+  onMovieClick(): void {
     this.router.navigate(['/details/movie', {id: this.movie.id}]);
   }
 

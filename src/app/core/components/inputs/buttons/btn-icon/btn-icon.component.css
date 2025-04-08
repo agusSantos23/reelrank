@@ -1,0 +1,32 @@
+button {
+  width: 40px;
+  height: 40px;
+  padding: 5px;
+  border: 0;
+  border-radius: 5px;
+  background-image: var(--gradient);
+  cursor: pointer;
+  transition: .2s ease-in;
+}
+
+
+div {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  color: var(--orange);
+  background-color: var(--white);
+  transition: .2s ease-in;
+}
+
+button:hover {
+  padding: 2.5px;
+}
+
+button:hover div{
+  width: 35px;
+  height: 35px;
+}

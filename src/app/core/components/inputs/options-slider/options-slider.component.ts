@@ -1,5 +1,6 @@
 import { Component, ElementRef, EventEmitter, HostListener, Input, Output, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Genre } from '../../../models/Genre';
 
 @Component({
   selector: 'app-options-slider',
@@ -9,8 +10,8 @@ import { CommonModule } from '@angular/common';
   styleUrl: './options-slider.component.css'
 })
 export class OptionsSliderComponent {
-  @Input() options?: string[];
-  @Output() optionEmitter = new EventEmitter<string>();
+  @Input() options?: Genre[];
+  @Output() optionEmitter = new EventEmitter<Genre>();
   @ViewChild('container') container!: ElementRef;
 
   private isDragging: boolean = false;
@@ -19,7 +20,7 @@ export class OptionsSliderComponent {
   private hasMoved: boolean = false; 
 
 
-  selectedOption(option: string): void {
+  selectedOption(option: Genre): void {
     if (!this.hasMoved) this.optionEmitter.emit(option);
     
     this.hasMoved = false; 
