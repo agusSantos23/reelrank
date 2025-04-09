@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { TruncatePipe } from '../../pipe/truncate.pipe';
+import { Component, inject, Input } from '@angular/core';
+import { TruncatePipe } from '../../pipe/truncate/truncate.pipe';
 import { cardArrivesAnimation } from '../../directive/animations/cardArrives.animation';
 import { cardEnlarge } from '../../directive/animations/cardEnlarge';
 import { Router } from '@angular/router';
@@ -16,6 +16,8 @@ import { MovieBasicInfo } from '../../models/movie/movieBasicInfo';
   ]
 })
 export class MovieCardComponent {
+  private router = inject(Router);
+
   @Input() indexInBatch!: number; 
   @Input() movie!: MovieBasicInfo;
 
@@ -23,15 +25,13 @@ export class MovieCardComponent {
   protected arrivesState = { value: '*', params: this.animationParams };
   protected zoomState: 'normal' | 'hovered' = 'normal';
 
-  constructor(private router: Router){}
 
   ngOnInit(): void {   
- 
     this.animationParams.delay = this.indexInBatch * 100 + 200;
   }
 
   onMovieClick(): void {
-    this.router.navigate(['/details/movie', {id: this.movie.id}]);
+    this.router.navigate(['/details/movie', this.movie.id]);
   }
 
   

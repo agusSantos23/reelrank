@@ -9,10 +9,14 @@ export interface Movie {
   budget?: number;
   revenue?: number;
   runtime?: number;
-  status?: "enabled" | "disabled"; 
-  tagline?: string; 
-  poster_id?: string; 
+  status?: "enabled" | "disabled";
+  tagline?: string;
+  poster_id?: string;
   backdrop_id?: string;
   created_at: string;
   updated_at: string;
+  genres?: {
+    id: string;
+    name: string;
+  }[];
 }

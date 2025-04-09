@@ -8,7 +8,7 @@ import { LoginComponent } from './core/components/pages/auth/login/login.compone
 
 export const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
-  { path: 'details/movie', component: MovieDetailsComponent },
+  { path: 'details/movie/:id', component: MovieDetailsComponent },
   { path: 'auth/login', component: LoginComponent },
   { path: '**', component: NotFoundComponent }
 

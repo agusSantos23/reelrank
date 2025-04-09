@@ -13,6 +13,7 @@ import { MovieBasicInfo } from '../../../models/movie/movieBasicInfo';
 import { GenreService } from '../../../services/genre/genre.service';
 import { BtnIconComponent } from "../../inputs/buttons/btn-icon/btn-icon.component";
 import { Genre } from '../../../models/Genre';
+import { AssetCancelComponent } from '../../inputs/asset-cancel/asset-cancel.component';
 
 @Component({
   selector: 'app-home',
@@ -25,7 +26,8 @@ import { Genre } from '../../../models/Genre';
     OptionsSliderComponent, 
     BtnAuthComponent, 
     UpwardComponent, 
-    BtnIconComponent
+    BtnIconComponent,
+    AssetCancelComponent
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
@@ -39,6 +41,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   protected movies: MovieBasicInfo[] = [];
   protected possibleGenres: Genre[] = [];
+  protected _activeGenres: Genre[] = [];
   protected isMobile: boolean = false;
   protected selectValue?: string;
   protected showSlider: boolean = false;
@@ -54,9 +57,22 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.checkScreenSize();
   }
 
+  
+
   ngOnDestroy(): void {
     if (this.movieSubscription) this.movieSubscription.unsubscribe();
+    if (this.genreSubscription) this.genreSubscription.unsubscribe();
   }
+
+  protected get activeGenres(): Genre[] {
+    return this._activeGenres;
+  }
+
+  protected set activeGenres(value: Genre[]) {
+    this._activeGenres = value
+    this.loadMoreMovies();
+  }
+
 
   @HostListener('window:scroll', [])
   onWindowScroll(): void {
@@ -71,18 +87,25 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   loadMoreMovies(): void {
     if (this.loading || this.allDataLoaded) return;
-    
-    this.loading = true;
 
-    this.movieService.getMovies(this.page, this.limit).subscribe({
+    this.loading = true;
+    const activeGenreIds = this.activeGenres.map(genre => genre.id);
+
+    this.movieService.getMovies(this.page, this.limit, activeGenreIds).subscribe({
       next: (data: MovieBasicInfo[]) => {
-        if (data.length === 0) {
-          this.allDataLoaded = true;
-          console.log(this.allDataLoaded);
-          
+
+        if (this.activeGenres.length > 0) {
+          this.movies = data;
+          this.allDataLoaded = data.length < this.limit;
+          this.page = 2; 
+
         } else {
-          this.movies = [...this.movies, ...data];
-          this.page++;
+          if (data.length === 0) {
+            this.allDataLoaded = true;
+          } else {
+            this.movies = [...this.movies, ...data];
+            this.page++;
+          }
         }
         this.loading = false;
       },
@@ -102,8 +125,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (typeof window !== 'undefined') this.isMobile = window.innerWidth < 1215;
   }
 
-
-
   onSelectionChange(value: string): void {
     this.selectValue = value;
   }
@@ -115,23 +136,29 @@ export class HomeComponent implements OnInit, OnDestroy {
   showSliderGenres(): void{
     this.genreService.getGenres().subscribe({
       next: (data: Genre[]) =>{
-        this.possibleGenres = data
+        this.possibleGenres = data.filter(genre => {
+          return !this.activeGenres.some(activeGenre => activeGenre.id === genre.id);
+        });
       },
       error: (error) => {
         console.error('Error obtaining genres:', error);
-      },
-      complete: () => {
-        console.log('Obtaining genres complete.');
       }
     })
+
 
     this.showSlider = true;
 
   }
 
   onNewGenderSearch(gender: Genre): void{
-    console.log(gender);
+
+    this.activeGenres = [...this._activeGenres, gender];
+
+    this.showSlider = false
   }
 
+  onCancelGender(genderId: string): void{    
+    this.activeGenres = this._activeGenres.filter(genre => genre.id !== genderId);
+  }
 
 }

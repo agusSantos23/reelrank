@@ -18,9 +18,13 @@
     #331911 
   );
 }
+html {
+  scroll-behavior: smooth;
+}
 
 body{
   background-color: var(--white);
+  font-family: 'montserrat', Arial, Helvetica, sans-serif;
 }
 
 /* Phone */

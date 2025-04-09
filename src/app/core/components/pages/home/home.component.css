@@ -5,7 +5,6 @@ header {
   font-family: 'montserrat';
 }
 
-
 main{
   width: 100%;
   font-family: 'montserrat';
@@ -33,7 +32,6 @@ main > header > app-options-slider {
 main > header > app-bar {
   width: 100%;
 }
-
 
 #list-movies {
   display: flex;
@@ -103,6 +101,17 @@ main > header > app-bar {
     justify-content: center;
     align-items: center;
     gap: 20px;
+  }
+
+  #filters > div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+  }
+
+  app-asset-cancel{
+    height: 40px;
   }
 
   #list-movies {
