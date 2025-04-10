@@ -16,16 +16,18 @@ export class MovieService {
   private apiUrl = environment.apiUrl;
 
 
-  getMovies(page: number = 1, limit: number = 30, genreIds?: string[]): Observable<MovieBasicInfo[]> {
+  getMovies(page: number = 1, limit: number = 30, genreIds?: string[], selectedOrderBy?: string, searchTerm?: string): Observable<MovieBasicInfo[]> {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('limit', limit.toString());
 
-      if (genreIds && genreIds.length > 0) {        
-        params = params.set('genres', genreIds.join(',')); 
-        console.log(genreIds);
-        
-      }
+      if (genreIds && genreIds.length > 0) params = params.set('genres', genreIds.join(',')); 
+      
+
+      if (selectedOrderBy) params = params.set('orderBy', selectedOrderBy);
+      
+
+      if (searchTerm) params = params.set('searchTerm', searchTerm);      
 
     return this.http.get<MovieBasicInfo[]>(`${this.apiUrl}/movies`, { params });
   }

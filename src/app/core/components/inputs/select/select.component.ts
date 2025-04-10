@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, Renderer2, OnDestroy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, Renderer2, OnDestroy, OnInit, inject } from '@angular/core';
 import { SelectOption } from '../../../models/selectOption.model';
 
 @Component({
@@ -7,22 +7,29 @@ import { SelectOption } from '../../../models/selectOption.model';
   templateUrl: './select.component.html',
   styleUrl: './select.component.css'
 })
-export class SelectComponent implements OnDestroy {
-  @Input() default: boolean = true;
-  @Input() options: SelectOption[] = [
-    { value: 'normal', label: 'ALL MOVIES' },
-    { value: 'top', label: 'TOP MOVIES' },
-    { value: 'soon', label: 'COMING SOON' }
-  ];
+export class SelectComponent implements OnDestroy, OnInit {
+  private renderer = inject(Renderer2)
+
+  @Input() defaultComponent: boolean = true;
+  @Input() options: SelectOption[] = [];
   @Output() selectionChange = new EventEmitter<any>();
 
-  selectedValue: string = 'normal';
+  default!: SelectOption;
+  selectedValue!: string;
   isOpen: boolean = false;
 
   private clickListener: (() => void) | null = null;
 
-  constructor(private renderer: Renderer2) {}
-
+  ngOnInit() {
+    
+    if (this.options && this.options.length > 0) {
+      this.default = this.options[0];
+      this.selectedValue = this.default.value;
+    } else {
+      this.default = { value: '', label: 'Seleccionar' };
+      this.selectedValue = '';
+    }
+  }
 
 
   toggleOpen() {
@@ -56,10 +63,8 @@ export class SelectComponent implements OnDestroy {
   }
 
   getSelectedLabel(): string {
-    const selectedOption = this.options.find(
-      (option) => option.value === this.selectedValue
-    );
-    return selectedOption ? selectedOption.label : 'Default';
+    const selectedOption = this.options.find((option) => option.value === this.selectedValue);
+    return selectedOption ? selectedOption.label : this.default.label;
   }
 
 

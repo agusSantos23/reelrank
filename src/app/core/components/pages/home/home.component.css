@@ -34,11 +34,9 @@ main > header > app-bar {
 }
 
 #list-movies {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* Crea 5 columnas de igual ancho */
+  gap: 25px;
   margin: 25px 0;
 }
 

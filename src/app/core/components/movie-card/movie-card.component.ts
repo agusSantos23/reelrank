@@ -18,7 +18,7 @@ import { MovieBasicInfo } from '../../models/movie/movieBasicInfo';
 export class MovieCardComponent {
   private router = inject(Router);
 
-  @Input() indexInBatch!: number; 
+  @Input() delay!: number; 
   @Input() movie!: MovieBasicInfo;
 
   private animationParams = { delay: 0 };
@@ -27,7 +27,7 @@ export class MovieCardComponent {
 
 
   ngOnInit(): void {   
-    this.animationParams.delay = this.indexInBatch * 100 + 200;
+    this.animationParams.delay = this.delay * 100 + 200;
   }
 
   onMovieClick(): void {
