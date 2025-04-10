@@ -22,17 +22,19 @@
   height: 105%;
   background-image: linear-gradient(to left, transparent, var(--white)); 
   pointer-events: none; 
+  z-index: 5;
 }
 
 #shadow::after {
   content: '';
   position: absolute;
-  right: -1px;
+  right: -5%;
   top: -1px;
-  width: 5%;
+  width: 20%;
   height: 105%;
   background-image: linear-gradient(to right, transparent, var(--white)); 
   pointer-events: none; 
+  z-index: 1;
 }
 
 #container::-webkit-scrollbar {

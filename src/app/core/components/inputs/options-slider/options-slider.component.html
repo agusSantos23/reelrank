@@ -1,5 +1,5 @@
-<div @enterLeave  id="shadow">
-  <div  #container id="container" (mousedown)="onMouseDown($event)" (mousemove)="onMouseMove($event)"
+<div id="shadow">
+  <div @slideAndGrow #container id="container" (mousedown)="onMouseDown($event)" (mousemove)="onMouseMove($event)"
     (mouseup)="onMouseUp()">
     @for (option of options; track option) {
     <div class="btn-container" (click)="selectedOption(option)">

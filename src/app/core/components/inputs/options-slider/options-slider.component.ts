@@ -9,22 +9,16 @@ import { animate, style, transition, trigger } from '@angular/animations';
   imports: [CommonModule],
   templateUrl: './options-slider.component.html',
   styleUrl: './options-slider.component.css',
-  animations:[
-    trigger('enterLeave', [
+  animations: [
+    trigger('slideAndGrow', [
       transition(':enter', [
-        style({
-          transform: 'translateX(-100%)', 
-          opacity: 0,                                      
-          'z-index': '-1'
-        }),
-        animate('2s ease-out', style({ 
-          transform: 'translateX(0%)',   
-          opacity: 1                                      
-        }))
+        style({ transform: 'translateX(120%)', height: '0px' }),
+        animate('.1s ease-in-out', style({ height: '40px' })),
+        animate('1s .2s ease', style({ transform: 'translateX(0%)' })),
       ]),
       transition(':leave', [
-        style({transform: 'translateY(0)'}),
-        animate('.3s ease-in', style({transform: 'translateY(120px)'}))
+        style({height: '40px' }),
+        animate('.3s ease-out', style({ height: '0px' })),
       ])
     ])
   ]
@@ -37,18 +31,18 @@ export class OptionsSliderComponent {
   private isDragging: boolean = false;
   private startX: number = 0;
   private scrollLeft: number = 0;
-  private hasMoved: boolean = false; 
+  private hasMoved: boolean = false;
 
 
   selectedOption(option: Genre): void {
     if (!this.hasMoved) this.optionEmitter.emit(option);
-    
-    this.hasMoved = false; 
+    this.hasMoved = false;
+
   }
 
   onMouseDown(e: MouseEvent): void {
     this.isDragging = true;
-    this.hasMoved = false; 
+    this.hasMoved = false;
     this.startX = e.pageX - this.container.nativeElement.offsetLeft;
     this.scrollLeft = this.container.nativeElement.scrollLeft;
     this.container.nativeElement.style.cursor = 'grabbing';
@@ -57,7 +51,7 @@ export class OptionsSliderComponent {
   onMouseMove(e: MouseEvent): void {
     if (!this.isDragging) return;
 
-    this.hasMoved = true; 
+    this.hasMoved = true;
     const walk = (e.pageX - this.container.nativeElement.offsetLeft - this.startX) * 1;
     this.container.nativeElement.scrollLeft = this.scrollLeft - walk;
   }
@@ -67,7 +61,7 @@ export class OptionsSliderComponent {
     this.container.nativeElement.style.cursor = 'grab';
 
     setTimeout(() => {
-      this.hasMoved = false; 
+      this.hasMoved = false;
     }, 200);
   }
 
@@ -81,7 +75,7 @@ export class OptionsSliderComponent {
 
       }
 
-      this.hasMoved = false; 
+      this.hasMoved = false;
 
     }
   }

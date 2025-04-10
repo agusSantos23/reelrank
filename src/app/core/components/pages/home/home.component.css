@@ -33,12 +33,44 @@ main > header > app-bar {
   width: 100%;
 }
 
+#possible-genre{
+  width: 180px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  background-image: var(--gradient);
+
+}
+
+#possible-genre > div{
+  width: 170px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  background-color: var(--white);
+}
+
+#possible-genre svg{
+  transform: scale(1.1);
+  transition: .2s ease;
+
+}
+
+#possible-genre:hover  svg{
+  color: var(--orange);
+  transform: scale(1.4);
+}
+
+
 #list-movies {
   display: grid;
-  grid-template-columns: repeat(5, 1fr); /* Crea 5 columnas de igual ancho */
-  gap: 25px;
-  margin: 25px 0;
+  margin: 40px 0;
 }
+
 
 
 /* Phone */
@@ -70,7 +102,8 @@ main > header > app-bar {
   }
 
   #list-movies {
-    gap: 10px;
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 15px;
   }
 }
 
@@ -89,7 +122,7 @@ main > header > app-bar {
 
   main > header {
     margin-top: 35px;
-    gap: 20px;
+    gap: 10px;
   }
 
 
@@ -113,6 +146,7 @@ main > header > app-bar {
   }
 
   #list-movies {
+    grid-template-columns: repeat(5, 1fr); 
     gap: 25px;
   }
 

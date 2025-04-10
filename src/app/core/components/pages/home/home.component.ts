@@ -16,6 +16,7 @@ import { Genre } from '../../../models/Genre';
 import { AssetCancelComponent } from '../../inputs/asset-cancel/asset-cancel.component';
 import { UtilsService } from '../../../services/utils/utils.service';
 import { SelectOption } from '../../../models/selectOption.model';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-home',
@@ -33,6 +34,17 @@ import { SelectOption } from '../../../models/selectOption.model';
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
+  animations:[
+    trigger('possibleGenreAnimate',[
+      transition(':enter', [
+        style({ width: '0px' }),
+        animate('.2s ease', style({ width: '180px' })),
+      ]),
+      transition(':leave', [
+        animate('.2s ease', style({ width: '0px' })),
+      ]),
+    ])
+  ]
 })
 export class HomeComponent implements OnInit, OnDestroy {
 

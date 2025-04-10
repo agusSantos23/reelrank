@@ -12,7 +12,7 @@ interface Data {
   standalone: true,
   imports: [UpperCasePipe],
   template: `
-    <button (click)="onCancel()" (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
+    <button @enterLeave (click)="onCancel()" (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
       <div [@hoverText]="animationState">
         {{ data.name | uppercase }}
       </div>
@@ -35,6 +35,16 @@ interface Data {
       state('initial', style({ transform: 'translate(50%, 100%)', opacity: 0 })),
       state('hovered', style({ transform: 'translate(50%, -50%)', opacity: 1 })),
       transition('initial <=> hovered', animate('0.2s ease-in-out')),
+    ]),
+    trigger('enterLeave', [
+      transition(':enter', [
+        style({ width: '0px' }),
+        animate('.4s ease-in', style({ width: '180px' }))
+      ]),
+      transition(':leave', [
+        style({width: '180px'}),
+        animate('.4s ease-out', style({ width: '0px' }))
+      ])
     ])
   ],
 })
