@@ -1,24 +1,41 @@
 
 
 #container {
+  position: relative;
+  width: 270px;
+  height: 44px;
   border-radius: 5px;
   background-color: var(--black);
   cursor: pointer;
   transition: background-color 3s ease;
 }
 
-.gradient{
-  background-color: transparent;
+#background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
   background-image: var(--gradient);
+  z-index: 1;
 }
 
+
+
 #content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 250px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-radius: 5px;
   background-color: var(--white);
   font-family: 'montserrat';
+  z-index: 5;
 }
 
 #content > input {
@@ -64,8 +81,6 @@
 @media (min-width: 769px) {
   #container {
     min-width: 260px;
-    padding: 5px;
-
   }
 
   #content {

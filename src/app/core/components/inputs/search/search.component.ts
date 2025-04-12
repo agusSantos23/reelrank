@@ -5,7 +5,8 @@ import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular
   selector: 'app-search',
   imports: [],
   template: `
-    <div [@backgroundFocus]="isInputFocused ? 'active':'inactive'" id="container" [class.gradient]="isInputFocused" (click)="onFocus()">
+    <div  id="container" (click)="onFocus()">
+      <div id="background" [@backgroundFocus]="isInputFocused ? 'active':'inactive'"></div>
       <div id="content">
         <input type="text" placeholder="Search movies..." #searchInput (keyup.enter)="search(searchInput.value)" (focus)="onFocus()" (blur)="onBlur()"/>
         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" (click)="search(searchInput.value)">
