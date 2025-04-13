@@ -1,9 +1,9 @@
 import { Component, inject, Input } from '@angular/core';
 import { TruncatePipe } from '../../pipe/truncate/truncate.pipe';
-import { cardArrivesAnimation } from '../../directive/animations/cardArrives.animation';
-import { cardEnlarge } from '../../directive/animations/cardEnlarge';
+import { cardArrivesAnimation } from '../../shared/directives/animations/trigger/cardArrives.animation';
 import { Router } from '@angular/router';
-import { MovieBasicInfo } from '../../models/movie/movieBasicInfo';
+import { MovieBasicInfo } from '../../models/movie/movieBasicInfo.model';
+import { cardEnlarge } from '../../shared/directives/animations/trigger/cardEnlarge.animation';
 
 @Component({
   selector: 'app-movie-card',
@@ -30,7 +30,7 @@ export class MovieCardComponent {
     this.animationParams.delay = this.delay * 100 + 200;
   }
 
-  onMovieClick(): void {
+  protected onMovieClick(): void {
     this.router.navigate(['/details/movie', this.movie.id]);
   }
 

@@ -1,6 +1,6 @@
 import { Component, ElementRef, EventEmitter, HostListener, Input, Output, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Genre } from '../../../models/Genre';
+import { Genre } from '../../../models/Genre.model';
 import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({

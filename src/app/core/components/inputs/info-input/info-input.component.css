@@ -1,0 +1,46 @@
+
+svg {
+  cursor: help;
+}
+
+.isRequired {
+  fill: var(--orange);
+}
+
+#info-container {
+  position: absolute;
+  top: 20px;
+  right: -70%;
+  width: 400px;
+  min-height: 30px;
+  transform: translate(-50%, -100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  background-image: var(--gradient);
+  border-radius: 5px;
+}
+
+
+#info-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: var(--white);
+  font-size: 14px;
+}
+
+ul{
+  margin: 0;
+  padding: 4px;
+  padding-left: 24px;
+}
+
+li{
+  margin: 2px 0;
+  font-size: 14px;
+}
+

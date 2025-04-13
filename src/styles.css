@@ -47,3 +47,30 @@ body{
 
 
 
+
+
+.input-content { 
+  position: relative;
+}
+
+.floating-label { 
+  position: absolute;
+  top: 0; 
+  left: 0; 
+  font-size: 24px;
+  color: var(--black);
+  transition: font-size 0.3s ease, top 0.3s ease, left 0.3s ease;
+  pointer-events: none; 
+}
+
+
+.label-float-up {
+  top: 0px; 
+  left: 5px;
+  font-size: 14px; 
+}
+
+.label-float-down {
+  top: 20px; 
+  left: 10px;
+}

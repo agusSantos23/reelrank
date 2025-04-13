@@ -1,11 +1,12 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
+import { FocusInputDirective } from '../../../shared/directives/functionality/focus-input/focus-input.directive';
 
 @Component({
   selector: 'app-search',
-  imports: [],
+  imports: [FocusInputDirective],
   template: `
-    <div  id="container" (click)="onFocus()">
+    <div  id="container" (click)="onFocus()" appFocusInput>
       <div id="background" [@backgroundFocus]="isInputFocused ? 'active':'inactive'"></div>
       <div id="content">
         <input type="text" placeholder="Search movies..." #searchInput (keyup.enter)="search(searchInput.value)" (focus)="onFocus()" (blur)="onBlur()"/>
@@ -33,16 +34,12 @@ export class SearchComponent {
 
   search(term: string){
     this.searchSubmitted.emit(term)
-    if (this.searchInput) {
-      this.searchInput.nativeElement.blur();
-    }
+    if (this.searchInput) this.searchInput.nativeElement.blur();
+    
   }
 
   onFocus() {
     this.isInputFocused = true;
-    if (this.searchInput) {
-      this.searchInput.nativeElement.focus();
-    }     
   }
 
   onBlur() {

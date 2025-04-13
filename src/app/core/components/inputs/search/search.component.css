@@ -6,7 +6,7 @@
   height: 44px;
   border-radius: 5px;
   background-color: var(--black);
-  cursor: pointer;
+  cursor: text;
   transition: background-color 3s ease;
 }
 

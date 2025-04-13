@@ -2,7 +2,7 @@ import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MovieService } from '../../../../services/movie/movie.service';
 import { Subscription } from 'rxjs';
-import { Movie } from '../../../../models/movie/movie';
+import { Movie } from '../../../../models/movie/movie.model';
 import { BtnIconComponent } from "../../../inputs/buttons/btn-icon/btn-icon.component";
 import { FormatDatePipe } from '../../../../pipe/format-date/format-date.pipe';
 import { BarComponent } from "../../../ui/bar/bar.component";

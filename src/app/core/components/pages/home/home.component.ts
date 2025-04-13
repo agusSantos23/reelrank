@@ -9,10 +9,10 @@ import { OptionsSliderComponent } from "../../inputs/options-slider/options-slid
 import { BtnAuthComponent } from "../../inputs/buttons/btn-auth/btn-auth.component";
 import { UpwardComponent } from "../../inputs/upward/upward.component";
 import { Subscription } from 'rxjs';
-import { MovieBasicInfo } from '../../../models/movie/movieBasicInfo';
+import { MovieBasicInfo } from '../../../models/movie/movieBasicInfo.model';
 import { GenreService } from '../../../services/genre/genre.service';
 import { BtnIconComponent } from "../../inputs/buttons/btn-icon/btn-icon.component";
-import { Genre } from '../../../models/Genre';
+import { Genre } from '../../../models/Genre.model';
 import { AssetCancelComponent } from '../../inputs/asset-cancel/asset-cancel.component';
 import { UtilsService } from '../../../services/utils/utils.service';
 import { SelectOption } from '../../../models/selectOption.model';
