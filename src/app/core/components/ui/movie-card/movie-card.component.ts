@@ -1,9 +1,9 @@
 import { Component, inject, Input } from '@angular/core';
-import { TruncatePipe } from '../../pipe/truncate/truncate.pipe';
-import { cardArrivesAnimation } from '../../shared/directives/animations/trigger/cardArrives.animation';
 import { Router } from '@angular/router';
-import { MovieBasicInfo } from '../../models/movie/movieBasicInfo.model';
-import { cardEnlarge } from '../../shared/directives/animations/trigger/cardEnlarge.animation';
+import { TruncatePipe } from '../../../pipe/truncate/truncate.pipe';
+import { cardArrivesAnimation } from '../../../shared/directives/animations/trigger/cardArrives.animation';
+import { cardEnlarge } from '../../../shared/directives/animations/trigger/cardEnlarge.animation';
+import { MovieBasicInfo } from '../../../models/movie/movieBasicInfo.model';
 
 @Component({
   selector: 'app-movie-card',

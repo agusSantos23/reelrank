@@ -1,6 +1,5 @@
 import { Component, ElementRef, EventEmitter, HostListener, Input, Output, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Genre } from '../../../models/Genre.model';
 import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
@@ -24,8 +23,9 @@ import { animate, style, transition, trigger } from '@angular/animations';
   ]
 })
 export class OptionsSliderComponent {
-  @Input() options?: Genre[];
-  @Output() optionEmitter = new EventEmitter<Genre>();
+  @Input({required: true}) options?: any[];
+  @Input() isImages: Boolean = false;
+  @Output() optionEmitter = new EventEmitter<any>();
   @ViewChild('container') container!: ElementRef;
 
   private isDragging: boolean = false;
@@ -34,10 +34,9 @@ export class OptionsSliderComponent {
   private hasMoved: boolean = false;
 
 
-  selectedOption(option: Genre): void {
+  selectedOption(option: any): void {
     if (!this.hasMoved) this.optionEmitter.emit(option);
     this.hasMoved = false;
-
   }
 
   onMouseDown(e: MouseEvent): void {

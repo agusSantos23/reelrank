@@ -3,7 +3,6 @@ import { BarComponent } from "../../ui/bar/bar.component";
 import { SearchComponent } from "../../inputs/search/search.component";
 import { SelectComponent } from '../../inputs/select/select.component';
 import { MovieService } from '../../../services/movie/movie.service';
-import { MovieCardComponent } from "../../movie-card/movie-card.component";
 import { TitlePageComponent } from "../../ui/title-page/title-page.component";
 import { OptionsSliderComponent } from "../../inputs/options-slider/options-slider.component";
 import { BtnAuthComponent } from "../../inputs/buttons/btn-auth/btn-auth.component";
@@ -16,7 +15,8 @@ import { Genre } from '../../../models/Genre.model';
 import { AssetCancelComponent } from '../../inputs/asset-cancel/asset-cancel.component';
 import { UtilsService } from '../../../services/utils/utils.service';
 import { SelectOption } from '../../../models/selectOption.model';
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import { animate, style, transition, trigger } from '@angular/animations';
+import { MovieCardComponent } from '../../ui/movie-card/movie-card.component';
 
 @Component({
   selector: 'app-home',

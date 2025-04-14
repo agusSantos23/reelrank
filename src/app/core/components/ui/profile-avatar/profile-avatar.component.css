@@ -1,0 +1,50 @@
+
+#profile-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 5px;
+}
+
+#img-container {
+  position: relative;
+  width: 70px;
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  background-image: var(--gradient);
+
+}
+
+#img-content {
+  width: 60px;
+  height: 60px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+#delete-avatar {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: .2s ease;
+}
+
+#img-container:hover #delete-avatar {
+  opacity: 1;
+}
+
+h3{
+  margin: 0;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.pointer{
+  cursor: pointer;
+}

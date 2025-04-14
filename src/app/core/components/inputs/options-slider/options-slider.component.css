@@ -1,19 +1,13 @@
 
-#shadow {
+#shadow-btn {
   position: relative;
 }
 
-#container {
-  width: 100%;
-  display: flex;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  cursor: grab;
-  gap: 15px;
-  white-space: nowrap;
+#shadow-img {
+  position: relative;
 }
 
-#shadow::before {
+#shadow-btn::before {
   content: '';
   position: absolute;
   left: -1px;
@@ -25,7 +19,7 @@
   z-index: 5;
 }
 
-#shadow::after {
+#shadow-btn::after {
   content: '';
   position: absolute;
   right: -5%;
@@ -34,7 +28,42 @@
   height: 105%;
   background-image: linear-gradient(to right, transparent, var(--white)); 
   pointer-events: none; 
-  z-index: 1;
+  z-index: 5;
+}
+
+#shadow-img::before {
+  content: '';
+  position: absolute;
+  left: -1px;
+  top: -1px;
+  width: 5%;
+  height: 105%;
+  background-image: linear-gradient(to left, transparent, var(--white)); 
+  pointer-events: none; 
+  z-index: 5;
+}
+
+#shadow-img::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: -1px;
+  width: 5%;
+  height: 105%;
+  background-image: linear-gradient(to right, transparent, var(--white)); 
+  pointer-events: none; 
+  z-index: 5;
+}
+
+
+#container {
+  width: 100%;
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  cursor: grab;
+  gap: 15px;
+  white-space: nowrap;
 }
 
 #container::-webkit-scrollbar {
@@ -55,8 +84,13 @@
   padding: 5px 0;
   background-color: var(--white);
   border-radius: 5px;
- 
 }
+
+
+
+
+
+
 
 .btn-content > span {
   width: 100%;
@@ -73,4 +107,41 @@
 
 .btn-container:hover span {
   scale: 1.1;
+}
+
+
+.img-container {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  background-color: var(--black);
+  border-radius: 5px;
+  user-select: none;
+  cursor: pointer;
+}
+
+.img-content {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--white);
+  border-radius: 5px;
+}
+
+img{
+  width: 80px;
+  height: 80px;
+  border-radius: 10px;
+  object-fit: cover;
+  pointer-events: none;
+  transition: .2s ease-in-out;
+}
+
+.img-container:hover img {
+  transform: scale(1.1);
 }

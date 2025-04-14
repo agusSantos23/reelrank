@@ -1,0 +1,60 @@
+
+#modal-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(var(--black-r, 0), var(--black-g, 0), var(--black-b, 0), 0.4); 
+}
+
+
+#modal-content {
+  width: 70vw;
+  height: 65vh;
+  padding: 10px 30px;
+  border-radius: 5px;
+  background-color: var(--white);
+}
+
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+#back-svg {
+  cursor: pointer;
+  transition: .2s ease-in;
+}
+
+#back-svg:hover {
+  transform: scale(1.2);
+}
+
+header h2 {
+  margin: 0;
+}
+
+
+
+main{
+  height: 85%;
+}
+
+
+.saga > h4 {
+  margin-top: 15px;
+  margin-bottom: 5px;
+}

@@ -1,12 +1,31 @@
-<div id="shadow">
+@if (isImages) {
+<div id="shadow-img">
+  <div #container id="container" (mousedown)="onMouseDown($event)" (mousemove)="onMouseMove($event)" (mouseup)="onMouseUp()">
+    @for (option of options; track option) {
+
+    <div class="img-container" (click)="selectedOption(option)">
+      <div class="img-content">
+        <img src="https://i.ibb.co/{{ option }}/image.webp" [alt]="option">
+      </div>
+    </div>
+
+    }
+  </div>
+</div>
+
+}@else {
+<div id="shadow-btn">
   <div @slideAndGrow #container id="container" (mousedown)="onMouseDown($event)" (mousemove)="onMouseMove($event)"
     (mouseup)="onMouseUp()">
     @for (option of options; track option) {
+
     <div class="btn-container" (click)="selectedOption(option)">
       <div class="btn-content">
         <span>{{ option.name }}</span>
       </div>
     </div>
+
     }
   </div>
 </div>
+}

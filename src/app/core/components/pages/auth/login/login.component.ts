@@ -56,7 +56,7 @@ export class LoginComponent {
 
   
 
-  onSubmit() {
+  protected onSubmit() {
     if (this.form && this.form.valid) {
       console.log('Formulario válido:', this.form.value);
     } else {
@@ -68,7 +68,7 @@ export class LoginComponent {
     }
   }
 
-  onCancel() {
+  protected onCancel() {
     this.router.navigate(['']);
   }
 }
