@@ -6,6 +6,7 @@ import { FloatingLabelDirective } from '../../../../shared/directives/animations
 import { FocusInputDirective } from '../../../../shared/directives/functionality/focus-input/focus-input.directive';
 import { Router } from '@angular/router';
 import { InfoInputComponent } from "../../../inputs/info-input/info-input.component";
+import { ViewInputComponent } from "../../../inputs/view-input/view-input.component";
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,8 @@ import { InfoInputComponent } from "../../../inputs/info-input/info-input.compon
     ReactiveFormsModule,
     FloatingLabelDirective,
     FocusInputDirective,
-    InfoInputComponent
+    InfoInputComponent,
+    ViewInputComponent
 ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
@@ -22,7 +24,7 @@ import { InfoInputComponent } from "../../../inputs/info-input/info-input.compon
 export class LoginComponent {
   private router = inject(Router);
 
-  form = new FormGroup({
+  protected form = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [
       Validators.required,
@@ -34,7 +36,7 @@ export class LoginComponent {
     ]),
   });
   
-
+  protected viewPassword = false;
   protected dataLink: DataLink = {
     name: "register",
     link: "auth/register"
@@ -45,22 +47,21 @@ export class LoginComponent {
       "Provide a valid email address (user@example.com)"
     ],
     "password": [
-      "Must be at least 8 characters.",
-      "Must be no more than 64 characters.",
-      "Must contain at least one uppercase letter.",
-      "Must contain at least one lowercase letter.",
-      "Must contain at least one special character."
+      "Must be at least 8 characters",
+      "Must be no more than 64 characters",
+      "Must contain at least one uppercase letter",
+      "Must contain at least one lowercase letter",
+      "Must contain at least one special character"
     ]
   };
-
 
   
 
   protected onSubmit() {
     if (this.form && this.form.valid) {
-      console.log('Formulario válido:', this.form.value);
+      console.log('Valid form:', this.form.value);
     } else {
-      console.log('Formulario inválido');
+      console.log('Invalid form');
 
       Object.keys(this.form.controls).forEach(key => {
         this.form.get(key)?.markAsTouched();

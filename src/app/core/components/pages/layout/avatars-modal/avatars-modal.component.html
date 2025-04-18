@@ -10,7 +10,7 @@
           <h2>Select Avatar</h2>
         </div>
 
-        <app-profile-avatar name="" [posterId]="temporalAvatarId" [isRemovable]="true" (isEliminated)="eliminatedAvatar()"/>
+        <app-profile-avatar name="" [posterUrl]="temporalAvatar?.image_id" [isRemovable]="true" (isEliminated)="eliminatedAvatar()"/>
 
       </header>
       <main>
@@ -19,7 +19,7 @@
             <div class="saga">
               <h4>{{ saga.name | titlecase }}</h4>
   
-              <app-options-slider [options]="saga.avatarsIds" [isImages]="true" (optionEmitter)="onAvatar($event)"/>
+              <app-options-slider [options]="saga.avatars" [isImages]="true" (optionEmitter)="onAvatar($event)"/>
             </div>
             
           }
@@ -27,10 +27,12 @@
         <article>
           
           @if (newAvatar) {
-            <div (click)="confirmAvatar()">Select Avatar</div>
+            <div id="confirm-avatar" (click)="confirmAvatar()">
+              <span>Select Avatar</span>
+            </div>
           }
+
         </article>
-        
       </main>
     </div>
   </div>

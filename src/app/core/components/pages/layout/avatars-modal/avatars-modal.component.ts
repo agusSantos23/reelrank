@@ -1,8 +1,10 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { ProfileAvatarComponent } from "../../../ui/profile-avatar/profile-avatar.component";
 import { Saga } from '../../../../models/Saga.model';
 import { OptionsSliderComponent } from '../../../inputs/options-slider/options-slider.component';
 import { TitleCasePipe } from '@angular/common';
+import { SagaService } from '../../../../services/saga/saga.service';
+import { Avatar } from '../../../../models/Avatar.model';
 
 @Component({
   selector: 'app-avatars-modal',
@@ -10,74 +12,57 @@ import { TitleCasePipe } from '@angular/common';
   templateUrl: './avatars-modal.component.html',
   styleUrl: './avatars-modal.component.css',
 })
-export class AvatarsModalComponent implements OnInit{
-  @Input() selectedAvatarId?: string;
-  @Output() avatarId: EventEmitter<string> = new EventEmitter<string>()
+export class AvatarsModalComponent implements OnInit {
+  private sagaService = inject(SagaService);
 
-  protected temporalAvatarId?: string;
+  @Input() selectedAvatar?: Avatar;
+  @Output() avatar: EventEmitter<Avatar> = new EventEmitter<Avatar>()
+
+  protected temporalAvatar?: Avatar;
   protected isVisible: boolean = false;
   protected newAvatar: boolean = false;
-  protected sagas: Saga[] = [
-    {
-      name: "lord of the rings",
-      avatarsIds: [
-        "V06zcd4L",
-        "RKGJLNg",
-        "39SCQ71X",
-        "GvN9mfRj",
-        "bg6BR6Kd",
-        "KjZ9Bz2X",
-        "9kwQNCSp",
-        "v6K1XgDh",
-        "n4D0kPS",
-        "N6W3yBkr",
-        "JRBKmVh7",
-        "r2VK2d6c"
-      ]
-    },
-    {
-      name: "fight club",
-      avatarsIds: [
-        "60PRLZ4R",
-        "84D2tjF5",
-        "5hL2VP00",
-        "qY9z3FGm",
-        "GQFsPHBH",
-        "DHB5xjs3",
-      ]
-    }
-  ]
+  protected sagas: Saga[] = []
 
   ngOnInit(): void {
-    this.temporalAvatarId = this.selectedAvatarId;
+    
+    this.temporalAvatar = this.selectedAvatar;
+
+    this.sagaService.getSagas().subscribe({
+      next: (sagas) => {
+        this.sagas = sagas;         
+      },
+      error: (error) => {
+        console.error('Error loading the sagas:', error);
+      }
+    });
   }
 
 
   public openModal() {
-    this.temporalAvatarId = this.selectedAvatarId;
+    this.temporalAvatar = this.selectedAvatar;
     this.newAvatar = false;
     this.isVisible = true;
   }
 
   public closeModal() {
-    this.temporalAvatarId = this.selectedAvatarId;
+    this.temporalAvatar = this.selectedAvatar;
     this.newAvatar = false;
     this.isVisible = false;
   }
 
-  protected onAvatar(avatarId: any) {
+  protected onAvatar(avatar: any) {
     this.newAvatar = true;
-    this.temporalAvatarId = avatarId;
+    this.temporalAvatar = avatar;
   }
 
-  protected confirmAvatar(){
-    
-    this.avatarId.emit(this.temporalAvatarId);
+  protected confirmAvatar() {
+
+    this.avatar.emit(this.temporalAvatar);
     this.closeModal();
   }
 
-  protected eliminatedAvatar(){
-    this.temporalAvatarId = '';
+  protected eliminatedAvatar() {
+    this.temporalAvatar = undefined;
     this.newAvatar = true;
   }
 

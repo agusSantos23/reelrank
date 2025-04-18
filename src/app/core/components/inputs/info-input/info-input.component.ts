@@ -1,10 +1,9 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { NgClass } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-info-input',
-  imports: [NgClass],
+  imports: [],
   templateUrl: './info-input.component.html',
   styleUrl: './info-input.component.css',
   animations: [
@@ -21,10 +20,17 @@ import { Component, Input } from '@angular/core';
     ])
   ],
 })
-export class InfoInputComponent {
+export class InfoInputComponent implements OnInit {
 
-  @Input({required: true}) annotationsText: string[] = [];
+  @Input() annotationsText: string[] = [];
   @Input() isRequired: boolean = false;
+  @Input() isHalf: boolean = false;
 
   protected onInfo: Boolean = false;
+
+  ngOnInit(): void {
+    
+    if (this.annotationsText.length <= 0 && this.isRequired) this.annotationsText = ["Is required"];
+    
+  }
 }

@@ -3,6 +3,7 @@
 
 
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
+  
   <div id="inputs">
     <div class="input-container" appFocusInput>
       <div>
@@ -26,11 +27,11 @@
           <ul class="requirements">
 
             @if (form.get('email')?.errors?.['required']) {
-            <li>The email is required</li>
+            <li>Email is required</li>
             }
 
             @if (form.get('email')?.errors?.['email']) {
-            <li>The email is not valid</li>
+            <li>Email is not valid</li>
             }
 
           </ul>
@@ -45,7 +46,9 @@
       <div>
         <div class="input-content">
           <label for="password" id="label-password" class="floating-label">Password</label>
-          <input id="password" name="password" type="password" formControlName="password" appFloatingLabel="label-password">
+          <input id="password" name="password" [type]="viewPassword ? 'text' : 'password' " formControlName="password" appFloatingLabel="label-password">
+          
+          <app-view-input (stateView)="viewPassword = $event"/>
           <app-info-input [isRequired]="true" [annotationsText]="infoInputs['password']"/>
 
         </div>
@@ -61,24 +64,22 @@
         <div class="requirements-content">
           <ul class="requirements">
             @if (form.get('password')?.errors?.['required']) {
-            <li>The password is required</li>
+            <li>Password is required</li>
             }
             @if (form.get('password')?.errors?.['minlength']) {
-            <li>The password must be at least {{ form.get('password')?.errors?.['minlength']?.requiredLength }}
-              characters</li>
+            <li>Password must be at least {{ form.get('password')?.errors?.['minlength']?.requiredLength }} characters</li>
             }
             @if (form.get('password')?.errors?.['maxlength']) {
-            <li>The password cannot be more than {{ form.get('password')?.errors?.['maxlength']?.requiredLength }}
-              characters</li>
+            <li>Password cannot be more than {{ form.get('password')?.errors?.['maxlength']?.requiredLength }} characters</li>
             }
             @if (form.get('password')?.errors?.['noUpperCase']) {
-            <li>The password must contain at least one uppercase letter</li>
+            <li>Password must contain at least one uppercase letter</li>
             }
             @if (form.get('password')?.errors?.['noLowerCase']) {
-            <li>The password must contain at least one lowercase letter</li>
+            <li>Password must contain at least one lowercase letter</li>
             }
             @if (form.get('password')?.errors?.['noSpecialCharacter']) {
-            <li>The password must contain at least one special character</li>
+            <li>Password must contain at least one special character</li>
             }
           </ul>
         </div>

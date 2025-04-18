@@ -7,6 +7,10 @@ svg {
   fill: var(--orange);
 }
 
+#info-container.isHalf {
+  width: 200px;
+}
+
 #info-container {
   position: absolute;
   top: 20px;

@@ -14,7 +14,7 @@
 
 #modal-content {
   width: 70vw;
-  height: 65vh;
+  height: 78vh;
   padding: 10px 30px;
   border-radius: 5px;
   background-color: var(--white);
@@ -51,10 +51,45 @@ header h2 {
 
 main{
   height: 85%;
+
 }
 
 
 .saga > h4 {
   margin-top: 15px;
   margin-bottom: 5px;
+}
+
+main > div {
+  height: 85%;
+  margin-bottom: 4%;
+}
+
+main > article {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+#confirm-avatar {
+  width: 180px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  color: var(--white);
+  background-image: var(--gradient);
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+
+#confirm-avatar > span {
+  transition: .2s ease-in-out;
+}
+
+#confirm-avatar:hover > span {
+  scale: 1.2;
 }

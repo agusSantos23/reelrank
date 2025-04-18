@@ -1,4 +1,4 @@
-import { AbstractControl, ValidationErrors } from '@angular/forms';
+import { AbstractControl, FormGroup, ValidationErrors } from '@angular/forms';
 
 export const CustomValidators = {
   hasUpperCase: (control: AbstractControl): ValidationErrors | null => {
@@ -18,5 +18,27 @@ export const CustomValidators = {
     
     const hasSpecial = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(control.value);
     return hasSpecial ? null : { 'noSpecialCharacter': true };
+  },
+  mustMatch(controlName: string, matchingControlName: string) {
+    return (formGroup: FormGroup): ValidationErrors | null => {
+      const control = formGroup.controls[controlName];
+      const matchingControl = formGroup.controls[matchingControlName];
+
+      if (!control || !matchingControl) {
+        return null;
+      }
+
+      if (matchingControl.errors && !matchingControl.errors['mustMatch']) {
+        return null;
+      }
+
+      if (control.value !== matchingControl.value) {
+        matchingControl.setErrors({ mustMatch: true });
+        return { mustMatch: true };
+      } else {
+        matchingControl.setErrors(null);
+        return null;
+      }
+    };
   }
 };

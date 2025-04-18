@@ -8,7 +8,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrl: './profile-avatar.component.css'
 })
 export class ProfileAvatarComponent {
-  @Input() posterId?: string;
+  @Input() posterUrl?: string;
   @Input() name?: string;
   @Input() isRemovable: boolean = false;
   @Output() isEliminated = new EventEmitter()
@@ -16,9 +16,9 @@ export class ProfileAvatarComponent {
 
   protected remove(): void{
 
-    if (this.isRemovable) {
+    if (this.isRemovable && this.posterUrl) {
       this.isEliminated.emit();
-      this.posterId = undefined;
+      this.posterUrl = undefined;
     }
   }
 

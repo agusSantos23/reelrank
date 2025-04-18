@@ -14,9 +14,12 @@ import { BtnIconComponent } from "../../inputs/buttons/btn-icon/btn-icon.compone
 import { Genre } from '../../../models/Genre.model';
 import { AssetCancelComponent } from '../../inputs/asset-cancel/asset-cancel.component';
 import { UtilsService } from '../../../services/utils/utils.service';
-import { SelectOption } from '../../../models/selectOption.model';
+import { SelectOption } from '../../../models/SelectOption.model';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { MovieCardComponent } from '../../ui/movie-card/movie-card.component';
+import { UserService } from '../../../services/auth/user/user.service';
+import { UserData } from '../../../models/UserData.model';
+import { ProfileAvatarComponent } from "../../ui/profile-avatar/profile-avatar.component";
 
 @Component({
   selector: 'app-home',
@@ -30,8 +33,9 @@ import { MovieCardComponent } from '../../ui/movie-card/movie-card.component';
     BtnAuthComponent,
     UpwardComponent,
     BtnIconComponent,
-    AssetCancelComponent
-  ],
+    AssetCancelComponent,
+    ProfileAvatarComponent
+],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
   animations:[
@@ -47,7 +51,7 @@ import { MovieCardComponent } from '../../ui/movie-card/movie-card.component';
   ]
 })
 export class HomeComponent implements OnInit, OnDestroy {
-
+  private userService = inject(UserService);
   private utilService = inject(UtilsService)
   private movieService = inject(MovieService);
   private genreService = inject(GenreService);
@@ -55,6 +59,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   private movieSubscription?: Subscription;
   private genreSubscription?: Subscription;
 
+  protected userData?: UserData;
   protected movies: MovieBasicInfo[] = [];
   protected possibleGenres: Genre[] = [];
   protected activeGenres: Genre[] = [];
@@ -81,6 +86,16 @@ export class HomeComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
+    this.userService.getUserData().subscribe({
+      next: (user) => {
+        if (user) this.userData = user;          
+      },
+      error: (error) => {
+        this.userData = undefined;
+        console.error('Error fetching user data:', error);
+      }
+    })
+
     this.loadMoreMovies();
     this.checkScreenSize();
   }

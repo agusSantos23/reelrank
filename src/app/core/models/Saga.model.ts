@@ -1,4 +1,9 @@
+import { Avatar } from "./Avatar.model";
+
 export interface Saga {
-  name: string,
-  avatarsIds: string[]
+  id: string;
+  name: string;
+  created_at: string;
+  avatars: Avatar[];
 }
+
