@@ -8,9 +8,9 @@ import { FloatingLabelDirective } from '../../../../shared/directives/animations
 import { FocusInputDirective } from '../../../../shared/directives/functionality/focus-input/focus-input.directive';
 import { CustomValidators } from '../../../../shared/validators/custom-validators';
 import { ViewInputComponent } from "../../../inputs/view-input/view-input.component";
-import { RegisterService } from '../../../../services/auth/register/register.service';
-import { RegisterUser } from '../../../../models/auth/RegisterUser.model';
+import { RegisterUser } from '../../../../models/auth/DataUser.model';
 import { Avatar } from '../../../../models/Avatar.model';
+import { AuthService } from '../../../../services/auth/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -28,7 +28,7 @@ import { Avatar } from '../../../../models/Avatar.model';
 })
 export class RegisterComponent {
   private router = inject(Router);
-  private registerService = inject(RegisterService);
+  private authService = inject(AuthService);
 
   @ViewChild('avatarsModal') avatarsModal!: AvatarsModalComponent;
 
@@ -88,12 +88,9 @@ export class RegisterComponent {
         password_confirmation: this.form.value.password_confirmation || ''
       };
 
-      this.registerService.registerUser(userData).subscribe({
+      this.authService.register(userData).subscribe({
         next: (response) => {
-          const token = response.token;
           
-          localStorage.setItem('auth_token', token);
-
           this.router.navigate(['/']);
         },
         error: (error) => {

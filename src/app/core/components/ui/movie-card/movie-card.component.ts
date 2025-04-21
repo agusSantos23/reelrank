@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { TruncatePipe } from '../../../pipe/truncate/truncate.pipe';
 import { cardArrivesAnimation } from '../../../shared/directives/animations/trigger/cardArrives.animation';
 import { cardEnlarge } from '../../../shared/directives/animations/trigger/cardEnlarge.animation';
-import { MovieBasicInfo } from '../../../models/movie/movieBasicInfo.model';
+import { MovieBasicInfo } from '../../../models/movie/MovieBasicInfo.model';
 
 @Component({
   selector: 'app-movie-card',

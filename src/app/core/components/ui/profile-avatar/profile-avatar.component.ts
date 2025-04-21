@@ -1,5 +1,6 @@
 import { UpperCasePipe } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { AuthService } from '../../../services/auth/auth.service';
 
 @Component({
   selector: 'app-profile-avatar',
@@ -8,18 +9,32 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrl: './profile-avatar.component.css'
 })
 export class ProfileAvatarComponent {
+  private authService = inject(AuthService);
+
   @Input() posterUrl?: string;
   @Input() name?: string;
   @Input() isRemovable: boolean = false;
+  @Input() isMenu: boolean = false;
   @Output() isEliminated = new EventEmitter()
 
+  protected showModal: boolean = false;
 
-  protected remove(): void{
-
-    if (this.isRemovable && this.posterUrl) {
+  protected onClick(): void{
+    
+    if (this.isRemovable && this.posterUrl && !this.isMenu) {
       this.isEliminated.emit();
       this.posterUrl = undefined;
+
+    }else if(this.isMenu && !this.isRemovable){
+      this.showModal = !this.showModal;
+      
     }
+  }
+
+  protected logout(): void{
+    console.log(0);
+    
+    this.authService.logout();
   }
 
 }

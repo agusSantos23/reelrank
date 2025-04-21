@@ -7,8 +7,8 @@ import { TitlePageComponent } from "../../ui/title-page/title-page.component";
 import { OptionsSliderComponent } from "../../inputs/options-slider/options-slider.component";
 import { BtnAuthComponent } from "../../inputs/buttons/btn-auth/btn-auth.component";
 import { UpwardComponent } from "../../inputs/upward/upward.component";
-import { Subscription } from 'rxjs';
-import { MovieBasicInfo } from '../../../models/movie/movieBasicInfo.model';
+import { Observable, Subscription } from 'rxjs';
+import { MovieBasicInfo } from '../../../models/movie/MovieBasicInfo.model';
 import { GenreService } from '../../../services/genre/genre.service';
 import { BtnIconComponent } from "../../inputs/buttons/btn-icon/btn-icon.component";
 import { Genre } from '../../../models/Genre.model';
@@ -17,9 +17,9 @@ import { UtilsService } from '../../../services/utils/utils.service';
 import { SelectOption } from '../../../models/SelectOption.model';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { MovieCardComponent } from '../../ui/movie-card/movie-card.component';
-import { UserService } from '../../../services/auth/user/user.service';
-import { UserData } from '../../../models/UserData.model';
+import { UserService } from '../../../services/user/user.service';
 import { ProfileAvatarComponent } from "../../ui/profile-avatar/profile-avatar.component";
+import { BasicUser } from '../../../models/auth/DataUser.model';
 
 @Component({
   selector: 'app-home',
@@ -56,10 +56,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   private movieService = inject(MovieService);
   private genreService = inject(GenreService);
 
+  private userSubscription?: Subscription;
   private movieSubscription?: Subscription;
   private genreSubscription?: Subscription;
 
-  protected userData?: UserData;
+  protected user: BasicUser | null = null;
   protected movies: MovieBasicInfo[] = [];
   protected possibleGenres: Genre[] = [];
   protected activeGenres: Genre[] = [];
@@ -77,8 +78,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   protected isMobile: boolean = false;
 
-  
-
   private page = 1;
   protected limit = 20;
   protected loading = false;
@@ -86,26 +85,16 @@ export class HomeComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-    this.userService.getUserData().subscribe({
-      next: (user) => {
-        if (user) this.userData = user;          
-      },
-      error: (error) => {
-        this.userData = undefined;
-        console.error('Error fetching user data:', error);
-      }
-    })
-
     this.loadMoreMovies();
     this.checkScreenSize();
+    this.loadDataUser();
   }
 
   ngOnDestroy(): void {
     if (this.movieSubscription) this.movieSubscription.unsubscribe();
     if (this.genreSubscription) this.genreSubscription.unsubscribe();
+    if (this.userSubscription) this.userSubscription.unsubscribe();
   }
-
-
 
   @HostListener('window:scroll', [])
   onWindowScroll(): void {
@@ -170,6 +159,12 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   }
 
+  loadDataUser(){
+    this.userSubscription = this.userService.getUser().subscribe(
+      (user) => (this.user = user)
+    );
+  }
+
   @HostListener('window:resize', ['$event'])
   onResize(event: any): void {
     this.checkScreenSize();
@@ -183,12 +178,13 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.orderBy = value;
     console.log(this.orderBy);
     this.loadMoreMovies(value)
+    
   }
 
   onSearch(term: string): void {
-
     this.searchTerm = term;
     this.loadMoreMovies(this.orderBy, term)
+
   }
 
   showSliderGenres(): void {

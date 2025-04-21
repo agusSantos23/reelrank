@@ -1,3 +1,6 @@
+:host{
+  position: relative;
+}
 
 #profile-container {
   display: flex;
@@ -47,4 +50,42 @@ h3{
 
 .pointer{
   cursor: pointer;
+}
+
+
+#modal-container{
+  position: absolute;
+  bottom: -80px;
+  right: 0px;
+  width: 225px;
+  padding: 5px;
+  border-radius: 5px;
+  background-image: var(--gradient);
+  z-index: 50;
+}
+
+#modal-content{
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  flex-direction: column;
+  gap: 7px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  background-color: var(--white);
+}
+
+#modal-content > span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  font-size: 20px;
+  letter-spacing: 1px;
+  transition: .2s ease-in-out;
+  cursor: pointer;
+}
+
+#modal-content > span:hover {
+  transform: translateX(10px);
 }

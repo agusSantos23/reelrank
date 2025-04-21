@@ -2,8 +2,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
-import { MovieBasicInfo } from '../../models/movie/movieBasicInfo.model';
-import { Movie } from '../../models/movie/movie.model';
+import { MovieBasicInfo } from '../../models/movie/MovieBasicInfo.model';
+import { Movie } from '../../models/movie/Movie.model';
 
 
 
