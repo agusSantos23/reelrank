@@ -34,7 +34,6 @@ export class AuthService {
 
 
   public logout(): void {
-    console.log(1);
     
     this.tokenService.deleteToken();
     this.userService.clearUser();

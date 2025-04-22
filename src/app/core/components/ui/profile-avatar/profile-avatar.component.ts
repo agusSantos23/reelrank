@@ -35,6 +35,7 @@ export class ProfileAvatarComponent {
     console.log(0);
     
     this.authService.logout();
+    this.showModal = false;
   }
 
 }

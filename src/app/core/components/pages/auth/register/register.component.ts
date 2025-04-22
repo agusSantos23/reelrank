@@ -11,6 +11,8 @@ import { ViewInputComponent } from "../../../inputs/view-input/view-input.compon
 import { RegisterUser } from '../../../../models/auth/DataUser.model';
 import { Avatar } from '../../../../models/Avatar.model';
 import { AuthService } from '../../../../services/auth/auth.service';
+import { UserService } from '../../../../services/user/user.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -27,9 +29,12 @@ import { AuthService } from '../../../../services/auth/auth.service';
   styleUrl: './register.component.css'
 })
 export class RegisterComponent {
+  private userService = inject(UserService);
   private router = inject(Router);
   private authService = inject(AuthService);
 
+  private userSubscription?: Subscription;
+  
   @ViewChild('avatarsModal') avatarsModal!: AvatarsModalComponent;
 
 
@@ -75,6 +80,11 @@ export class RegisterComponent {
       "Enter your password again for confirmation",
     ],
   };
+
+
+  ngOnDestroy(): void {
+    if (this.userSubscription) this.userSubscription.unsubscribe();
+  }
 
   protected onSubmit() {
 

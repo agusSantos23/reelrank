@@ -84,7 +84,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   protected allDataLoaded = false;
 
 
-  ngOnInit() {
+  ngOnInit() {    
     this.loadMoreMovies();
     this.checkScreenSize();
     this.loadDataUser();
@@ -160,9 +160,13 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   loadDataUser(){
-    this.userSubscription = this.userService.getUser().subscribe(
-      (user) => (this.user = user)
-    );
+    this.userService.getUser();
+
+    this.userSubscription = this.userService.currentUser$.subscribe((currentUser) => {
+      
+      this.user = currentUser
+      
+    });
   }
 
   @HostListener('window:resize', ['$event'])
