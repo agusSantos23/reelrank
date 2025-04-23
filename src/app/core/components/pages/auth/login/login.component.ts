@@ -7,6 +7,7 @@ import { FocusInputDirective } from '../../../../shared/directives/functionality
 import { Router } from '@angular/router';
 import { InfoInputComponent } from "../../../inputs/info-input/info-input.component";
 import { ViewInputComponent } from "../../../inputs/view-input/view-input.component";
+import { AuthService } from '../../../../services/auth/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -22,6 +23,7 @@ import { ViewInputComponent } from "../../../inputs/view-input/view-input.compon
   styleUrl: './login.component.css',
 })
 export class LoginComponent {
+  private authService = inject(AuthService);
   private router = inject(Router);
 
   protected form = new FormGroup({
@@ -36,6 +38,9 @@ export class LoginComponent {
     ]),
   });
   
+
+  protected validationErrors: any = {};
+  protected generalErrors: string[] = [];
   protected viewPassword = false;
   protected dataLink: DataLink = {
     name: "register",
@@ -58,14 +63,31 @@ export class LoginComponent {
   
 
   protected onSubmit() {
+
     if (this.form && this.form.valid) {
       console.log('Valid form:', this.form.value);
+
+      this.authService.login(this.form.value).subscribe({
+        next: () => {
+
+          this.router.navigate(['']); 
+        },
+        error: (error) => {
+          if (error.status === 422 || error.status === 401) {
+            
+            this.generalErrors = []; 
+            this.generalErrors.push(error.error.error);
+            
+          } else {
+            console.error('Error:', error);
+          }
+        }
+      })
+
     } else {
       console.log('Invalid form');
-
-      Object.keys(this.form.controls).forEach(key => {
-        this.form.get(key)?.markAsTouched();
-      });
+      this.form.markAllAsTouched()
+      
     }
   }
 

@@ -5,24 +5,20 @@ import { Component, Input } from '@angular/core';
   selector: 'app-title-page',
   imports: [UpperCasePipe],
   template: `
-    <div>
-      <h1>REELRANK</h1>
-      <h2>{{ section | uppercase }}</h2>
-    </div>
-
-
+    <h1>REELRANK</h1>
+    <h2>{{ section | uppercase }}</h2>
   `,
   styles: [`
-    div {
+    :host {
       display: flex;
       justify-content: center;
       align-items: end;
     }
 
     h1 {
-      width: 182px;
+      width: 230px;
       margin: 0;
-      font-size: 2em;
+      font-size: 2.5em;
       font-weight: 900;
       color: var(--black);
       text-align: center;
@@ -30,8 +26,8 @@ import { Component, Input } from '@angular/core';
 
     h2 {
       margin: 0;
-      margin-bottom: .16em;
-      font-size: 1.2em;
+      margin-bottom: .15em;
+      font-size: 1.5em;
 
       font-weight: 800;
       color: var(--black);

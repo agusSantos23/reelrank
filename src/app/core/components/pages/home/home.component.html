@@ -1,11 +1,11 @@
 <header>
   <app-title-page section="movies" />
 
-    @if (user) {
-      <app-profile-avatar [isMenu]="true" [posterUrl]="user?.avatar?.image_id"/>
-    } @else {
-      <app-btn-auth />
-    }
+  @if (user) {
+    <app-profile-avatar [isMenu]="true" [posterUrl]="user.avatar?.image_id"/>
+  } @else {
+    <app-btn-auth />
+  }
   
 </header>
 <main>

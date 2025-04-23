@@ -99,8 +99,7 @@ export class RegisterComponent {
       };
 
       this.authService.register(userData).subscribe({
-        next: (response) => {
-          
+        next: () => {
           this.router.navigate(['/']);
         },
         error: (error) => {
@@ -124,9 +123,8 @@ export class RegisterComponent {
         this.currentPage = 1;
       }
 
-      Object.keys(this.form.controls).forEach(key => {
-        this.form.get(key)?.markAsTouched();
-      });
+      this.form.markAllAsTouched()
+
     }
 
   }

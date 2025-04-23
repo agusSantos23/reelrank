@@ -75,9 +75,10 @@ h3{
   background-color: var(--white);
 }
 
-#modal-content > span {
+#modal-content > div {
+  width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   gap: 5px;
   font-size: 20px;
@@ -86,6 +87,7 @@ h3{
   cursor: pointer;
 }
 
-#modal-content > span:hover {
+#modal-content > div:hover {
   transform: translateX(10px);
 }
+

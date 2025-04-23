@@ -88,6 +88,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.loadMoreMovies();
     this.checkScreenSize();
     this.loadDataUser();
+
+    
   }
 
   ngOnDestroy(): void {
@@ -163,9 +165,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.userService.getUser();
 
     this.userSubscription = this.userService.currentUser$.subscribe((currentUser) => {
-      
       this.user = currentUser
-      
     });
   }
 

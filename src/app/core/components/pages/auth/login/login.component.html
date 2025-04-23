@@ -92,7 +92,17 @@
 
   </div>
 
-
+  @if (generalErrors.length > 0) {
+    <div id="error-container">
+      <div>
+        <ul>
+          @for (error of generalErrors; track error) {
+            <li>{{ error }}</li>
+          }
+        </ul>
+      </div>
+    </div>
+  }
 
   <div id="buttons">
     <button id="cancel-container" class="box-btn" (click)="onCancel()">

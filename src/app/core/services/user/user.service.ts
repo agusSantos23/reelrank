@@ -18,11 +18,10 @@ export class UserService {
 
   private _currentUser = new BehaviorSubject<BasicUser | null>(null);
   public readonly currentUser$ = this._currentUser.asObservable();
-  private _hasLoadedUser = false;
 
 
   public getUser(): void {
-    if (!this._hasLoadedUser || this._currentUser.getValue() === null) {
+    if ( this._currentUser.getValue() === null) {
       const token = this.tokenService.getToken();
 
       if (!token) {
@@ -35,11 +34,9 @@ export class UserService {
       this.http.get<BasicUser>(`${this.apiUrl}/auth/token/${decodedToken.id}`).pipe(
         tap((user) => {
           this._currentUser.next(user);
-          this._hasLoadedUser = true;
         }),
         catchError((error) => {
           this._currentUser.next(null);
-          this._hasLoadedUser = false; 
           console.error('Error charging the user:', error);
           return of(null);
         })
@@ -50,10 +47,7 @@ export class UserService {
 
 
   public clearUser(): void {
-
     this._currentUser.next(null);
-
-    this._hasLoadedUser = false;
   }
 
 }
