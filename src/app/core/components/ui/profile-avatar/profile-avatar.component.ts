@@ -1,10 +1,11 @@
 import { UpperCasePipe } from '@angular/common';
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, inject, Input, Output, ViewChild } from '@angular/core';
 import { AuthService } from '../../../services/auth/auth.service';
+import { ClickOutSideDirective } from '../../../shared/directives/functionality/click-out-side/click-out-side.directive';
 
 @Component({
   selector: 'app-profile-avatar',
-  imports: [UpperCasePipe],
+  imports: [UpperCasePipe, ClickOutSideDirective],
   templateUrl: './profile-avatar.component.html',
   styleUrl: './profile-avatar.component.css'
 })
@@ -16,6 +17,10 @@ export class ProfileAvatarComponent {
   @Input() isRemovable: boolean = false;
   @Input() isMenu: boolean = false;
   @Output() isEliminated = new EventEmitter()
+
+  @ViewChild('profileContainer') profileContainer!: ElementRef;
+  @ViewChild('dropdownModal') dropdownModal!: ElementRef;
+
 
   protected showModal: boolean = false;
 
@@ -31,9 +36,11 @@ export class ProfileAvatarComponent {
     }
   }
 
-  protected logout(): void{
-    console.log(0);
-    
+  protected closeModal(): void{
+    this.showModal = false;
+  }
+
+  protected logout(): void{    
     this.authService.logout();
     this.showModal = false;
   }
