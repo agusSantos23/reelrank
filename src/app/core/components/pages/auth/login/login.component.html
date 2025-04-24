@@ -19,10 +19,11 @@
         </div>
       </div>
 
+      @if (form.get('email')?.invalid && (form.get('email')?.dirty || form.get('email')?.touched)) {
+
       <div class="requirements-container">
 
         <div class="requirements-content">
-          @if (form.get('email')?.invalid && (form.get('email')?.dirty || form.get('email')?.touched)) {
 
           <ul class="requirements">
 
@@ -35,9 +36,9 @@
             }
 
           </ul>
-          }
         </div>
       </div>
+      }
 
     </div>
 
@@ -58,8 +59,9 @@
         </div>
       </div>
 
+      @if (form.get('password')?.invalid && (form.get('password')?.dirty || form.get('password')?.touched)) {
+
       <div class="requirements-container" >
-        @if (form.get('password')?.invalid && (form.get('password')?.dirty || form.get('password')?.touched)) {
 
         <div class="requirements-content">
           <ul class="requirements">
@@ -83,9 +85,9 @@
             }
           </ul>
         </div>
-      }
 
       </div>
+    }
 
     </div>
 

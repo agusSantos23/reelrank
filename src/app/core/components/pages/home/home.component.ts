@@ -7,7 +7,7 @@ import { TitlePageComponent } from "../../ui/title-page/title-page.component";
 import { OptionsSliderComponent } from "../../inputs/options-slider/options-slider.component";
 import { BtnAuthComponent } from "../../inputs/buttons/btn-auth/btn-auth.component";
 import { UpwardComponent } from "../../inputs/upward/upward.component";
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { MovieBasicInfo } from '../../../models/movie/MovieBasicInfo.model';
 import { GenreService } from '../../../services/genre/genre.service';
 import { BtnIconComponent } from "../../inputs/buttons/btn-icon/btn-icon.component";

@@ -1,19 +1,39 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-bar',
   imports: [],
-  template: `<div [style.width]="width" [style.height]="height"></div>`,
+  template: `<div [style.width]="width" [style.height]="height ? height : dynamicHeight"></div>`,
   styles:  [`
     div {
+      display: block;
       background-image: var(--gradient);
       border-radius: 5px;
     }
   `]
 })
-export class BarComponent{
+export class BarComponent implements OnInit{
   @Input() width: string = '100px';
-  @Input() height: string = '10px';
+  @Input() height?: string;
+  @Input() text?: string;
 
+  dynamicHeight: string = '60%'; 
 
+  ngOnInit(): void {
+    if (this.text) {
+      this.setDynamicHeight(this.text?.length);      
+    }
+  }
+
+  setDynamicHeight(length: number): void {
+    if (length > 600) {
+      this.dynamicHeight = '100%';
+    } else if (length > 400) {
+      this.dynamicHeight = '80%';
+    } else if (length > 300) {
+      this.dynamicHeight = '70%';
+    } else {      
+      this.dynamicHeight = '60%';
+    }
+  }
 }

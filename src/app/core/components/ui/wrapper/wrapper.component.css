@@ -1,0 +1,42 @@
+
+
+
+button{
+  width: 100%;
+  border: 0;
+}
+
+.div-text{
+  width: 100%;
+}
+
+.flex-content{
+  display: flex;
+  align-items: center;
+}
+
+.black-container{
+  background-color: var(--black);
+}
+
+.gradient-container{
+  background-image: var(--gradient);
+}
+
+
+.white-content{
+  background-color: var(--white);
+}
+
+.white-disabled-content{
+  background-color: var(--white);
+  opacity: .8;
+}
+
+button{
+  transition: transform 0.2s ease-in-out; 
+}
+
+.zoom-on-hover:hover > button {
+  transform: scale(.9);
+}
