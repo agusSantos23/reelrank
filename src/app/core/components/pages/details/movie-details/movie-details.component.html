@@ -59,7 +59,6 @@
         <div id="genres">
           @for (genre of movie?.genres; track genre.id) {
             <app-wrapper 
-              type="btn" 
               width="150px" 
               [contentText]="[700, '1px', undefined, undefined]" 
               [containerPading]="4" 
@@ -97,7 +96,32 @@
   </div>
 
   <div>
-    <div></div>
+
+    <app-wrapper 
+      width="350px"
+      containerColor="g"
+      [contentPading]="5">
+
+      <div id="rate-movie-star">
+
+        <h3>RATE MOVIE</h3>
+      
+        @if (user) {
+          @switch (user.config_scorer) {
+            @case ('starts') {
+              <app-star-rating [maxStars]="5" [initialRating]="ratingValue" (ratingChange)="receiveRating($event)"/>
+            }
+          }
+
+        }@else {
+          <app-star-rating (ratingChange)="receiveRating($event)" [initialRating]="ratingValue"/>
+        }
+        
+        
+      </div>
+
+    </app-wrapper>
+
     <article id="movie-info-container">
       <div>
         <h3>Movie Details</h3>
@@ -110,7 +134,7 @@
 
           <div class="movie-info">
             <h4>Relase Date</h4>
-            <span>{{ movie?.release_date ? (movie?.release_date | formatDate: 'complete') : '-' }}</span>
+            <span>{{ movie?.release_date ? (movie?.release_date | date) : '-' }}</span>
           </div>
 
           <div class="movie-info">
@@ -134,3 +158,21 @@
 
 
 <img id="background-img" src="https://i.ibb.co/{{ movie?.backdrop_id }}/image.png" alt="{{ movie?.title }}">
+
+
+<app-modal #modalAuth  [header]="headerModal" [padding]="30" width="70vw">
+  <div id="modal-auth-content" >
+    <app-wrapper 
+      (wrapperClick)="cancelAuthModal()"
+      animation="zoom"
+      width="180px" 
+      [contentPading]="[5, 6]" 
+      [contentText]="[700, '2px', undefined, '1.2rem']" 
+      cursor="po">
+      CANCEL
+    </app-wrapper>
+  
+    <app-btn-auth type="center" />
+  </div>
+  
+</app-modal>

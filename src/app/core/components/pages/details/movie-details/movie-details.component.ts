@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MovieService } from '../../../../services/movie/movie.service';
 import { Movie } from '../../../../models/movie/Movie.model';
@@ -12,6 +12,9 @@ import { BasicUser } from '../../../../models/auth/DataUser.model';
 import { UserService } from '../../../../services/user/user.service';
 import { Subscription } from 'rxjs';
 import { WrapperComponent } from "../../../ui/wrapper/wrapper.component";
+import { StarRatingComponent } from "../../../inputs/star-rating/star-rating.component";
+import { DatePipe } from '@angular/common';
+import { Header, ModalComponent } from "../../layout/modal/modal.component";
 
 @Component({
   selector: 'app-movie-details',
@@ -22,7 +25,10 @@ import { WrapperComponent } from "../../../ui/wrapper/wrapper.component";
     GoPageComponent,
     ProfileAvatarComponent,
     BtnAuthComponent,
-    WrapperComponent
+    WrapperComponent,
+    StarRatingComponent,
+    DatePipe,
+    ModalComponent
 ],
   templateUrl: './movie-details.component.html',
   styleUrl: './movie-details.component.css'
@@ -32,12 +38,19 @@ export class MovieDetailsComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private movieService = inject(MovieService);
   
+  @ViewChild('modalAuth') modalAuth!: ModalComponent;
 
   private userSubscription?: Subscription;
   
   protected user: BasicUser | null = null;
   protected movieId?: string;
-  protected movie?: Movie
+  protected movie?: Movie;
+  protected ratingValue: number = 0;
+
+  protected headerModal: Header = {
+    title: 'WHO ARE YOU?',
+    subtitle: 'Sign in or register to save your ratings and movie lists to your account.'
+  }
 
   ngOnInit(): void {
    
@@ -69,13 +82,37 @@ export class MovieDetailsComponent implements OnInit {
     }
   }
 
-  loadDataUser(){
+  private loadDataUser(){
     this.userService.getUser();
 
     this.userSubscription = this.userService.currentUser$.subscribe((currentUser) => {
       this.user = currentUser
     });
+
+    if (this.user) {
+      // Asignar valor de la puntuacion del usuario
+      //this.ratingValue =
+    }
+
+    console.log(this.user);
+    
   }
 
+
+  protected receiveRating(value: number): void {
+    this.ratingValue = value;
+
+    if (!this.user) this.modalAuth.openModal();
+  }
+
+  protected cancelAuthModal(): void{
+    console.log(this.ratingValue);
+    
+    this.ratingValue = 0;
+    console.log(this.ratingValue);
+    
+    this.modalAuth.closeModal();
+
+  }
 
 }

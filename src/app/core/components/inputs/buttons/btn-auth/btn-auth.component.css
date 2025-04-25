@@ -33,6 +33,10 @@ button:hover path {
   fill: var(--orange);
 }
 
+span {
+  font-size: 1.2rem;
+}
+
 
 /* Phone */
 @media (max-width: 768px) {

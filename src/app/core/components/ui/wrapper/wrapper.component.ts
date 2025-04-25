@@ -6,6 +6,10 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   template: `
     <div
       (click)="onWrapperClick()"
+      [attr.role]="type === 'btn' ? 'button' : null"
+      [attr.tabindex]="type === 'btn' ? 0 : null"
+      (keydown.enter)="type === 'btn' ? onWrapperClick() : null"
+      (keydown.space)="type === 'btn' ? onWrapperClick() : null"
       [style.minWidth]="width"
       [style.cursor]="cursorType(this.cursor)"
       [style.padding.px]="containerPading"
@@ -14,53 +18,27 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
       [class.gradient-container]="containerColor === 'g'"
       [class.zoom-on-hover]="animation === 'zoom'">
 
-      @if(type === 'text'){
+      <div
+        [style.justifyContent]="flex?.[0] ?? 'center'"
+        [style.gap]="flex?.[1] ?? '0'"
+        [class.flex-content]="flex"
+        [style.cursor]="cursorType(this.cursor)"
+        [style.fontSize]="fontSize"
+        [style.fontWeight]="fontWeight"
+        [style.textAlign]="textAlign"
+        [style.letterSpacing]="letterSpacing"
+        [style.paddingLeft.px]="paddingLeft"
+        [style.paddingRight.px]="paddingRight"
+        [style.paddingTop.px]="paddingTop"
+        [style.paddingBottom.px]="paddingBottom"
+        [style.borderRadius.px]="borderRadius"
+        [class.white-content]="!(cursor === 'di')"
+        [class.white-disabled-content]="cursor === 'di'">
 
-        <span
-          class="div-text"
-          [style.justifyContent]="flex?.[0] ?? 'center'"
-          [style.gap]="flex?.[1] ?? '0'"
-          [class.flex-content]="flex"
-          [style.cursor]="cursorType(this.cursor)"
-          [style.fontSize]="fontSize"
-          [style.fontWeight]="fontWeight"
-          [style.textAlign]="textAlign"
-          [style.letterSpacing]="letterSpacing"
-          [style.paddingLeft.px]="paddingLeft"
-          [style.paddingRight.px]="paddingRight"
-          [style.paddingTop.px]="paddingTop"
-          [style.paddingBottom.px]="paddingBottom"
-          [style.borderRadius.px]="borderRadius"
-          [class.white-content]="!(cursor === 'di')"
-          [class.white-disabled-content]="cursor === 'di'">
+        <ng-content />
 
-          <ng-content></ng-content>
+      </div>
 
-        </span>
-
-      }@else {
-
-        <button
-          [style.justifyContent]="flex?.[0] ?? 'center'"
-          [style.gap]="flex?.[1] ?? '0'"
-          [class.flex-content]="flex"
-          [style.cursor]="cursorType(this.cursor)"
-          [style.fontSize]="fontSize"
-          [style.fontWeight]="fontWeight"
-          [style.textAlign]="textAlign"
-          [style.letterSpacing]="letterSpacing"
-          [style.paddingLeft.px]="paddingLeft"
-          [style.paddingRight.px]="paddingRight"
-          [style.paddingTop.px]="paddingTop"
-          [style.paddingBottom.px]="paddingBottom"
-          [style.borderRadius.px]="borderRadius"
-          [class.white-content]="!(cursor === 'di')"
-          [class.white-disabled-content]="cursor === 'di'">
-
-          <ng-content></ng-content>
-
-        </button>
-      }
       
     </div>
   `,
@@ -75,7 +53,7 @@ export class WrapperComponent implements OnInit {
   @Input() contentPading: number | [number, number] = 10;
   @Input() borderRadius: number = 5;
   @Input() containerColor: 'b' | 'g' = 'b';
-  @Input() cursor: 'po' | 'di' | 'de' = 'po';
+  @Input() cursor: 'po' | 'di' | 'de' = 'de';
   @Input() flex?: ['center' | 'start' | 'end', string];
   @Input() contentText: [string | number | undefined, string | undefined, 'center' | 'right' | 'left' | undefined, string | undefined] = [undefined, undefined, undefined, undefined];
   @Input() animation?: 'zoom';
