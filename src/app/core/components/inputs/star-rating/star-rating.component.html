@@ -7,6 +7,7 @@
       [style.height.px]="starSize"
       [attr.role]=" 'button'"
       [attr.tabindex]="0"
+      [@lowerScale]="starAnimationStates[i]"
       (keydown.enter)="handleStarClick(i)"
       (keydown.space)="handleStarClick(i)"
       (click)="handleStarClick(i)"

@@ -19,4 +19,19 @@ export interface Movie {
     id: string;
     name: string;
   }[];
+  user_relation: UserRelation;
+}
+
+export interface UserRelation{
+  user_id: string;
+  movie_id: string;
+  rating: number;
+  acting_rating: number;
+  music_rating: number;
+  pacing_rating: number;
+  story_rating: number;
+  entertainment_rating: number;
+  visuals_rating: number;
+  is_favorite: boolean;
+  to_watch: boolean | null;
 }

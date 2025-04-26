@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { BehaviorSubject, catchError, Observable, of, tap } from 'rxjs';
@@ -44,10 +44,38 @@ export class UserService {
     }
   }
 
-
-
   public clearUser(): void {
     this._currentUser.next(null);
+  }
+
+  public rateMovie(movieId: string, column: string, value: number): Observable<any> {
+    const token = this.tokenService.getToken();
+
+    if (!token){
+      console.error('Token not found.');
+      return of(null);
+    }
+    
+    const decodedToken: DecodedToken = jwt_decode.jwtDecode(token);
+    const userId = decodedToken.id;
+
+    if (!userId) {
+      console.error('User ID not found in token.');
+      return of(null);
+    }
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.post<any>(
+      `${this.apiUrl}/usermovies/${userId}/${movieId}/rate`, 
+      { 
+        column, 
+        value 
+      }, { 
+        headers 
+      })
   }
 
 }

@@ -17,9 +17,12 @@
       </div>
 
       <section>
-        <h1>{{ movie?.title }}</h1>
+        <div id="movie-title">
+          <h1>{{ movie?.title }}</h1>
+          <h3>{{ movie?.original_title }} | {{ movie?.original_language | uppercase }}</h3>
+        </div>
 
-        <div>
+        <div id="movie-basic">
           <div id="basic-info-container">
             <div>
               <span class="info">
@@ -109,12 +112,12 @@
         @if (user) {
           @switch (user.config_scorer) {
             @case ('starts') {
-              <app-star-rating [maxStars]="5" [initialRating]="ratingValue" (ratingChange)="receiveRating($event)"/>
+              <app-star-rating [maxStars]="10" [externalRating]="ratingValue" (ratingChange)="receiveRating($event, 'rating')"/>
             }
           }
 
         }@else {
-          <app-star-rating (ratingChange)="receiveRating($event)" [initialRating]="ratingValue"/>
+          <app-star-rating (ratingChange)="receiveRating($event, 'rating')" [externalRating]="ratingValue"/>
         }
         
         
