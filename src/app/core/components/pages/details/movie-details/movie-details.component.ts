@@ -12,9 +12,10 @@ import { BasicUser } from '../../../../models/auth/DataUser.model';
 import { UserService } from '../../../../services/user/user.service';
 import { Subscription } from 'rxjs';
 import { WrapperComponent } from "../../../ui/wrapper/wrapper.component";
-import { StarRatingComponent } from "../../../inputs/star-rating/star-rating.component";
 import { DatePipe, UpperCasePipe } from '@angular/common';
 import { Header, ModalComponent } from "../../layout/modal/modal.component";
+import { StarRatingComponent } from '../../../inputs/ratings/star-rating/star-rating.component';
+import { SliderRatingComponent } from '../../../inputs/ratings/slider-rating/slider-rating.component';
 
 export type ColumnRate =
   | 'rating'
@@ -37,9 +38,10 @@ export type ColumnRate =
     BtnAuthComponent,
     WrapperComponent,
     StarRatingComponent,
+    SliderRatingComponent,
     DatePipe,
     ModalComponent,
-    UpperCasePipe
+    UpperCasePipe,
 ],
   templateUrl: './movie-details.component.html',
   styleUrl: './movie-details.component.css'
@@ -99,7 +101,6 @@ export class MovieDetailsComponent implements OnInit {
             console.log(data);
             
             this.movie = data;
-            
           },
           error: (error) => {
             console.error('Error obtaining more films:', error);
@@ -130,9 +131,7 @@ export class MovieDetailsComponent implements OnInit {
   }
 
 
-  protected receiveRating(value: number, column: ColumnRate): void {
-    console.log(value);
-    
+  protected receiveRating(value: number, column: ColumnRate): void {    
     this.ratingValue = value;
 
     if (!this.user) {
@@ -140,7 +139,6 @@ export class MovieDetailsComponent implements OnInit {
 
             
     } else {
-      console.log(value);
       
       if (this.movieId) this.userService.rateMovie(this.movieId, column, value).subscribe({
         next:(response)=>{

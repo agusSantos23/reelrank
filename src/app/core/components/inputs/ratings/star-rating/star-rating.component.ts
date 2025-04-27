@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { lowerScaleAnimation } from '../../../shared/directives/animations/trigger/lowerScale.animations';
+import { lowerScaleAnimation } from '../../../../shared/directives/animations/trigger/lowerScale.animations';
 
 @Component({
   selector: 'app-star-rating',

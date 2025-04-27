@@ -112,14 +112,14 @@
         @if (user) {
           @switch (user.config_scorer) {
             @case ('starts') {
-              <app-star-rating [maxStars]="10" [externalRating]="ratingValue" (ratingChange)="receiveRating($event, 'rating')"/>
+              <!-- <app-star-rating [maxStars]="10" [externalRating]="ratingValue" (ratingChange)="receiveRating($event, 'rating')"/> -->
+              <app-slider-rating [max]="10" [externalRating]="ratingValue" (ratingChange)="receiveRating($event, 'rating')"/>
             }
           }
 
         }@else {
           <app-star-rating (ratingChange)="receiveRating($event, 'rating')" [externalRating]="ratingValue"/>
         }
-        
         
       </div>
 

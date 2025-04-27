@@ -2,7 +2,7 @@ header{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 18vh;
+  margin-bottom: 5vh;
 }
 
 #background-img {
@@ -17,7 +17,7 @@ header{
 }
 
 main {
-  height: 65vh;
+  height: 75vh;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   padding: 20px;
@@ -27,6 +27,8 @@ main {
 main > :first-child { 
   grid-column-start: 1;
   grid-column-end: 4;
+  margin-top: 50px;
+
 }
 
 main > :last-child {
@@ -63,7 +65,7 @@ main > :last-child {
 }
 
 #basic-presentation > section {
-  height: 16vh;
+  height: 20vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

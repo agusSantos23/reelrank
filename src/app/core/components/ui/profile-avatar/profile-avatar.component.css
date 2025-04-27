@@ -19,8 +19,9 @@
   align-items: center;
   border-radius: 10px;
   background-image: var(--gradient);
-
+  transition: .2s ease-in-out;
 }
+
 
 #img-content {
   width: 60px;
@@ -29,7 +30,7 @@
   object-fit: cover;
 }
 
-#delete-avatar {
+#svg-delete-avatar {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -37,6 +38,15 @@
   opacity: 0;
   transition: .2s ease;
 }
+
+#svg-profile{
+  transition: .2s ease-in-out;
+}
+
+#profile-container:hover  #img-content, #profile-container:hover  #svg-profile {
+  transform: scale(.8);
+}
+
 
 #img-container:hover #delete-avatar {
   opacity: 1;
@@ -51,7 +61,6 @@ h3{
 .pointer{
   cursor: pointer;
 }
-
 
 #modal-container{
   position: absolute;
