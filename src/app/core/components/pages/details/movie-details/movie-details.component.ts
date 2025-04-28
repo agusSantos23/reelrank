@@ -12,10 +12,11 @@ import { BasicUser } from '../../../../models/auth/DataUser.model';
 import { UserService } from '../../../../services/user/user.service';
 import { Subscription } from 'rxjs';
 import { WrapperComponent } from "../../../ui/wrapper/wrapper.component";
-import { DatePipe, UpperCasePipe } from '@angular/common';
+import { DatePipe, TitleCasePipe, UpperCasePipe } from '@angular/common';
 import { Header, ModalComponent } from "../../layout/modal/modal.component";
 import { StarRatingComponent } from '../../../inputs/ratings/star-rating/star-rating.component';
 import { SliderRatingComponent } from '../../../inputs/ratings/slider-rating/slider-rating.component';
+import { FormatLargeNumberPipe } from '../../../../pipe/format-large-number.pipe';
 
 export type ColumnRate =
   | 'rating'
@@ -42,6 +43,8 @@ export type ColumnRate =
     DatePipe,
     ModalComponent,
     UpperCasePipe,
+    FormatLargeNumberPipe,
+    TitleCasePipe
   ],
   templateUrl: './movie-details.component.html',
   styleUrl: './movie-details.component.css'

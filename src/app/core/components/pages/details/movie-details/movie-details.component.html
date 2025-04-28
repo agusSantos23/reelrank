@@ -95,7 +95,10 @@
 
         <div id="genres">
           @for (genre of movie?.genres; track genre.id) {
-          <app-wrapper width="150px" [contentText]="[700, '1px', undefined, undefined]" [containerPading]="4"
+          <app-wrapper 
+            width="150px" 
+            [contentText]="[700, '1px', undefined, undefined]" 
+            [containerPading]="4"
             [contentPading]="[5, 3]" cursor="de">
             {{ genre.name }}
           </app-wrapper>
@@ -159,7 +162,7 @@
         <div>
           <div class="movie-info">
             <h4>Status</h4>
-            <span>{{ movie?.status ? movie?.status : '-' }}</span>
+            <span>{{ movie?.status ? (movie?.status | titlecase) : '-' }}</span>
           </div>
 
           <div class="movie-info">
@@ -169,12 +172,12 @@
 
           <div class="movie-info">
             <h4>Budget</h4>
-            <span>$ {{ movie?.budget ? movie?.budget : '-' }}</span>
+            <span>$ {{ movie?.budget ? (movie?.budget | formatLargeNumber ): '-' }}</span>
           </div>
 
           <div class="movie-info">
             <h4>Revenue</h4>
-            <span>$ {{ movie?.revenue ? movie?.revenue : '-' }}</span>
+            <span>$ {{ movie?.revenue ? (movie?.revenue | formatLargeNumber) : '-' }}</span>
           </div>
 
         </div>

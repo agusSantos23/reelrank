@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'app-bar',
@@ -12,7 +12,7 @@ import { Component, Input, OnInit } from '@angular/core';
     }
   `]
 })
-export class BarComponent implements OnInit{
+export class BarComponent implements OnInit, OnChanges{
   @Input() width: string = '100px';
   @Input() height?: string;
   @Input() text?: string;
@@ -20,8 +20,16 @@ export class BarComponent implements OnInit{
   dynamicHeight: string = '60%'; 
 
   ngOnInit(): void {
-    if (this.text) {
-      this.setDynamicHeight(this.text?.length);      
+    console.log(this.text);
+    
+    if (this.text) this.setDynamicHeight(this.text?.length);      
+    
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+      
+    if (changes['text']) {
+      if (this.text) this.setDynamicHeight(this.text?.length);      
     }
   }
 
@@ -29,11 +37,16 @@ export class BarComponent implements OnInit{
     if (length > 600) {
       this.dynamicHeight = '100%';
     } else if (length > 400) {
-      this.dynamicHeight = '80%';
+      this.dynamicHeight = '90%';
     } else if (length > 300) {
+      this.dynamicHeight = '80%';
+    } else if (length > 200) {      
       this.dynamicHeight = '70%';
-    } else {      
-      this.dynamicHeight = '60%';
+    } else {
+      this.dynamicHeight = '60%'
     }
+
+    console.log(this.dynamicHeight);
+    
   }
 }
