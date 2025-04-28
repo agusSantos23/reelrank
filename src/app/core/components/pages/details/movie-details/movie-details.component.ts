@@ -42,7 +42,7 @@ export type ColumnRate =
     DatePipe,
     ModalComponent,
     UpperCasePipe,
-],
+  ],
   templateUrl: './movie-details.component.html',
   styleUrl: './movie-details.component.css'
 })
@@ -50,11 +50,11 @@ export class MovieDetailsComponent implements OnInit {
   private userService = inject(UserService);
   private route = inject(ActivatedRoute);
   private movieService = inject(MovieService);
-  
+
   @ViewChild('modalAuth') modalAuth!: ModalComponent;
 
   private userSubscription?: Subscription;
-  
+
   protected user: BasicUser | null = null;
   protected movieId?: string;
   protected movie?: Movie;
@@ -66,7 +66,7 @@ export class MovieDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
+
     this.loadDataUser();
   }
 
@@ -75,44 +75,45 @@ export class MovieDetailsComponent implements OnInit {
   }
 
 
-  private loadMovie(): void{
+  private loadMovie(): void {
     this.movieId = this.route.snapshot.paramMap.get('id') || undefined;
 
     if (this.movieId) {
-      
+
       if (this.user) {
-        
+
         this.movieService.getUserMovie(this.movieId, this.user.id).subscribe({
           next: (data: Movie) => {
             console.log(data);
-            
+
             this.movie = data;
             this.ratingValue = data.user_relation.rating;
+            
           },
           error: (error) => {
             console.error('Error obtaining more films:', error);
           }
         })
-  
-      }else{
-        
+
+      } else {
+
         this.movieService.getMovie(this.movieId).subscribe({
           next: (data: Movie) => {
             console.log(data);
-            
+
             this.movie = data;
           },
           error: (error) => {
             console.error('Error obtaining more films:', error);
           }
         })
-  
+
       }
-     
+
     }
   }
 
-  private loadDataUser(){
+  private loadDataUser() {
     this.userService.getUser();
 
     this.userSubscription = this.userService.currentUser$.subscribe((currentUser) => {
@@ -127,25 +128,23 @@ export class MovieDetailsComponent implements OnInit {
     }
 
     console.log(this.user);
-    
+
   }
 
-
-  protected receiveRating(value: number, column: ColumnRate): void {    
+  protected receiveRating(value: number, column: ColumnRate): void {
     this.ratingValue = value;
 
     if (!this.user) {
       this.modalAuth.openModal();
 
-            
     } else {
-      
+
       if (this.movieId) this.userService.rateMovie(this.movieId, column, value).subscribe({
-        next:(response)=>{
+        next: (response) => {
           console.log(response);
-          
+
         },
-        error:(err)=>{
+        error: (err) => {
           console.log(err);
         }
       })
@@ -154,11 +153,82 @@ export class MovieDetailsComponent implements OnInit {
 
   }
 
-  protected cancelAuthModal(): void{
+  protected cancelAuthModal(): void {
     this.ratingValue = undefined;
-    
+
     this.modalAuth.closeModal();
 
   }
 
+  protected toggleFavorite(): void {
+
+    if (this.movie && this.movie.user_relation) {
+      this.movie.user_relation.is_favorite = !this.movie.user_relation.is_favorite;
+
+
+      if (!this.user) {
+        this.modalAuth.openModal();
+
+      } else {
+
+        if (this.movieId) this.userService.favoriteMovie(this.movieId, this.movie.user_relation.is_favorite).subscribe({
+          next: (response: any) => {
+            console.log(response);
+
+          },
+          error: (err: any) => {
+            console.log(err);
+          }
+        })
+      }
+    }
+
+
+
+
+  }
+
+  protected toggleSeen(): void {
+
+    if (this.movie) {
+
+      if (this.movie.user_relation) {
+
+        switch (this.movie.user_relation.seen) {
+          case false:
+            this.movie.user_relation.seen = true;
+            break;
+
+          case true:
+            this.movie.user_relation.seen = null;
+            break;
+
+          default:
+            this.movie.user_relation.seen = false;
+            break;
+
+        }
+
+        const seenValue = this.movie.user_relation.seen;
+
+
+        if (this.movieId && seenValue !== undefined && typeof seenValue !== 'number') {
+          this.userService.seeMovie(this.movieId, seenValue).subscribe({
+            next: (response: any) => {
+              console.log(response);
+            },
+            error: (err: any) => {
+              console.log(err);
+            }
+          });
+        }
+
+
+      } else {
+        this.modalAuth.openModal();
+
+
+      }
+    }
+  }
 }

@@ -19,7 +19,6 @@ export class StarRatingComponent implements OnInit, OnChanges {
   private internalRating: number = 0;
 
   ngOnInit(): void {
-    console.log("internal:",this.internalRating);
 
     this.initializeStars();
     this.calculateStarSize();

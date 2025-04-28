@@ -33,5 +33,5 @@ export interface UserRelation{
   entertainment_rating: number;
   visuals_rating: number;
   is_favorite: boolean;
-  to_watch: boolean | null;
+  seen?: boolean | number | null;
 }

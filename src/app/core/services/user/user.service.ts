@@ -19,6 +19,33 @@ export class UserService {
   private _currentUser = new BehaviorSubject<BasicUser | null>(null);
   public readonly currentUser$ = this._currentUser.asObservable();
 
+  private getAuthHeaders(): { headers: HttpHeaders; userId: string } | null {
+    const token = this.tokenService.getToken();
+    if (!token) {
+      console.error('Token not found.');
+      return null;
+    }
+
+    try {
+      const decodedToken: DecodedToken = jwt_decode.jwtDecode(token);
+      const userId = decodedToken.id;
+
+      if (!userId) {
+        console.error('User ID not found in token.');
+        return null;
+      }
+
+      return {
+        headers: new HttpHeaders({
+          'Authorization': `Bearer ${token}`
+        }),
+        userId: userId
+      };
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      return null;
+    }
+  }
 
   public getUser(): void {
     if ( this._currentUser.getValue() === null) {
@@ -49,33 +76,45 @@ export class UserService {
   }
 
   public rateMovie(movieId: string, column: string, value: number): Observable<any> {
-    const token = this.tokenService.getToken();
-
-    if (!token){
-      console.error('Token not found.');
-      return of(null);
-    }
     
-    const decodedToken: DecodedToken = jwt_decode.jwtDecode(token);
-    const userId = decodedToken.id;
+    const authInfo = this.getAuthHeaders();
 
-    if (!userId) {
-      console.error('User ID not found in token.');
-      return of(null);
-    }
+    if (!authInfo) return of(null);
+    
+    const { headers, userId } = authInfo;
 
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
-
-    return this.http.post<any>(
+    return this.http.patch<any>(
       `${this.apiUrl}/usermovies/${userId}/${movieId}/rate`, 
-      { 
-        column, 
-        value 
-      }, { 
-        headers 
-      })
+      { column, value }, { headers }
+    )
+  }
+
+  public favoriteMovie(movieId: string, value: boolean): Observable<any> {
+    const authInfo = this.getAuthHeaders();
+
+    if (!authInfo) return of(null);
+    
+    const { headers, userId } = authInfo;
+
+    return this.http.patch<any>(
+      `${this.apiUrl}/usermovies/${userId}/${movieId}/favorite`, 
+      { value }, { headers }
+    )
+  }
+
+  public seeMovie(movieId: string, value: boolean | null): Observable<any> {
+    const authInfo = this.getAuthHeaders();
+
+    if (!authInfo) return of(null);
+    
+    const { headers, userId } = authInfo;
+
+    console.log("valor:",value);
+    
+    return this.http.patch<any>(
+      `${this.apiUrl}/usermovies/${userId}/${movieId}/seen`, 
+      { value }, { headers }
+    )
   }
 
 }
