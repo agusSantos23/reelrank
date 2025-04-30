@@ -47,7 +47,7 @@
   width: 100%;
   text-align: left;
   margin: 0;
-  font-size: 14px;
+  font-size: 1.1rem;
   font-weight: 500;
 }
 
@@ -55,7 +55,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 2px;
+  gap: 1px;
 }
 
 #info span svg {
@@ -70,14 +70,14 @@
 }
 
 #info-characteristics > div {
-  width: 100px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+  gap: 8px;
 }
 
 .info-data {
-  font-size: 12px;
+  font-size: 1rem;
   letter-spacing: 1px;
 }
 

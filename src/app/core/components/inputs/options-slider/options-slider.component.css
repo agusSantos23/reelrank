@@ -46,7 +46,7 @@
 #shadow-img::after {
   content: '';
   position: absolute;
-  right: 0;
+  right: -1px;
   top: -1px;
   width: 5%;
   height: 105%;
@@ -102,11 +102,11 @@
 }
  
 .btn-content > span:hover {
-  scale: 1.1;
+  transform: scale(1.1);
 }
 
 .btn-container:hover span {
-  scale: 1.1;
+  transform: scale(1.1);
 }
 
 
@@ -143,5 +143,5 @@ img{
 }
 
 .img-container:hover img {
-  transform: scale(1.1);
+  transform: scale(1.2);
 }

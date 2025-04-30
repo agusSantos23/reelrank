@@ -1,13 +1,19 @@
 import { Component, inject, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { TruncatePipe } from '../../../pipe/truncate/truncate.pipe';
+import { FormatLargeTitlePipe } from '../../../pipe/format-large-title/format-large-title.pipe';
 import { cardArrivesAnimation } from '../../../shared/directives/animations/trigger/cardArrives.animation';
 import { cardEnlarge } from '../../../shared/directives/animations/trigger/cardEnlarge.animation';
 import { MovieBasicInfo } from '../../../models/movie/MovieBasicInfo.model';
+import { ToFixedZeroPipe } from '../../../pipe/toFixedZero/to-fixed-zero.pipe';
+import { TooltipTriggerDirective } from '../../../shared/directives/functionality/tooltip-trigger/tooltip-trigger.directive';
 
 @Component({
   selector: 'app-movie-card',
-  imports: [TruncatePipe],
+  imports: [
+    FormatLargeTitlePipe,
+    ToFixedZeroPipe,
+    TooltipTriggerDirective
+  ],
   templateUrl: './movie-card.component.html',
   styleUrl: './movie-card.component.css',
   animations: [

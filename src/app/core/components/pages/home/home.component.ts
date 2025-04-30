@@ -22,6 +22,7 @@ import { ProfileAvatarComponent } from "../../ui/profile-avatar/profile-avatar.c
 import { BasicUser } from '../../../models/auth/DataUser.model';
 import { InfoMessageComponent } from '../../ui/info-message/info-message.component';
 import { LoadingSpinnerComponent } from '../../ui/loading-spinner/loading-spinner.component';
+import { TooltipTriggerDirective } from '../../../shared/directives/functionality/tooltip-trigger/tooltip-trigger.directive';
 
 @Component({
   selector: 'app-home',
@@ -38,7 +39,8 @@ import { LoadingSpinnerComponent } from '../../ui/loading-spinner/loading-spinne
     AssetCancelComponent,
     ProfileAvatarComponent,
     InfoMessageComponent,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    TooltipTriggerDirective,
 ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',

@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
   selector: 'app-btn-auth',
   imports: [],
   template: `
-    <button (click)="onAuthClick()">
+  <button (click)="onAuthClick()">
     <div [style.justifyContent]="type">
       <span>IDENTIFY</span>
 

@@ -1,4 +1,4 @@
-import { FormatLargeNumberPipe } from './format-large-number.pipe';
+import { FormatLargeNumberPipe } from "./format-large-number.pipe";
 
 describe('FormatLargeNumberPipe', () => {
   it('create an instance', () => {

@@ -22,7 +22,9 @@ div {
   transition: .3s ease-in;
 }
 
-
+path{
+  transition: .3s ease-in;
+}
 
 button:hover div {
   background-color: var(--white);

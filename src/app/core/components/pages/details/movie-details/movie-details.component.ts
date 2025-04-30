@@ -16,7 +16,7 @@ import { DatePipe, TitleCasePipe, UpperCasePipe } from '@angular/common';
 import { Header, ModalComponent } from "../../layout/modal/modal.component";
 import { StarRatingComponent } from '../../../inputs/ratings/star-rating/star-rating.component';
 import { SliderRatingComponent } from '../../../inputs/ratings/slider-rating/slider-rating.component';
-import { FormatLargeNumberPipe } from '../../../../pipe/format-large-number.pipe';
+import { FormatLargeNumberPipe } from '../../../../pipe/format-large-number/format-large-number.pipe';
 import { AdjustFontSizeDirective } from '../../../../shared/directives/functionality/adjust-font-size/adjust-font-size.directive';
 
 export type ColumnRate =
