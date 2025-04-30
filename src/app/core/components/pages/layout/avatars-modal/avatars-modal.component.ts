@@ -29,7 +29,8 @@ export class AvatarsModalComponent implements OnInit {
 
     this.sagaService.getSagas().subscribe({
       next: (sagas) => {
-        this.sagas = sagas;         
+        this.sagas = sagas;    
+        
       },
       error: (error) => {
         console.error('Error loading the sagas:', error);

@@ -1,19 +1,25 @@
 header{
+  height: 70px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 5vh;
 }
 
-#background-img {
+.background-img {
   position: absolute;
   top: 0;
   right: 0;
   height: 50vh;
   width: 100%;
   object-fit: cover;
-  object-position: center 30%;
+  object-position: center 10%;
   z-index: -5;
+}
+
+.none{
+  opacity: .2;
+  background-color: var(--black);
 }
 
 main {
@@ -144,6 +150,7 @@ h1 {
   align-items: center;
   flex-wrap: wrap;
   gap: 5px;
+  white-space: nowrap;
 }
 
 #Overview {
@@ -161,7 +168,7 @@ h1 {
 #Overview p{
   margin: 5px 10px;
   margin-right: 40px;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
 }
 
 
@@ -202,7 +209,7 @@ h1 {
 }
 
 #movie-info-container > div > div {
-  height: 25vh;
+  height: 28vh;
   display: flex;
   justify-content: space-between;
   align-items: start;

@@ -1,0 +1,11 @@
+span{
+  color: var(--orange);
+  font-size: 2.5rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  opacity: .4;
+}
+
+p{
+  font-weight: 600;
+}

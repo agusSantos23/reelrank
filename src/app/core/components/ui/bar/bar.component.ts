@@ -19,9 +19,7 @@ export class BarComponent implements OnInit, OnChanges{
 
   dynamicHeight: string = '60%'; 
 
-  ngOnInit(): void {
-    console.log(this.text);
-    
+  ngOnInit(): void {    
     if (this.text) this.setDynamicHeight(this.text?.length);      
     
   }
@@ -44,9 +42,6 @@ export class BarComponent implements OnInit, OnChanges{
       this.dynamicHeight = '70%';
     } else {
       this.dynamicHeight = '60%'
-    }
-
-    console.log(this.dynamicHeight);
-    
+    }    
   }
 }

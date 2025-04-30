@@ -116,7 +116,7 @@
       <article>
 
         <h2>Overview</h2>
-        <p>
+        <p appAdjustFontSize [appAdjustFontSize]="movie?.overview" [longTextSize]="'0.9em'">
           @if (movie?.overview) {
           {{ movie?.overview }}
           }@else {
@@ -189,8 +189,13 @@
 
 </main>
 
+@if (movie?.backdrop_id) {
+  <img class="background-img" src="https://i.ibb.co/{{ movie?.backdrop_id }}/image.png" alt="{{ movie?.title }}">
 
-<img id="background-img" src="https://i.ibb.co/{{ movie?.backdrop_id }}/image.png" alt="{{ movie?.title }}">
+}@else {
+  <div class="background-img none"></div>
+}
+
 
 
 <app-modal #modalAuth [header]="headerModal" [padding]="30" width="70vw">

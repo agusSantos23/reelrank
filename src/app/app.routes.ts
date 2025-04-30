@@ -12,6 +12,6 @@ export const routes: Routes = [
   { path: 'details/movie/:id', component: MovieDetailsComponent },
   { path: 'auth/login', component: LoginComponent },
   { path: 'auth/register', component: RegisterComponent },
-  { path: '**', component: NotFoundComponent }
-
+  { path: 'not-found', component: NotFoundComponent},
+  { path: '**', component: NotFoundComponent },
 ];

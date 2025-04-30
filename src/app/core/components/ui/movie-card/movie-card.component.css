@@ -1,4 +1,5 @@
-#container {
+:host {
+  height: 430px;
   display: flex;
   justify-content: end;
   align-items: center;

@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MovieService } from '../../../../services/movie/movie.service';
 import { Movie } from '../../../../models/movie/Movie.model';
 import { BtnIconComponent } from "../../../inputs/buttons/btn-icon/btn-icon.component";
@@ -17,6 +17,7 @@ import { Header, ModalComponent } from "../../layout/modal/modal.component";
 import { StarRatingComponent } from '../../../inputs/ratings/star-rating/star-rating.component';
 import { SliderRatingComponent } from '../../../inputs/ratings/slider-rating/slider-rating.component';
 import { FormatLargeNumberPipe } from '../../../../pipe/format-large-number.pipe';
+import { AdjustFontSizeDirective } from '../../../../shared/directives/functionality/adjust-font-size/adjust-font-size.directive';
 
 export type ColumnRate =
   | 'rating'
@@ -44,14 +45,16 @@ export type ColumnRate =
     ModalComponent,
     UpperCasePipe,
     FormatLargeNumberPipe,
-    TitleCasePipe
+    TitleCasePipe,
+    AdjustFontSizeDirective
   ],
   templateUrl: './movie-details.component.html',
   styleUrl: './movie-details.component.css'
 })
 export class MovieDetailsComponent implements OnInit {
   private userService = inject(UserService);
-  private route = inject(ActivatedRoute);
+  private router = inject(Router)
+  private activateRoute = inject(ActivatedRoute);
   private movieService = inject(MovieService);
 
   @ViewChild('modalAuth') modalAuth!: ModalComponent;
@@ -79,9 +82,13 @@ export class MovieDetailsComponent implements OnInit {
 
 
   private loadMovie(): void {
-    this.movieId = this.route.snapshot.paramMap.get('id') || undefined;
+    this.movieId = this.activateRoute.snapshot.paramMap.get('id') || undefined;
 
     if (this.movieId) {
+      if (!this.isValidUuid(this.movieId)) {
+        this.router.navigate(['not-found']);
+        return;
+      }
 
       if (this.user) {
 
@@ -94,19 +101,21 @@ export class MovieDetailsComponent implements OnInit {
             
           },
           error: (error) => {
+            this.router.navigate(['not-found']);
             console.error('Error obtaining more films:', error);
           }
+
         })
 
       } else {
 
         this.movieService.getMovie(this.movieId).subscribe({
           next: (data: Movie) => {
-            console.log(data);
 
             this.movie = data;
           },
           error: (error) => {
+            this.router.navigate(['not-found']);
             console.error('Error obtaining more films:', error);
           }
         })
@@ -125,14 +134,13 @@ export class MovieDetailsComponent implements OnInit {
 
     });
 
-    if (this.user) {
-      // Asignar valor de la puntuacion del usuario
-      //this.ratingValue =
-    }
-
-    console.log(this.user);
-
   }
+
+  private isValidUuid(uuid: string): boolean {
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+    return uuidRegex.test(uuid);
+  }
+
 
   protected receiveRating(value: number, column: ColumnRate): void {
     this.ratingValue = value;

@@ -72,6 +72,14 @@ main > header > app-bar {
 }
 
 
+.full-col{
+  grid-column: 1 / -1;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 
 /* Phone */
 @media (max-width: 768px) {

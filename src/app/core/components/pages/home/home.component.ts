@@ -20,6 +20,8 @@ import { MovieCardComponent } from '../../ui/movie-card/movie-card.component';
 import { UserService } from '../../../services/user/user.service';
 import { ProfileAvatarComponent } from "../../ui/profile-avatar/profile-avatar.component";
 import { BasicUser } from '../../../models/auth/DataUser.model';
+import { InfoMessageComponent } from '../../ui/info-message/info-message.component';
+import { LoadingSpinnerComponent } from '../../ui/loading-spinner/loading-spinner.component';
 
 @Component({
   selector: 'app-home',
@@ -34,7 +36,9 @@ import { BasicUser } from '../../../models/auth/DataUser.model';
     UpwardComponent,
     BtnIconComponent,
     AssetCancelComponent,
-    ProfileAvatarComponent
+    ProfileAvatarComponent,
+    InfoMessageComponent,
+    LoadingSpinnerComponent
 ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
@@ -81,6 +85,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   private page = 1;
   protected limit = 20;
   protected loading = false;
+  private timeLoading = 1000;
   protected allDataLoaded = false;
 
 
@@ -88,8 +93,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.loadMoreMovies();
     this.checkScreenSize();
     this.loadDataUser();
-
-    
   }
 
   ngOnDestroy(): void {
@@ -136,22 +139,22 @@ export class HomeComponent implements OnInit, OnDestroy {
     const activeGenreIds = this.activeGenres.map(genre => genre.id);
 
     this.movieService.getMovies(this.page, this.limit, activeGenreIds, this.orderBy, this.searchTerm).subscribe({
-      next: (data: MovieBasicInfo[]) => {        
-        if (data.length === 0) {
-          this.allDataLoaded = true;
+      next: (data: MovieBasicInfo[]) => { 
 
-        } else {
+        setTimeout(() => {
+          this.loading = false; 
 
-          const newMovies = data.filter(newMovie => {
-            return !this.movies.some(existingMovie => existingMovie.id === newMovie.id);
-          });
-
-          this.movies = [...this.movies, ...newMovies];
-          this.page++;
-          if (data.length < this.limit) this.allDataLoaded = true;
-        }
-
-        this.loading = false;
+          if (data.length === 0) {
+            this.allDataLoaded = true;
+          } else {
+            const newMovies = data.filter(newMovie => {
+              return !this.movies.some(existingMovie => existingMovie.id === newMovie.id);
+            });
+            this.movies = [...this.movies, ...newMovies];
+            this.page++;
+            if (data.length < this.limit) this.allDataLoaded = true;
+          }
+        }, this.timeLoading); 
       },
       error: (error) => {
         console.error('Error obtaining more films:', error);

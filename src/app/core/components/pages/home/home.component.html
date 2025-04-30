@@ -2,11 +2,11 @@
   <app-title-page section="movies" />
 
   @if (user) {
-    <app-profile-avatar [isMenu]="true" [posterUrl]="user.avatar?.image_id"/>
+  <app-profile-avatar [isMenu]="true" [posterUrl]="user.avatar?.image_id" />
   } @else {
-    <app-btn-auth />
+  <app-btn-auth />
   }
-  
+
 </header>
 <main>
   @if (isMobile) {
@@ -29,9 +29,9 @@
           @for (activeGenre of activeGenres; track activeGenre.id) {
             <app-asset-cancel [data]="activeGenre" (cancelEmitter)="onCancelGender($event)" />
           }
-  
-          @if (activeGenres.length < 3) {
-            @if (showSlider) {
+
+          @if (activeGenres.length < 3) { 
+            @if (showSlider) { 
               <div id="possible-genre" (click)="showSlider = false">
                 <div>
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -48,7 +48,7 @@
             }
           }
         </div>
-        
+
       </div>
       <app-search (searchSubmitted)="onSearch($event)" />
     </div>
@@ -56,23 +56,31 @@
     @if (showSlider) {
       <app-options-slider [options]="possibleGenres" (optionEmitter)="onNewGenderSearch($event)" />
     }
+
     <app-bar width="100%" height="5px" />
   </header>
   }
 
-  <div id="list-movies" #listMoviesContainer>
+  <div #listMoviesContainer id="list-movies">
     @for (movie of movies; track movie.id; let i = $index) {
       <app-movie-card [delay]="i % limit" [movie]="movie" />
     }@empty {
-      
+      @if (!loading) {
+        <div class="full-col">
+          <app-info-message text="The database did not return any items." [code]="404" />
+        </div>
+      }
     }
+    
+
+    @if (loading) {
+      <div class="full-col">
+        <app-loading-spinner />
+      </div>
+    }
+    
   </div>
 
-  @if (loading) {
-    <div>
-      Cargando más películas...
-    </div>
-    }
 </main>
 
 <app-upward></app-upward>
