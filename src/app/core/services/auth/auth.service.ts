@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
-import { BasicUser, LoginUser, RegisterUser } from '../../models/auth/DataUser.model';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { LoginUser, RegisterUser } from '../../models/auth/DataUser.model';
+import { Observable, tap } from 'rxjs';
 import { TokenServiceService } from '../token-service/token-service.service';
 import { HttpClient } from '@angular/common/http';
 import { UserService } from '../user/user.service';
