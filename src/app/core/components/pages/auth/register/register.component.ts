@@ -1,5 +1,5 @@
 import { Component, inject, ViewChild } from '@angular/core';
-import { DataLink, TitleAuthComponent } from "../../../ui/title-auth/title-auth.component";
+import { DataLink, TitleLinkComponent } from "../../../ui/title-link/title-link.component";
 import { Router } from '@angular/router';
 import { AvatarsModalComponent } from "../../layout/avatars-modal/avatars-modal.component";
 import { AbstractControlOptions, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -17,7 +17,7 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-register',
   imports: [
-    TitleAuthComponent,
+    TitleLinkComponent,
     ReactiveFormsModule,
     AvatarsModalComponent,
     InfoInputComponent,

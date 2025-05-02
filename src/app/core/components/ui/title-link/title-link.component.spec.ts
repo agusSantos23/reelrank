@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NotFoundComponent } from './not-found.component';
+import { TitleAuthComponent } from './title-link.component';
 
-describe('NotFoundComponent', () => {
-  let component: NotFoundComponent;
-  let fixture: ComponentFixture<NotFoundComponent>;
+describe('TitleAuthComponent', () => {
+  let component: TitleAuthComponent;
+  let fixture: ComponentFixture<TitleAuthComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NotFoundComponent]
+      imports: [TitleAuthComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(NotFoundComponent);
+    fixture = TestBed.createComponent(TitleAuthComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { DataLink, TitleAuthComponent } from "../../../ui/title-auth/title-auth.component";
+import { DataLink, TitleLinkComponent } from "../../../ui/title-link/title-link.component";
 import { ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CustomValidators } from '../../../../shared/validators/custom-validators';
 import { FloatingLabelDirective } from '../../../../shared/directives/animations/floating-label/floating-label.directive';
@@ -12,13 +12,13 @@ import { AuthService } from '../../../../services/auth/auth.service';
 @Component({
   selector: 'app-login',
   imports: [
-    TitleAuthComponent,
+    TitleLinkComponent,
     ReactiveFormsModule,
     FloatingLabelDirective,
     FocusInputDirective,
     InfoInputComponent,
     ViewInputComponent
-],
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })

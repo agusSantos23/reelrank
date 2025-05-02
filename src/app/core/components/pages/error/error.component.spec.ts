@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TitleAuthComponent } from './title-auth.component';
+import { ErrorComponent } from './error.component';
 
-describe('TitleAuthComponent', () => {
-  let component: TitleAuthComponent;
-  let fixture: ComponentFixture<TitleAuthComponent>;
+describe('ErrorComponent', () => {
+  let component: ErrorComponent;
+  let fixture: ComponentFixture<ErrorComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TitleAuthComponent]
+      imports: [ErrorComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(TitleAuthComponent);
+    fixture = TestBed.createComponent(ErrorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

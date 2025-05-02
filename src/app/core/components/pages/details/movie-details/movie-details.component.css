@@ -33,12 +33,10 @@ main {
 main > :first-child { 
   grid-column-start: 1;
   grid-column-end: 4;
-  margin-top: 50px;
 
 }
 
 main > :last-child {
-
   display: flex;
   justify-content: end;
   align-items: end;
@@ -187,6 +185,7 @@ h1 {
   justify-content: center;
   align-items: center;
   padding: 5px;
+  margin-bottom: 50px;
   border-radius: 5px;
   background: var(--black);
 }

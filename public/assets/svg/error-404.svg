@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="143.79295mm"
+   height="48.320114mm"
+   viewBox="0 0 143.79295 48.320114"
+   version="1.1"
+   id="svg5"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs2">
+    <linearGradient
+       id="linearGradient988">
+      <stop
+         style="stop-color:#edaf32;stop-opacity:1;"
+         offset="0"
+         id="stop984" />
+      <stop
+         style="stop-color:#d15722;stop-opacity:1;"
+         offset="0.20999999"
+         id="stop994" />
+      <stop
+         style="stop-color:#c22f06;stop-opacity:1;"
+         offset="0.37"
+         id="stop992" />
+      <stop
+         style="stop-color:#7d1b0c;stop-opacity:1;"
+         offset="0.60000002"
+         id="stop996" />
+      <stop
+         style="stop-color:#521316;stop-opacity:1;"
+         offset="0.81999999"
+         id="stop998" />
+      <stop
+         style="stop-color:#331911;stop-opacity:1;"
+         offset="1"
+         id="stop986" />
+    </linearGradient>
+    <rect
+       x="197.17773"
+       y="390.19492"
+       width="208.69495"
+       height="77.727226"
+       id="rect236" />
+    <rect
+       x="197.17773"
+       y="390.19492"
+       width="208.69495"
+       height="77.727226"
+       id="rect402" />
+    <linearGradient
+       xlink:href="#linearGradient988"
+       id="linearGradient990"
+       x1="199.6524"
+       y1="428.09128"
+       x2="253.75371"
+       y2="428.09128"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       xlink:href="#linearGradient988"
+       id="linearGradient2464"
+       gradientUnits="userSpaceOnUse"
+       x1="199.6524"
+       y1="428.09128"
+       x2="253.75371"
+       y2="428.09128" />
+  </defs>
+  <g
+     id="layer1"
+     transform="translate(-35.36052,-96.108808)">
+    <g
+       aria-label="404"
+       transform="matrix(0.72527025,0,0,0.72527025,-109.07009,-188.70459)"
+       id="text234"
+       style="font-size:85.3333px;line-height:0;font-family:Montserrat;-inkscape-font-specification:'Montserrat, @wght=900';font-variation-settings:'wght' 900;letter-spacing:10px;word-spacing:0px;white-space:pre;shape-inside:url(#rect236)">
+      <path
+         d="m 199.1404,447.71794 v -12.8 l 25.34399,-36.69332 h 20.65066 l -24.40533,36.69332 -9.38666,-2.816 h 46.25065 v 15.616 z m 30.97599,10.23999 v -10.23999 l 0.59733,-15.616 v -9.13066 h 18.94399 v 34.98665 z"
+         style="line-height:1"
+         id="path316" />
+      <path
+         d="m 297.46035,459.32326 q -7.936,0 -14.08,-3.66933 -6.05866,-3.66933 -9.55732,-10.66666 -3.41334,-6.99733 -3.41334,-16.89599 0,-9.89867 3.41334,-16.896 3.49866,-6.99733 9.55732,-10.66666 6.144,-3.66933 14.08,-3.66933 7.936,0 13.99466,3.66933 6.144,3.66933 9.55733,10.66666 3.49866,6.99733 3.49866,16.896 0,9.89866 -3.49866,16.89599 -3.41333,6.99733 -9.55733,10.66666 -6.05866,3.66933 -13.99466,3.66933 z m 0,-16.12799 q 1.96266,0 3.49866,-1.36533 1.536,-1.36533 2.38934,-4.69333 0.93866,-3.328 0.93866,-9.04533 0,-5.80267 -0.93866,-9.04533 -0.85334,-3.328 -2.38934,-4.69333 -1.536,-1.36534 -3.49866,-1.36534 -1.96267,0 -3.49867,1.36534 -1.536,1.36533 -2.47466,4.69333 -0.85333,3.24266 -0.85333,9.04533 0,5.71733 0.85333,9.04533 0.93866,3.328 2.47466,4.69333 1.536,1.36533 3.49867,1.36533 z"
+         style="line-height:1"
+         id="path318" />
+      <path
+         d="m 338.94829,447.71794 v -12.8 l 25.34399,-36.69332 h 20.65066 l -24.40532,36.69332 -9.38667,-2.816 h 46.25065 v 15.616 z m 30.97599,10.23999 v -10.23999 l 0.59733,-15.616 v -9.13066 h 18.94399 v 34.98665 z"
+         style="line-height:1"
+         id="path320" />
+    </g>
+    <g
+       aria-label="0"
+       transform="matrix(0.72527025,0,0,0.72527025,-60.179475,-191.72143)"
+       id="text400"
+       style="font-size:85.3333px;line-height:0;font-family:Montserrat;-inkscape-font-specification:'Montserrat, @wght=900';font-variation-settings:'wght' 900;letter-spacing:10px;word-spacing:0px;white-space:pre;shape-inside:url(#rect402);fill:url(#linearGradient990);fill-opacity:1;stroke:none;stroke-opacity:1">
+      <path
+         d="m 226.70306,459.32326 q -7.936,0 -14.08,-3.66933 -6.05866,-3.66933 -9.55733,-10.66666 -3.41333,-6.99733 -3.41333,-16.89599 0,-9.89867 3.41333,-16.896 3.49867,-6.99733 9.55733,-10.66666 6.144,-3.66933 14.08,-3.66933 7.93599,0 13.99466,3.66933 6.14399,3.66933 9.55733,10.66666 3.49866,6.99733 3.49866,16.896 0,9.89866 -3.49866,16.89599 -3.41334,6.99733 -9.55733,10.66666 -6.05867,3.66933 -13.99466,3.66933 z m 0,-16.12799 q 1.96266,0 3.49866,-1.36533 1.536,-1.36533 2.38933,-4.69333 0.93867,-3.328 0.93867,-9.04533 0,-5.80267 -0.93867,-9.04533 -0.85333,-3.328 -2.38933,-4.69333 -1.536,-1.36534 -3.49866,-1.36534 -1.96267,0 -3.49867,1.36534 -1.536,1.36533 -2.47467,4.69333 -0.85333,3.24266 -0.85333,9.04533 0,5.71733 0.85333,9.04533 0.93867,3.328 2.47467,4.69333 1.536,1.36533 3.49867,1.36533 z"
+         style="line-height:1;fill:url(#linearGradient2464);fill-opacity:1;stroke:none;stroke-opacity:1"
+         id="path404" />
+    </g>
+  </g>
+</svg>

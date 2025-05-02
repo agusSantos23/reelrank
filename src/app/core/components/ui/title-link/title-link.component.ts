@@ -9,7 +9,7 @@ export interface DataLink{
 }
 
 @Component({
-  selector: 'app-title-auth',
+  selector: 'app-title-link',
   imports: [UpperCasePipe],
   template: `
     <header>
@@ -25,9 +25,9 @@ export interface DataLink{
       }
     </header>
   `,
-  styleUrl: './title-auth.component.css'
+  styleUrl: './title-link.component.css'
 })
-export class TitleAuthComponent {
+export class TitleLinkComponent {
   private router = inject(Router);
 
   @Input() namePage: string = 'none';
