@@ -1,11 +1,11 @@
-import { Directive, ElementRef, HostListener, Input, ViewContainerRef, ComponentRef, EmbeddedViewRef, inject } from '@angular/core';
+import { Directive, ElementRef, HostListener, Input, ViewContainerRef, ComponentRef, EmbeddedViewRef, inject, SimpleChanges, OnChanges, } from '@angular/core';
 import { TooltipComponent } from '../../../../components/ui/tooltip/tooltip.component';
 
 @Directive({
   selector: '[appTooltipTrigger]',
   standalone: true
 })
-export class TooltipTriggerDirective {
+export class TooltipTriggerDirective implements OnChanges{
   private el = inject(ElementRef);
   private viewContainerRef = inject(ViewContainerRef);
 
@@ -13,6 +13,12 @@ export class TooltipTriggerDirective {
   @Input() tooltipPosition: 'top' | 'bottom' | 'left' | 'right' = 'bottom';
 
   private tooltipComponentRef: ComponentRef<TooltipComponent> | null = null;
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['tooltipText'] && this.tooltipComponentRef) {
+      this.tooltipComponentRef.instance.text = this.tooltipText;
+    }
+  }
 
   @HostListener('mouseenter') onMouseEnter(): void {
     if (!this.tooltipComponentRef) this.showTooltip();
@@ -26,10 +32,9 @@ export class TooltipTriggerDirective {
 
   private showTooltip(): void {
     this.tooltipComponentRef = this.viewContainerRef.createComponent(TooltipComponent);
-
+    
     this.tooltipComponentRef.instance.text = this.tooltipText;
     this.setPosition();
-      
   }
 
   private hideTooltip(): void {

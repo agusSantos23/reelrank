@@ -1,7 +1,6 @@
 import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MovieService } from '../../../../services/movie/movie.service';
-import { Movie } from '../../../../models/movie/Movie.model';
 import { BtnIconComponent } from "../../../inputs/buttons/btn-icon/btn-icon.component";
 import { FormatDatePipe } from '../../../../pipe/format-date/format-date.pipe';
 import { BarComponent } from "../../../ui/bar/bar.component";
@@ -18,6 +17,9 @@ import { StarRatingComponent } from '../../../inputs/ratings/star-rating/star-ra
 import { SliderRatingComponent } from '../../../inputs/ratings/slider-rating/slider-rating.component';
 import { FormatLargeNumberPipe } from '../../../../pipe/format-large-number/format-large-number.pipe';
 import { AdjustFontSizeDirective } from '../../../../shared/directives/functionality/adjust-font-size/adjust-font-size.directive';
+import { Movie } from '../../../../models/movie/Movie.model';
+import { ToFixedZeroPipe } from '../../../../pipe/toFixedZero/to-fixed-zero.pipe';
+import { TooltipTriggerDirective } from '../../../../shared/directives/functionality/tooltip-trigger/tooltip-trigger.directive';
 
 export type ColumnRate =
   | 'rating'
@@ -46,7 +48,9 @@ export type ColumnRate =
     UpperCasePipe,
     FormatLargeNumberPipe,
     TitleCasePipe,
-    AdjustFontSizeDirective
+    AdjustFontSizeDirective,
+    ToFixedZeroPipe,
+    TooltipTriggerDirective
   ],
   templateUrl: './movie-details.component.html',
   styleUrl: './movie-details.component.css'
@@ -65,6 +69,7 @@ export class MovieDetailsComponent implements OnInit {
   protected movieId?: string;
   protected movie?: Movie;
   protected ratingValue?: number;
+  protected seeMovieTooltipText: string = 'Add See';
 
   protected headerModal: Header = {
     title: 'WHO ARE YOU?',
@@ -86,22 +91,37 @@ export class MovieDetailsComponent implements OnInit {
 
     if (this.movieId) {
       if (!this.isValidUuid(this.movieId)) {
-        this.router.navigate(['not-found']);
+        this.router.navigate(['error/404']);
         return;
       }
 
       if (this.user) {
-
+        
         this.movieService.getUserMovie(this.movieId, this.user.id).subscribe({
           next: (data: Movie) => {
             console.log(data);
 
             this.movie = data;
             this.ratingValue = data.user_relation.rating;
+            console.log( this.movie.user_relation.seen);
             
+            switch(this.movie.user_relation.seen){
+
+              case true:
+                this.seeMovieTooltipText = 'Remove of List';
+                break;
+
+              case false:
+                this.seeMovieTooltipText = 'Add to Seen';
+                break;
+
+              default:
+              this.seeMovieTooltipText = 'Add to See';
+            }
+
           },
-          error: (error) => {
-            this.router.navigate(['not-found']);
+          error: (error) => {            
+            this.router.navigate(['error/404']);
             console.error('Error obtaining more films:', error);
           }
 
@@ -115,7 +135,7 @@ export class MovieDetailsComponent implements OnInit {
             this.movie = data;
           },
           error: (error) => {
-            this.router.navigate(['not-found']);
+            this.router.navigate(['error/404']);
             console.error('Error obtaining more films:', error);
           }
         })
@@ -173,29 +193,36 @@ export class MovieDetailsComponent implements OnInit {
 
   protected toggleFavorite(): void {
 
-    if (this.movie && this.movie.user_relation) {
-      this.movie.user_relation.is_favorite = !this.movie.user_relation.is_favorite;
+    if (this.movie) {
+
+      if (this.movie.user_relation) {
+
+        if (this.movie && this.movie.user_relation) {
+          this.movie.user_relation.is_favorite = !this.movie.user_relation.is_favorite;
 
 
-      if (!this.user) {
-        this.modalAuth.openModal();
+          if (!this.user) {
+            this.modalAuth.openModal();
+
+          } else {
+
+            if (this.movieId) this.userService.favoriteMovie(this.movieId, this.movie.user_relation.is_favorite).subscribe({
+              next: (response: any) => {
+                console.log(response);
+
+              },
+              error: (err: any) => {
+                console.log(err);
+              }
+            })
+          }
+        }
 
       } else {
+        this.modalAuth.openModal();
 
-        if (this.movieId) this.userService.favoriteMovie(this.movieId, this.movie.user_relation.is_favorite).subscribe({
-          next: (response: any) => {
-            console.log(response);
-
-          },
-          error: (err: any) => {
-            console.log(err);
-          }
-        })
       }
     }
-
-
-
 
   }
 
@@ -227,6 +254,20 @@ export class MovieDetailsComponent implements OnInit {
           this.userService.seeMovie(this.movieId, seenValue).subscribe({
             next: (response: any) => {
               console.log(response);
+              switch(seenValue){
+
+                case true:
+                  this.seeMovieTooltipText = 'Remove of List';
+                  break;
+  
+                case false:
+                  this.seeMovieTooltipText = 'Add to Seen';
+                  break;
+  
+                default:
+                  this.seeMovieTooltipText = 'Add to See';
+              }
+
             },
             error: (err: any) => {
               console.log(err);

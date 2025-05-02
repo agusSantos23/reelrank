@@ -3,9 +3,9 @@ import { Router } from '@angular/router';
 import { FormatLargeTitlePipe } from '../../../pipe/format-large-title/format-large-title.pipe';
 import { cardArrivesAnimation } from '../../../shared/directives/animations/trigger/cardArrives.animation';
 import { cardEnlarge } from '../../../shared/directives/animations/trigger/cardEnlarge.animation';
-import { MovieBasicInfo } from '../../../models/movie/MovieBasicInfo.model';
 import { ToFixedZeroPipe } from '../../../pipe/toFixedZero/to-fixed-zero.pipe';
 import { TooltipTriggerDirective } from '../../../shared/directives/functionality/tooltip-trigger/tooltip-trigger.directive';
+import { MovieBasicInfo } from '../../../models/movie/MovieBasicInfo.model';
 
 @Component({
   selector: 'app-movie-card',

@@ -71,14 +71,11 @@ main > :last-child {
 
 #toggle-star {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: -15px;
+  right: -15px;
   cursor: pointer;
 }
 
-#toggle-star > svg {
-  fill: var(--orange);
-}
 
 #basic-presentation > section {
   height: 20vh;
@@ -103,6 +100,7 @@ h1 {
 
 #movie-title > h3 {
   margin: 0;
+  margin-left: 2px;
   font-size: 1rem;
 }
 
@@ -116,7 +114,7 @@ h1 {
 
 #basic-info-container {
   min-width: 250px;
-  height: 40px;
+  height: 30px;
   padding: 5px;
   border-radius: 5px;
   background-color: var(--black);
@@ -128,7 +126,7 @@ h1 {
   justify-content: space-between;
   align-items: center;
   gap: 5px;
-  padding: 0 10px;
+  padding: 0 5px;
   border-radius: 5px;
   background-color: var(--white);
 }
@@ -140,6 +138,7 @@ h1 {
   align-items: center;
   gap: 5px;
 }
+
 
 
 #genres {
@@ -226,6 +225,7 @@ h1 {
 .movie-info > span {
   margin-left: 10px;
 }
+
 
 
 #modal-auth-content {

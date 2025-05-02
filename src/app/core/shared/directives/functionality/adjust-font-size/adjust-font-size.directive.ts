@@ -1,10 +1,10 @@
-import { Directive, ElementRef, Input, AfterViewInit, Renderer2, inject } from '@angular/core';
+import { Directive, ElementRef, Input, AfterViewInit, Renderer2, OnChanges, SimpleChanges, inject } from '@angular/core';
 
 @Directive({
   selector: '[appAdjustFontSize]',
   standalone: true
 })
-export class AdjustFontSizeDirective implements AfterViewInit {
+export class AdjustFontSizeDirective implements AfterViewInit, OnChanges {
   private el = inject(ElementRef);
   private renderer = inject(Renderer2);
 
@@ -15,17 +15,25 @@ export class AdjustFontSizeDirective implements AfterViewInit {
   @Input() mediumTextSize: string = '0.9em';
   @Input() defaultTextSize: string = '1.2em';
 
-  ngAfterViewInit(): void {    
-    if (!this.text) return 
+  ngAfterViewInit(): void {
+    this.adjustFontSize();
+  }
 
-    const TextLength = this.text.trim().length;
-    
-    if (TextLength > this.longTextThreshold) {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['text']) {
+      this.adjustFontSize();
+    }
+  }
+
+  private adjustFontSize(): void {
+    if (!this.text) return;
+
+    const textLength = this.text.trim().length;
+
+    if (textLength > this.longTextThreshold) {
       this.renderer.setStyle(this.el.nativeElement, 'font-size', this.longTextSize);
-
-    } else if (TextLength > this.mediumTextThreshold) {
+    } else if (textLength > this.mediumTextThreshold) {
       this.renderer.setStyle(this.el.nativeElement, 'font-size', this.mediumTextSize);
-
     } else {
       this.renderer.setStyle(this.el.nativeElement, 'font-size', this.defaultTextSize);
     }
