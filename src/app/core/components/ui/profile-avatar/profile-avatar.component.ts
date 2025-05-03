@@ -2,6 +2,7 @@ import { UpperCasePipe } from '@angular/common';
 import { Component, ElementRef, EventEmitter, HostListener, inject, Input, Output, ViewChild } from '@angular/core';
 import { AuthService } from '../../../services/auth/auth.service';
 import { ClickOutSideDirective } from '../../../shared/directives/functionality/click-out-side/click-out-side.directive';
+import { NotificationService } from '../../../services/notification/notification.service';
 
 @Component({
   selector: 'app-profile-avatar',
@@ -11,6 +12,7 @@ import { ClickOutSideDirective } from '../../../shared/directives/functionality/
 })
 export class ProfileAvatarComponent {
   private authService = inject(AuthService);
+  private notificationService = inject(NotificationService);
 
   @Input() posterUrl?: string;
   @Input() name?: string;
@@ -41,8 +43,28 @@ export class ProfileAvatarComponent {
   }
 
   protected logout(): void{    
-    this.authService.logout();
-    this.showModal = false;
+    try {
+      this.authService.logout();
+      this.showModal = false;
+
+      this.notificationService.show({
+        type: 'text',
+        isError: false,
+        text: 'The session has been successfully closed.',
+        position: 'tr',
+        duration: 5000
+      })
+
+    } catch (error) {
+      this.notificationService.show({
+        type: 'text',
+        isError: true,
+        text: 'Error logging out',
+        position: 'tr',
+        duration: 5000
+      })
+    }
+    
   }
 
 }

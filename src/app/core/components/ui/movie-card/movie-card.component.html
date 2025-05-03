@@ -1,8 +1,12 @@
-  <div (click)="onMovieClick()" [@cardArrives]="arrivesState" id="background-img">
+  <div 
+    (click)="onMovieClick()" 
+    [@cardArrives]="arrivesState" 
+    id="background-img"
+    (mouseenter)="zoomState = 'hovered'" 
+    (mouseleave)="zoomState = 'normal'" >
     <img 
       [@zoom]="zoomState" 
-      (mouseenter)="zoomState = 'hovered'" 
-      (mouseleave)="zoomState = 'normal'" 
+      
       src="https://i.ibb.co/{{ movie.posterId }}/image.webp" 
       alt="{{ movie.title }}"
       >

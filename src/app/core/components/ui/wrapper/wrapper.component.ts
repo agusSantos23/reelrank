@@ -16,6 +16,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
       [style.borderRadius.px]="borderRadius"
       [class.black-container]="containerColor === 'b'"
       [class.gradient-container]="containerColor === 'g'"
+      [class.error-container]="containerColor === 'e'"
       [class.zoom-on-hover]="animation === 'zoom'">
 
       <div
@@ -52,7 +53,7 @@ export class WrapperComponent implements OnInit {
   @Input() containerPading: number = 5;
   @Input() contentPading: number | [number, number] = 10;
   @Input() borderRadius: number = 5;
-  @Input() containerColor: 'b' | 'g' = 'b';
+  @Input() containerColor: 'b' | 'g' | 'e' = 'b';
   @Input() cursor: 'po' | 'di' | 'de' = 'de';
   @Input() flex?: ['center' | 'start' | 'end', string];
   @Input() contentText: [string | number | undefined, string | undefined, 'center' | 'right' | 'left' | undefined, string | undefined] = [undefined, undefined, undefined, undefined];

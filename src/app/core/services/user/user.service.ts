@@ -108,8 +108,6 @@ export class UserService {
     if (!authInfo) return of(null);
     
     const { headers, userId } = authInfo;
-
-    console.log("valor:",value);
     
     return this.http.patch<any>(
       `${this.apiUrl}/usermovies/${userId}/${movieId}/seen`, 

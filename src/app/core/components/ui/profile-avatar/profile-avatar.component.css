@@ -19,7 +19,7 @@
   align-items: center;
   border-radius: 10px;
   background-image: var(--gradient);
-  transition: .2s ease-in-out;
+  transition: .1s ease-in-out;
 }
 
 
@@ -28,6 +28,7 @@
   height: 60px;
   border-radius: 10px;
   object-fit: cover;
+  transition: .3s ease-in;
 }
 
 #svg-delete-avatar {
@@ -44,7 +45,7 @@
 }
 
 #profile-container:hover  #img-content, #profile-container:hover  #svg-profile {
-  transform: scale(.8);
+  transform: scale(.9);
 }
 
 

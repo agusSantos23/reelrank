@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { InfoInputComponent } from "../../../inputs/info-input/info-input.component";
 import { ViewInputComponent } from "../../../inputs/view-input/view-input.component";
 import { AuthService } from '../../../../services/auth/auth.service';
+import { NotificationService } from '../../../../services/notification/notification.service';
 
 @Component({
   selector: 'app-login',
@@ -25,6 +26,7 @@ import { AuthService } from '../../../../services/auth/auth.service';
 export class LoginComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
+  private notificationService = inject(NotificationService);
 
   protected form = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -69,8 +71,17 @@ export class LoginComponent {
 
       this.authService.login(this.form.value).subscribe({
         next: () => {
+          this.notificationService.show({
+            type: 'timeline',
+            isError: false,
+            text: 'Redirecting to the main page...',
+            position: 'tr',
+            duration: 3000
+          });          
 
-          this.router.navigate(['']); 
+          setTimeout(() => {
+            this.router.navigate(['']); 
+          }, 3000);
         },
         error: (error) => {
           if (error.status === 422 || error.status === 401) {
@@ -78,6 +89,14 @@ export class LoginComponent {
             this.generalErrors = []; 
             this.generalErrors.push(error.error.error);
             
+            this.notificationService.show({
+              type: 'text',
+              isError: true,
+              text: 'Error logging in',
+              position: 'tr',
+              duration: 5000
+            })
+
           } else {
             console.error('Error:', error);
           }

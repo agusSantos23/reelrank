@@ -25,6 +25,10 @@ button{
   background-image: var(--gradient);
 }
 
+.error-container{
+  background-color: var(--red);
+}
+
 
 .white-content{
   background-color: var(--white);

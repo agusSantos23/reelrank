@@ -20,6 +20,7 @@ import { AdjustFontSizeDirective } from '../../../../shared/directives/functiona
 import { Movie } from '../../../../models/movie/Movie.model';
 import { ToFixedZeroPipe } from '../../../../pipe/toFixedZero/to-fixed-zero.pipe';
 import { TooltipTriggerDirective } from '../../../../shared/directives/functionality/tooltip-trigger/tooltip-trigger.directive';
+import { NotificationService } from '../../../../services/notification/notification.service';
 
 export type ColumnRate =
   | 'rating'
@@ -60,6 +61,7 @@ export class MovieDetailsComponent implements OnInit {
   private router = inject(Router)
   private activateRoute = inject(ActivatedRoute);
   private movieService = inject(MovieService);
+  private notificationService = inject(NotificationService)
 
   @ViewChild('modalAuth') modalAuth!: ModalComponent;
 
@@ -85,7 +87,6 @@ export class MovieDetailsComponent implements OnInit {
     if (this.userSubscription) this.userSubscription.unsubscribe();
   }
 
-
   private loadMovie(): void {
     this.movieId = this.activateRoute.snapshot.paramMap.get('id') || undefined;
 
@@ -103,7 +104,6 @@ export class MovieDetailsComponent implements OnInit {
 
             this.movie = data;
             this.ratingValue = data.user_relation.rating;
-            console.log( this.movie.user_relation.seen);
             
             switch(this.movie.user_relation.seen){
 
@@ -161,7 +161,6 @@ export class MovieDetailsComponent implements OnInit {
     return uuidRegex.test(uuid);
   }
 
-
   protected receiveRating(value: number, column: ColumnRate): void {
     this.ratingValue = value;
 
@@ -172,8 +171,7 @@ export class MovieDetailsComponent implements OnInit {
 
       if (this.movieId) this.userService.rateMovie(this.movieId, column, value).subscribe({
         next: (response) => {
-          console.log(response);
-
+          this.showNotificationText(response.message);
         },
         error: (err) => {
           console.log(err);
@@ -206,10 +204,16 @@ export class MovieDetailsComponent implements OnInit {
 
           } else {
 
+
             if (this.movieId) this.userService.favoriteMovie(this.movieId, this.movie.user_relation.is_favorite).subscribe({
               next: (response: any) => {
                 console.log(response);
+                this.showNotificationText(response.message);
 
+                // this.mostrarNotificacionConfirmacion();
+                // this.mostrarNotificacionTimeline();
+                
+                console.log(5);
               },
               error: (err: any) => {
                 console.log(err);
@@ -253,7 +257,9 @@ export class MovieDetailsComponent implements OnInit {
         if (this.movieId && seenValue !== undefined && typeof seenValue !== 'number') {
           this.userService.seeMovie(this.movieId, seenValue).subscribe({
             next: (response: any) => {
-              console.log(response);
+
+              this.showNotificationText(response.message)
+
               switch(seenValue){
 
                 case true:
@@ -283,4 +289,16 @@ export class MovieDetailsComponent implements OnInit {
       }
     }
   }
+
+  showNotificationText(text: string, error: boolean = false): void {
+    
+    this.notificationService.show({
+      type: 'text',
+      isError: error,
+      text: text,
+      position: 'tr',
+      duration: 5000 
+    });
+  }
+
 }
