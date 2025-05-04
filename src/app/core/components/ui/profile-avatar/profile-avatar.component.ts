@@ -1,14 +1,26 @@
 import { UpperCasePipe } from '@angular/common';
-import { Component, ElementRef, EventEmitter, HostListener, inject, Input, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, inject, Input, Output, ViewChild } from '@angular/core';
 import { AuthService } from '../../../services/auth/auth.service';
 import { ClickOutSideDirective } from '../../../shared/directives/functionality/click-out-side/click-out-side.directive';
 import { NotificationService } from '../../../services/notification/notification.service';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-profile-avatar',
   imports: [UpperCasePipe, ClickOutSideDirective],
   templateUrl: './profile-avatar.component.html',
-  styleUrl: './profile-avatar.component.css'
+  styleUrl: './profile-avatar.component.css',
+  animations: [
+    trigger('modalAnimation', [
+      transition(':enter', [
+        style({ transform: 'translateX(100%)' }),
+        animate('300ms ease-out', style({ transform: 'translateX(0)' })),
+      ]),
+      transition(':leave', [
+        animate('200ms ease-in', style({ transform: 'translateX(100%)' }))
+      ])
+    ])
+  ]
 })
 export class ProfileAvatarComponent {
   private authService = inject(AuthService);
@@ -22,7 +34,6 @@ export class ProfileAvatarComponent {
 
   @ViewChild('profileContainer') profileContainer!: ElementRef;
   @ViewChild('dropdownModal') dropdownModal!: ElementRef;
-
 
   protected showModal: boolean = false;
 

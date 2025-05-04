@@ -54,6 +54,7 @@
 
 #content > svg {
   transition: .2s ease-in-out;
+  cursor: pointer;
 }
 
 #content > svg:hover {

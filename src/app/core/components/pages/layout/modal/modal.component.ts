@@ -13,8 +13,8 @@ export interface Header {
     <div id="modal-overlay">
       <div 
         id="modal-container" 
-        [style.width.px]="width"
-        [style.height.px]="height"
+        [style.width]="width"
+        [style.height]="height"
         [style.padding.px]="padding">
         
         @if (header) {

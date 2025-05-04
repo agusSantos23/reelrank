@@ -80,6 +80,10 @@
       <div class="full-col">
         <app-loading-spinner />
       </div>
+    }@else if (allDataLoaded) {
+      <div class="full-col">
+        <app-info-message text="All movies have been uploaded."/>
+      </div>
     }
     
   </div>

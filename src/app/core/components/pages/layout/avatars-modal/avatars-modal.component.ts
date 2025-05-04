@@ -5,10 +5,11 @@ import { OptionsSliderComponent } from '../../../inputs/options-slider/options-s
 import { TitleCasePipe } from '@angular/common';
 import { SagaService } from '../../../../services/saga/saga.service';
 import { Avatar } from '../../../../models/Avatar.model';
+import { ModalComponent } from "../modal/modal.component";
 
 @Component({
   selector: 'app-avatars-modal',
-  imports: [ProfileAvatarComponent, OptionsSliderComponent, TitleCasePipe],
+  imports: [ProfileAvatarComponent, OptionsSliderComponent, TitleCasePipe, ModalComponent],
   templateUrl: './avatars-modal.component.html',
   styleUrl: './avatars-modal.component.css',
 })

@@ -23,7 +23,7 @@
 
 
 @if (showModal) {
-  <div id="modal-container" >
+  <div id="modal-container" [@modalAnimation]>
     <div 
       id="modal-content"
       appClickOutSide (clickOutside)="closeModal()">
