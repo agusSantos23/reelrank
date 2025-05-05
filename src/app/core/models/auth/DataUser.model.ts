@@ -2,11 +2,17 @@ import { Avatar } from "../Avatar.model";
 
 export interface BasicUser {
   id: string;
-  avatar_id: string;
-  config_scorer: string;
-  email: string;
   name: string;
   lastname: string;
+  email: string;
+  deleted_last_movie_watchlist: boolean;
+  avatar_id: string;
+  config_scorer: 'starts' | 'slider';
+  maximum_star_rating: number;
+  maximum_slider_rating: number;
+  vote_type: 'simple' | 'advanced';
+  status: 'normal' | 'blocked';
+  action_count: number;
   avatar?: Avatar | null;
 }
 

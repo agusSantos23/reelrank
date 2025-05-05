@@ -21,6 +21,7 @@ import { Movie } from '../../../../models/movie/Movie.model';
 import { ToFixedZeroPipe } from '../../../../pipe/toFixedZero/to-fixed-zero.pipe';
 import { TooltipTriggerDirective } from '../../../../shared/directives/functionality/tooltip-trigger/tooltip-trigger.directive';
 import { NotificationService } from '../../../../services/notification/notification.service';
+import { timeBlocked } from '../../../../interceptors/blocked-user/blocked-user.interceptor';
 
 export type ColumnRate =
   | 'rating'
@@ -54,14 +55,15 @@ export type ColumnRate =
     TooltipTriggerDirective
   ],
   templateUrl: './movie-details.component.html',
-  styleUrl: './movie-details.component.css'
+  styleUrl: './movie-details.component.css',
+
 })
 export class MovieDetailsComponent implements OnInit {
   private userService = inject(UserService);
   private router = inject(Router)
   private activateRoute = inject(ActivatedRoute);
   private movieService = inject(MovieService);
-  private notificationService = inject(NotificationService)
+  private notificationService = inject(NotificationService);
 
   @ViewChild('modalAuth') modalAuth!: ModalComponent;
 
@@ -150,9 +152,15 @@ export class MovieDetailsComponent implements OnInit {
 
     this.userSubscription = this.userService.currentUser$.subscribe((currentUser) => {
       this.user = currentUser;
-      this.loadMovie()
+      console.log(this.user);
 
+      if (this.user?.status === 'blocked') {
+        timeBlocked(this.userService, this.notificationService);
+      }
+
+      this.loadMovie()
     });
+
 
   }
 
@@ -167,6 +175,10 @@ export class MovieDetailsComponent implements OnInit {
     if (!this.user) {
       this.modalAuth.openModal();
 
+    } else if (this.user?.status === 'blocked') {
+
+      this.showNotificationText("Right now you are blocked.");
+      
     } else {
 
       if (this.movieId) this.userService.rateMovie(this.movieId, column, value).subscribe({
@@ -182,51 +194,39 @@ export class MovieDetailsComponent implements OnInit {
 
   }
 
-  protected cancelAuthModal(): void {
-    this.ratingValue = undefined;
-
-    this.modalAuth.closeModal();
-
-  }
 
   protected toggleFavorite(): void {
 
-    if (this.movie) {
 
-      if (this.movie.user_relation) {
+    if (!this.user) {
+      this.modalAuth.openModal();
 
-        if (this.movie && this.movie.user_relation) {
-          this.movie.user_relation.is_favorite = !this.movie.user_relation.is_favorite;
+    } else if (this.user?.status === 'blocked') {
 
+      this.showNotificationText("Right now you are blocked.");
+      
+    }else {
 
-          if (!this.user) {
-            this.modalAuth.openModal();
-
-          } else {
-
-
-            if (this.movieId) this.userService.favoriteMovie(this.movieId, this.movie.user_relation.is_favorite).subscribe({
-              next: (response: any) => {
-                console.log(response);
-                this.showNotificationText(response.message);
-
-                // this.mostrarNotificacionConfirmacion();
-                // this.mostrarNotificacionTimeline();
+      if (this.movie && this.movie.user_relation) {
+        this.movie.user_relation.is_favorite = !this.movie.user_relation.is_favorite;
                 
-                console.log(5);
-              },
-              error: (err: any) => {
-                console.log(err);
-              }
-            })
-          }
-        }
-
-      } else {
-        this.modalAuth.openModal();
-
+          
+          if (this.movieId) this.userService.favoriteMovie(this.movieId, this.movie.user_relation.is_favorite).subscribe({
+            next: (response: any) => {
+              console.log(response);
+              this.showNotificationText(response.message);
+              
+            },
+            error: (err: any) => {
+              console.log(err);
+            }
+          })
+        
       }
+
     }
+        
+  
 
   }
 
@@ -234,7 +234,15 @@ export class MovieDetailsComponent implements OnInit {
 
     if (this.movie) {
 
-      if (this.movie.user_relation) {
+      if (!this.user) {
+            
+        this.modalAuth.openModal();
+
+      } else if (this.user?.status === 'blocked') {
+
+        this.showNotificationText("Right now you are blocked.");
+        
+      } else if (this.movie.user_relation) {
 
         switch (this.movie.user_relation.seen) {
           case false:
@@ -255,42 +263,53 @@ export class MovieDetailsComponent implements OnInit {
 
 
         if (this.movieId && seenValue !== undefined && typeof seenValue !== 'number') {
-          this.userService.seeMovie(this.movieId, seenValue).subscribe({
-            next: (response: any) => {
 
-              this.showNotificationText(response.message)
-
-              switch(seenValue){
-
-                case true:
-                  this.seeMovieTooltipText = 'Remove of List';
-                  break;
+        
+            this.userService.seeMovie(this.movieId, seenValue).subscribe({
+              next: (response: any) => {
   
-                case false:
-                  this.seeMovieTooltipText = 'Add to Seen';
-                  break;
+                this.showNotificationText(response.message)
   
-                default:
-                  this.seeMovieTooltipText = 'Add to See';
+                switch(seenValue){
+  
+                  case true:
+                    this.seeMovieTooltipText = 'Remove of List';
+                    break;
+    
+                  case false:
+                    this.seeMovieTooltipText = 'Add to Seen';
+                    break;
+    
+                  default:
+                    this.seeMovieTooltipText = 'Add to See';
+                }
+  
+              },
+              error: (err: any) => {
+                console.log(err);
               }
-
-            },
-            error: (err: any) => {
-              console.log(err);
-            }
-          });
+            });
+          
+          
         }
 
 
       } else {
         this.modalAuth.openModal();
 
-
       }
     }
   }
 
-  showNotificationText(text: string, error: boolean = false): void {
+
+  protected cancelAuthModal(): void {
+    this.ratingValue = undefined;
+
+    this.modalAuth.closeModal();
+
+  }
+
+  private showNotificationText(text: string, error: boolean = false): void {
     
     this.notificationService.show({
       type: 'text',

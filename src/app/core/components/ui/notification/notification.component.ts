@@ -106,7 +106,6 @@ export class NotificationComponent implements OnInit, OnDestroy {
       return `translateY(${this.index * (height + 10)}px)`;
     }else{
       return 'translateY(0px)'; 
-
     }
 
   }

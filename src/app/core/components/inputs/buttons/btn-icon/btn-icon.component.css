@@ -6,7 +6,6 @@ button {
   border: 0;
   border-radius: 5px;
   background-image: var(--gradient);
-  cursor: pointer;
   transition: .2s ease-in;
 }
 

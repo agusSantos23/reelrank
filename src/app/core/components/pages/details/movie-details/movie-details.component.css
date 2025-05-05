@@ -73,7 +73,6 @@ main > :last-child {
   position: absolute;
   top: -15px;
   right: -15px;
-  cursor: pointer;
 }
 
 
@@ -232,4 +231,12 @@ h1 {
   display: flex;
   justify-content: space-around;
   align-items: center;
+}
+
+.disabled{
+  cursor: not-allowed;
+}
+
+.pointer{
+  cursor: pointer;
 }

@@ -12,10 +12,11 @@ import { WrapperComponent } from "../../../ui/wrapper/wrapper.component";
         [max]="max"
         [value]="internalCurrentValue"
         [step]="step"
+        [disabled]="isDisable"
+        [style.cursor]="isDisable ? 'not-allowed' : 'pointer'"
         (input)="onSliderInput($any($event.target).value)"
         (mouseup)="onSliderMouseUp()"
-        [style.marginRight]="isViewWindow ? '10px' : undefined"
-      >
+        [style.marginRight]="isViewWindow ? '10px' : undefined">
       @if(isViewWindow){
         <app-wrapper width="40px" [contentPading]="[5,2]" [containerPading]="3">
           {{ hasInteracted ? internalCurrentValue : '-' }}
@@ -29,6 +30,7 @@ export class SliderRatingComponent implements OnInit, OnChanges {
   @Input() max: number = 10;
   @Input() externalRating?: number;
   @Input() isViewWindow: boolean = true;
+  @Input() isDisable: boolean = false;
   @Output() ratingChange = new EventEmitter<number>();
 
   protected min: number = 0;
@@ -62,16 +64,20 @@ export class SliderRatingComponent implements OnInit, OnChanges {
   }
 
   protected onSliderInput(value: string): void {
+    if (this.isDisable) return
+
     this.hasInteracted = true;
     this.internalCurrentValue = parseInt(value, 10);
     this.isDragging = true;
   }
 
   protected onSliderMouseUp(): void {
-    if (this.isDragging && this.internalCurrentValue) {
+    if (this.isDragging && this.internalCurrentValue && !this.isDisable) {
+      
       this.currentValue = this.internalCurrentValue;
       this.emitRealRating();
       this.isDragging = false;
+
     }
   }
 

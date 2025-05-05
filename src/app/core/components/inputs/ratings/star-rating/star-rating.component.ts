@@ -11,6 +11,7 @@ import { lowerScaleAnimation } from '../../../../shared/directives/animations/tr
 export class StarRatingComponent implements OnInit, OnChanges {
   @Input() maxStars: number = 5;
   @Input() externalRating?: number;
+  @Input() isDisable: boolean = false;
   @Output() ratingChange = new EventEmitter<number>();
 
   protected stars: { filled: boolean; }[] = [];
@@ -74,22 +75,23 @@ export class StarRatingComponent implements OnInit, OnChanges {
   }
 
   protected handleStarClick(index: number): void {
-    console.log(this.starAnimationStates);
-    
-    this.triggerStarAnimation(index)
+    if (this.isDisable) return
 
-    console.log(this.starAnimationStates);
+    this.triggerStarAnimation(index)
 
     this.setRating(index + 1);
 
   }
 
   protected handleStarHover(index: number): void {
+    if (this.isDisable) return
+
     this.updateStarDisplay(index + 1);
   }
 
   private triggerStarAnimation(index: number): void {
     this.starAnimationStates[index] = 'clicked';
+
     setTimeout(() => {
       this.starAnimationStates[index] = 'normal';
     }, 200); 

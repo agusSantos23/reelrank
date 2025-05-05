@@ -6,12 +6,13 @@ import * as jwt_decode from 'jwt-decode';
 import { BasicUser } from '../../models/auth/DataUser.model';
 import { TokenServiceService } from '../token-service/token-service.service';
 import { DecodedToken } from '../../models/Token.model';
+import { NotificationService } from '../notification/notification.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-
+  private notificationService = inject(NotificationService);
   private http = inject(HttpClient);
   private tokenService = inject(TokenServiceService);
   private apiUrl = environment.apiUrl;
@@ -95,7 +96,7 @@ export class UserService {
     if (!authInfo) return of(null);
     
     const { headers, userId } = authInfo;
-
+    
     return this.http.patch<any>(
       `${this.apiUrl}/usermovies/${userId}/${movieId}/favorite`, 
       { value }, { headers }
@@ -114,5 +115,49 @@ export class UserService {
       { value }, { headers }
     )
   }
+
+
+  public unblockUser(): Observable<any> {
+    const authInfo = this.getAuthHeaders();
+
+    if (!authInfo) return of(null);
+
+    const { headers, userId } = authInfo;
+
+    return this.http.post<BasicUser>(`${this.apiUrl}/user/${userId}/unblock`, {}, { headers }).pipe(
+      tap((response: BasicUser) => {
+
+        this._currentUser.next(response);
+
+        this.notificationService.show({
+          type: 'text',
+          isError: false,
+          text: 'Your account has been unlocked.',
+          duration: 3000,
+          position: 'tr'
+        });
+
+      }),
+      catchError((error) => {
+        this.notificationService.show({
+          type: 'text',
+          isError: true,
+          text: error?.error?.message || 'Error trying to unlock the account.',
+          duration: 5000,
+          position: 'tr'
+        });
+        return of(null);
+      })
+    );
+  }
+
+  public setUserBlocked(): void {
+    const currentUser = this._currentUser.getValue();
+    if (currentUser) {
+      const updatedUser: BasicUser = { ...currentUser, status: 'blocked' };
+      this._currentUser.next(updatedUser);
+    }
+  }
+  
 
 }
