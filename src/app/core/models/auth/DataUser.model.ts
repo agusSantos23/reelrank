@@ -14,6 +14,7 @@ export interface BasicUser {
   status: 'normal' | 'blocked';
   action_count: number;
   avatar?: Avatar | null;
+  statistics?: StatisticsUser;
 }
 
 export interface RegisterUser {
@@ -30,3 +31,10 @@ export interface LoginUser {
   password?: string | null;
 }
 
+
+export interface StatisticsUser {
+  most_viewed_genre: string;
+  rated_movies: number;
+  average_rating: number;
+  watching_movies: number
+}

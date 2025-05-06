@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { BehaviorSubject, catchError, Observable, of, tap } from 'rxjs';
 import * as jwt_decode from 'jwt-decode';
-import { BasicUser } from '../../models/auth/DataUser.model';
+import { BasicUser, StatisticsUser } from '../../models/auth/DataUser.model';
 import { TokenServiceService } from '../token-service/token-service.service';
 import { DecodedToken } from '../../models/Token.model';
 import { NotificationService } from '../notification/notification.service';
@@ -20,34 +20,7 @@ export class UserService {
   private _currentUser = new BehaviorSubject<BasicUser | null>(null);
   public readonly currentUser$ = this._currentUser.asObservable();
 
-  private getAuthHeaders(): { headers: HttpHeaders; userId: string } | null {
-    const token = this.tokenService.getToken();
-    if (!token) {
-      console.error('Token not found.');
-      return null;
-    }
-
-    try {
-      const decodedToken: DecodedToken = jwt_decode.jwtDecode(token);
-      const userId = decodedToken.id;
-
-      if (!userId) {
-        console.error('User ID not found in token.');
-        return null;
-      }
-
-      return {
-        headers: new HttpHeaders({
-          'Authorization': `Bearer ${token}`
-        }),
-        userId: userId
-      };
-    } catch (error) {
-      console.error('Error decoding token:', error);
-      return null;
-    }
-  }
-
+ 
   public getUser(): void {
     if ( this._currentUser.getValue() === null) {
       const token = this.tokenService.getToken();
@@ -70,6 +43,31 @@ export class UserService {
         })
       ).subscribe();
     }
+  }
+
+  public statisticsUser(): void{
+    const authInfo = this.getAuthHeaders();
+
+    if (!authInfo) return;
+    
+    const { headers, userId } = authInfo;
+
+
+    this.http.get<StatisticsUser>(
+      `${this.apiUrl}/user/${userId}/statistics`,
+      { headers }
+    ).pipe(
+      tap((statisticsUserData) => {
+        const currentUser = this._currentUser.getValue();
+        
+        if (currentUser) {
+          const updatedUser: BasicUser = { ...currentUser, statistics: statisticsUserData };
+          this._currentUser.next(updatedUser);          
+        }
+
+      })
+
+    ).subscribe();
   }
 
   public clearUser(): void {
@@ -159,5 +157,33 @@ export class UserService {
     }
   }
   
+  private getAuthHeaders(): { headers: HttpHeaders; userId: string } | null {
+    const token = this.tokenService.getToken();
+    if (!token) {
+      console.error('Token not found.');
+      return null;
+    }
+
+    try {
+      const decodedToken: DecodedToken = jwt_decode.jwtDecode(token);
+      const userId = decodedToken.id;
+
+      if (!userId) {
+        console.error('User ID not found in token.');
+        return null;
+      }
+
+      return {
+        headers: new HttpHeaders({
+          'Authorization': `Bearer ${token}`
+        }),
+        userId: userId
+      };
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      return null;
+    }
+  }
+
 
 }

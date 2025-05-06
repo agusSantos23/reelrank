@@ -4,6 +4,7 @@ import { AuthService } from '../../../services/auth/auth.service';
 import { ClickOutSideDirective } from '../../../shared/directives/functionality/click-out-side/click-out-side.directive';
 import { NotificationService } from '../../../services/notification/notification.service';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile-avatar',
@@ -25,6 +26,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
 export class ProfileAvatarComponent {
   private authService = inject(AuthService);
   private notificationService = inject(NotificationService);
+  private route = inject(Router);
 
   @Input() posterUrl?: string;
   @Input() name?: string;
@@ -51,6 +53,10 @@ export class ProfileAvatarComponent {
 
   protected closeModal(): void{
     this.showModal = false;
+  }
+
+  protected profile(): void{
+    this.route.navigate(['profile'])
   }
 
   protected logout(): void{    

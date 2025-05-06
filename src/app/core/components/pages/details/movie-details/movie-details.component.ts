@@ -17,11 +17,11 @@ import { StarRatingComponent } from '../../../inputs/ratings/star-rating/star-ra
 import { SliderRatingComponent } from '../../../inputs/ratings/slider-rating/slider-rating.component';
 import { FormatLargeNumberPipe } from '../../../../pipe/format-large-number/format-large-number.pipe';
 import { AdjustFontSizeDirective } from '../../../../shared/directives/functionality/adjust-font-size/adjust-font-size.directive';
-import { Movie } from '../../../../models/movie/Movie.model';
 import { ToFixedZeroPipe } from '../../../../pipe/toFixedZero/to-fixed-zero.pipe';
 import { TooltipTriggerDirective } from '../../../../shared/directives/functionality/tooltip-trigger/tooltip-trigger.directive';
 import { NotificationService } from '../../../../services/notification/notification.service';
 import { timeBlocked } from '../../../../interceptors/blocked-user/blocked-user.interceptor';
+import { Movie } from '../../../../models/movie/Movie.model';
 
 export type ColumnRate =
   | 'rating'

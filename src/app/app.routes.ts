@@ -4,6 +4,8 @@ import { MovieDetailsComponent } from './core/components/pages/details/movie-det
 import { LoginComponent } from './core/components/pages/auth/login/login.component';
 import { RegisterComponent } from './core/components/pages/auth/register/register.component';
 import { ErrorComponent } from './core/components/pages/error/error.component';
+import { ProfileComponent } from './core/components/pages/profile/profile.component';
+import { authGuard } from './core/guard/auth.guard';
 
 
 
@@ -12,6 +14,7 @@ export const routes: Routes = [
   { path: 'details/movie/:id', component: MovieDetailsComponent },
   { path: 'auth/login', component: LoginComponent },
   { path: 'auth/register', component: RegisterComponent },
+  { path: 'profile', component: ProfileComponent, canActivate: [authGuard]},
   { path: 'error/:errorCode', component: ErrorComponent},
   { path: '**', redirectTo: 'error/404' },
 ];
