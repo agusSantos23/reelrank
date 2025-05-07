@@ -123,7 +123,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
 
   protected onTypeListChange(list: TypeList): void{
+    if (this.typeList === list) return
+    
     this.typeList = list;
     this.loadUserMovies(this.searchTerm, list);
+
   }
 }
