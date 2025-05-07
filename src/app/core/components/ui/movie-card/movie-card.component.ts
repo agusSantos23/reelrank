@@ -3,16 +3,17 @@ import { Router } from '@angular/router';
 import { FormatLargeTitlePipe } from '../../../pipe/format-large-title/format-large-title.pipe';
 import { cardArrivesAnimation } from '../../../shared/directives/animations/trigger/cardArrives.animation';
 import { cardEnlarge } from '../../../shared/directives/animations/trigger/cardEnlarge.animation';
-import { ToFixedZeroPipe } from '../../../pipe/toFixedZero/to-fixed-zero.pipe';
 import { TooltipTriggerDirective } from '../../../shared/directives/functionality/tooltip-trigger/tooltip-trigger.directive';
 import { MovieBasicInfo } from '../../../models/movie/MovieBasicInfo.model';
+import { TypeList } from '../../pages/profile/profile.component';
+import { ConvertToDecimalPipe } from '../../../pipe/format-to-decimal/format-to-decimal';
 
 @Component({
   selector: 'app-movie-card',
   imports: [
     FormatLargeTitlePipe,
-    ToFixedZeroPipe,
-    TooltipTriggerDirective
+    TooltipTriggerDirective,
+    ConvertToDecimalPipe
   ],
   templateUrl: './movie-card.component.html',
   styleUrl: './movie-card.component.css',
@@ -26,6 +27,7 @@ export class MovieCardComponent {
 
   @Input() delay!: number; 
   @Input() movie!: MovieBasicInfo;
+  @Input() fromProfile?: TypeList;
 
   private animationParams = { delay: 0 };
   protected arrivesState = { value: '*', params: this.animationParams };
@@ -37,7 +39,16 @@ export class MovieCardComponent {
   }
 
   protected onMovieClick(): void {
-    this.router.navigate(['/details/movie', this.movie.id]);
+    console.log(this.fromProfile);
+    
+    if (this.fromProfile) {
+      this.router.navigate(['/details/movie', this.movie.id, this.fromProfile]);
+      
+    }else{
+      this.router.navigate(['/details/movie', this.movie.id, false]);
+
+    }
+
   }
 
   

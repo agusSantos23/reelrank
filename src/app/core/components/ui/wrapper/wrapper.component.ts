@@ -1,3 +1,4 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
@@ -17,7 +18,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
       [class.black-container]="containerColor === 'b'"
       [class.gradient-container]="containerColor === 'g'"
       [class.error-container]="containerColor === 'e'"
-      [class.zoom-on-hover]="animation === 'zoom'">
+      [class.zoom-on-hover]="animation === 'zoom'"
+      [@activeAnimation]="isActive ? 'active' : 'inactive'">
 
       <div
         [style.justifyContent]="flex?.[0] ?? 'center'"
@@ -34,7 +36,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
         [style.paddingBottom.px]="paddingBottom"
         [style.borderRadius.px]="borderRadius"
         [class.white-content]="!(cursor === 'di')"
-        [class.white-disabled-content]="cursor === 'di'">
+        [class.white-disabled-content]="cursor === 'di'"
+        [@contentScale]="isActive ? 'scaled' : 'normal'">
 
         <ng-content />
 
@@ -43,11 +46,34 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
       
     </div>
   `,
-  styleUrl: './wrapper.component.css'
+  styleUrl: './wrapper.component.css',
+  animations: [
+    trigger('activeAnimation', [
+      state('inactive', style({
+        background: 'var(--black)'
+      })),
+      state('active', style({
+        background: 'var(--gradient)' 
+      })),
+      transition('inactive <=> active', animate('200ms ease-in-out'))
+    ]),
+
+    trigger('contentScale', [
+      state('normal', style({
+        transform: 'scale(1)'
+      })),
+      state('scaled', style({
+        transform: 'scale(0.9)'
+      })),
+      transition('normal <=> scaled', animate('200ms ease-in-out'))
+    ])
+
+  ]
 })
 export class WrapperComponent implements OnInit {
   @Input() track: any;
   @Input() type: 'text' | 'btn' = 'text';
+  @Input() isActive: boolean = false;
 
   @Input() width: string = 'auto';
   @Input() containerPading: number = 5;

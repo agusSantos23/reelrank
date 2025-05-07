@@ -56,7 +56,7 @@ export class ProfileAvatarComponent {
   }
 
   protected profile(): void{
-    this.route.navigate(['profile'])
+    this.route.navigate(['profile', ''])
   }
 
   protected logout(): void{    

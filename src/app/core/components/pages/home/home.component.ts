@@ -8,7 +8,6 @@ import { OptionsSliderComponent } from "../../inputs/options-slider/options-slid
 import { BtnAuthComponent } from "../../inputs/buttons/btn-auth/btn-auth.component";
 import { UpwardComponent } from "../../inputs/upward/upward.component";
 import { Subscription } from 'rxjs';
-import { MovieBasicInfo } from '../../../models/movie/MovieBasicInfo.model';
 import { GenreService } from '../../../services/genre/genre.service';
 import { BtnIconComponent } from "../../inputs/buttons/btn-icon/btn-icon.component";
 import { Genre } from '../../../models/Genre.model';
@@ -23,6 +22,7 @@ import { BasicUser } from '../../../models/auth/DataUser.model';
 import { InfoMessageComponent } from '../../ui/info-message/info-message.component';
 import { LoadingSpinnerComponent } from '../../ui/loading-spinner/loading-spinner.component';
 import { TooltipTriggerDirective } from '../../../shared/directives/functionality/tooltip-trigger/tooltip-trigger.directive';
+import { MovieBasicInfo } from '../../../models/movie/MovieBasicInfo.model';
 
 @Component({
   selector: 'app-home',
@@ -116,17 +116,12 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   loadMoreMovies(newOrderBy?: string, newTermSearch?: string): void {
 
-    if (newOrderBy) {
+    if (newOrderBy || newTermSearch) {
       this.movies = [];
       this.page = 1;
       this.allDataLoaded = false;
     }
 
-    if (newTermSearch) {
-      this.movies = [];
-      this.page = 1;
-      this.allDataLoaded = false;
-    }
 
     if (!this.utilService.areArraysEqual(this.previousActiveGenres, this.activeGenres)) {
       this.movies = [];

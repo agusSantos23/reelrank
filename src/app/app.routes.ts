@@ -11,10 +11,10 @@ import { authGuard } from './core/guard/auth.guard';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
-  { path: 'details/movie/:id', component: MovieDetailsComponent },
+  { path: 'details/movie/:id/:profile', component: MovieDetailsComponent },
   { path: 'auth/login', component: LoginComponent },
   { path: 'auth/register', component: RegisterComponent },
-  { path: 'profile', component: ProfileComponent, canActivate: [authGuard]},
+  { path: 'profile/:list', component: ProfileComponent, canActivate: [authGuard]},
   { path: 'error/:errorCode', component: ErrorComponent},
   { path: '**', redirectTo: 'error/404' },
 ];

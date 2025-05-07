@@ -157,7 +157,7 @@ export class UserService {
     }
   }
   
-  private getAuthHeaders(): { headers: HttpHeaders; userId: string } | null {
+  public getAuthHeaders(): { headers: HttpHeaders; userId: string } | null {
     const token = this.tokenService.getToken();
     if (!token) {
       console.error('Token not found.');

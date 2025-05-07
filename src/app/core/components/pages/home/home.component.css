@@ -71,7 +71,6 @@ main > header > app-bar {
   margin: 40px 0;
 }
 
-
 .full-col{
   grid-column: 1 / -1;
 

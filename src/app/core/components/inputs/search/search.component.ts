@@ -32,7 +32,7 @@ export class SearchComponent {
   isInputFocused: boolean = false;
 
 
-  search(term: string){
+  search(term: string){    
     this.searchSubmitted.emit(term)
     if (this.searchInput) this.searchInput.nativeElement.blur();
     

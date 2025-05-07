@@ -21,6 +21,7 @@
   }@else {
 
   <header>
+
     <div>
       <div id="filters">
         <app-select [options]="selectOption" (selectionChange)="onOrderByChange($event)" />
@@ -66,7 +67,7 @@
   </header>
   }
 
-  <div #listMoviesContainer id="list-movies">
+  <div id="list-movies">
     @for (movie of movies; track movie.id; let i = $index) {
       <app-movie-card [delay]="i % limit" [movie]="movie" />
     }@empty {

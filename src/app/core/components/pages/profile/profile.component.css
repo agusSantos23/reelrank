@@ -1,0 +1,102 @@
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+h2, h3 {
+  margin: 0;
+}
+
+.mb-35{
+  margin-bottom: 35px;
+}
+
+.mb-10{
+  margin-bottom: 10px;
+}
+
+#btn-settings {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  background-color: var(--white);
+}
+
+#basic-profile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+#text-container {
+  height: 110px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: end;
+}
+
+#text-container > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: end;
+  gap: 2px;
+}
+
+
+#img-container {
+  width: 110px;
+  height: 110px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  background-image: var(--gradient);
+  transition: .1s ease-in-out;
+}
+
+#img-content {
+  width: 60px;
+  height: 60px;
+  border-radius: 10px;
+  object-fit: cover;
+  transition: .3s ease-in;
+}
+
+
+#select-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+#list-movies {
+  display: grid;
+  margin: 40px 0;
+}
+
+
+.full-col{
+  grid-column: 1 / -1;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+/* Laptop */
+@media (min-width: 769px) {
+
+  #list-movies {
+    grid-template-columns: repeat(5, 1fr); 
+    gap: 25px;
+  }
+
+}

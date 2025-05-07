@@ -17,11 +17,12 @@ import { StarRatingComponent } from '../../../inputs/ratings/star-rating/star-ra
 import { SliderRatingComponent } from '../../../inputs/ratings/slider-rating/slider-rating.component';
 import { FormatLargeNumberPipe } from '../../../../pipe/format-large-number/format-large-number.pipe';
 import { AdjustFontSizeDirective } from '../../../../shared/directives/functionality/adjust-font-size/adjust-font-size.directive';
-import { ToFixedZeroPipe } from '../../../../pipe/toFixedZero/to-fixed-zero.pipe';
 import { TooltipTriggerDirective } from '../../../../shared/directives/functionality/tooltip-trigger/tooltip-trigger.directive';
 import { NotificationService } from '../../../../services/notification/notification.service';
 import { timeBlocked } from '../../../../interceptors/blocked-user/blocked-user.interceptor';
 import { Movie } from '../../../../models/movie/Movie.model';
+import { TypeList } from '../../profile/profile.component';
+import { ConvertToDecimalPipe } from '../../../../pipe/format-to-decimal/format-to-decimal';
 
 export type ColumnRate =
   | 'rating'
@@ -51,8 +52,8 @@ export type ColumnRate =
     FormatLargeNumberPipe,
     TitleCasePipe,
     AdjustFontSizeDirective,
-    ToFixedZeroPipe,
-    TooltipTriggerDirective
+    TooltipTriggerDirective,
+    ConvertToDecimalPipe
   ],
   templateUrl: './movie-details.component.html',
   styleUrl: './movie-details.component.css',
@@ -60,7 +61,7 @@ export type ColumnRate =
 })
 export class MovieDetailsComponent implements OnInit {
   private userService = inject(UserService);
-  private router = inject(Router)
+  private route = inject(Router)
   private activateRoute = inject(ActivatedRoute);
   private movieService = inject(MovieService);
   private notificationService = inject(NotificationService);
@@ -80,9 +81,21 @@ export class MovieDetailsComponent implements OnInit {
     subtitle: 'Sign in or register to save your ratings and movie lists to your account.'
   }
 
-  ngOnInit(): void {
+  protected isGoProfile: TypeList | false = 'favorite';
 
+  ngOnInit(): void {
     this.loadDataUser();
+
+
+    this.activateRoute.paramMap.subscribe(params => {
+      const profileParam = params.get('profile');
+      
+      if (profileParam === 'favorite' || profileParam === 'see' || profileParam === 'seen') {
+        this.isGoProfile = profileParam;
+      } else {
+        this.isGoProfile = false;
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -94,7 +107,7 @@ export class MovieDetailsComponent implements OnInit {
 
     if (this.movieId) {
       if (!this.isValidUuid(this.movieId)) {
-        this.router.navigate(['error/404']);
+        this.route.navigate(['error/404']);
         return;
       }
 
@@ -123,7 +136,7 @@ export class MovieDetailsComponent implements OnInit {
 
           },
           error: (error) => {            
-            this.router.navigate(['error/404']);
+            this.route.navigate(['error/404']);
             console.error('Error obtaining more films:', error);
           }
 
@@ -137,7 +150,7 @@ export class MovieDetailsComponent implements OnInit {
             this.movie = data;
           },
           error: (error) => {
-            this.router.navigate(['error/404']);
+            this.route.navigate(['error/404']);
             console.error('Error obtaining more films:', error);
           }
         })
