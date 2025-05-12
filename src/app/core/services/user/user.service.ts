@@ -52,18 +52,19 @@ export class UserService {
     
     const { headers, userId } = authInfo;
 
-
+    console.log(1);
+    
     this.http.get<StatisticsUser>(
       `${this.apiUrl}/user/${userId}/statistics`,
       { headers }
     ).pipe(
       tap((statisticsUserData) => {
         const currentUser = this._currentUser.getValue();
-        
+          
         if (currentUser) {
           const updatedUser: BasicUser = { ...currentUser, statistics: statisticsUserData };
           this._currentUser.next(updatedUser);          
-        }
+        }        
 
       })
 

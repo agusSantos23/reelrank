@@ -19,6 +19,8 @@
     #331911 
   );
 }
+
+
 html {
   scroll-behavior: smooth;
   overflow-x: hidden;
@@ -48,7 +50,9 @@ body{
 }
 
 
-
+.no-scroll{
+  overflow: hidden;
+}
 
 
 .input-content { 

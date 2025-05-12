@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { UserService } from '../../../services/user/user.service';
 import { filter, Subscription, take } from 'rxjs';
 import { BasicUser } from '../../../models/auth/DataUser.model';
@@ -13,12 +13,27 @@ import { InfoMessageComponent } from "../../ui/info-message/info-message.compone
 import { LoadingSpinnerComponent } from "../../ui/loading-spinner/loading-spinner.component";
 import { UpwardComponent } from "../../inputs/upward/upward.component";
 import { ActivatedRoute } from '@angular/router';
+import { Header, ModalComponent } from "../layout/modal/modal.component";
+import { TooltipTriggerDirective } from '../../../shared/directives/functionality/tooltip-trigger/tooltip-trigger.directive';
+import { CollapsibleSectionComponent } from "../../ui/collapsible-section/collapsible-section.component";
 
 export type TypeList = 'favorite' | 'see' | 'seen';
 
 @Component({
   selector: 'app-profile',
-  imports: [BarComponent, GoPageComponent, SearchComponent, WrapperComponent, MovieCardComponent, InfoMessageComponent, LoadingSpinnerComponent, UpwardComponent],
+  imports: [
+    BarComponent,
+    GoPageComponent,
+    SearchComponent,
+    WrapperComponent,
+    MovieCardComponent,
+    InfoMessageComponent,
+    LoadingSpinnerComponent,
+    UpwardComponent,
+    ModalComponent,
+    TooltipTriggerDirective,
+    CollapsibleSectionComponent
+],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
@@ -27,12 +42,14 @@ export class ProfileComponent implements OnInit, OnDestroy {
   private movieService = inject(MovieService);
   private activateRoute = inject(ActivatedRoute);
 
+  @ViewChild(ModalComponent) modalComponent!: ModalComponent;
+
   private userSubscription?: Subscription;
 
   protected user: BasicUser | null = null;
   protected movies: MovieBasicInfo[] = [];
   
-  protected searchTerm?: string
+  protected searchTerm?: string;
   protected typeList: TypeList = 'favorite';
 
   private page = 1;
@@ -40,6 +57,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
   protected loading = false;
   private timeLoading = 1000;
   protected allDataLoaded = false;
+
+  protected headerSettings: Header = {
+    title: "Configure Profile"
+  }
+
 
   ngOnInit(): void {
 
@@ -57,7 +79,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     if (this.userSubscription) this.userSubscription.unsubscribe();
-
   }
 
   private loadDataUser() {
@@ -66,7 +87,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.userSubscription = this.userService.currentUser$
       .pipe(
         filter((currentUser) => currentUser !== null),
-        take(1)
       )
       .subscribe((currentUser) => {
         this.user = currentUser;
@@ -76,14 +96,14 @@ export class ProfileComponent implements OnInit, OnDestroy {
           //-----------------
         }
 
+        if (!this.user.statistics) {
+          this.userService.statisticsUser();
+        }
         
-        this.userService.statisticsUser();
-
         this.loadUserMovies();
         
       });
 
-    
   }
 
 
@@ -128,5 +148,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.typeList = list;
     this.loadUserMovies(this.searchTerm, list);
 
+  }
+
+
+  openModalSettings() {
+    if (this.modalComponent) this.modalComponent.openModal();
+    
   }
 }

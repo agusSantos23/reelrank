@@ -12,6 +12,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
       (keydown.enter)="type === 'btn' ? onWrapperClick() : null"
       (keydown.space)="type === 'btn' ? onWrapperClick() : null"
       [style.minWidth]="width"
+      [style.minHeight]="height"
       [style.cursor]="cursorType(this.cursor)"
       [style.padding.px]="containerPading"
       [style.borderRadius.px]="borderRadius"
@@ -43,7 +44,6 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
       </div>
 
-      
     </div>
   `,
   styleUrl: './wrapper.component.css',
@@ -76,6 +76,7 @@ export class WrapperComponent implements OnInit {
   @Input() isActive: boolean = false;
 
   @Input() width: string = 'auto';
+  @Input() height: string = 'auto';
   @Input() containerPading: number = 5;
   @Input() contentPading: number | [number, number] = 10;
   @Input() borderRadius: number = 5;

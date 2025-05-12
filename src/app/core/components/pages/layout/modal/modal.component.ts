@@ -1,8 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, inject, Input, Renderer2 } from '@angular/core';
 
 export interface Header {
   title: string;
-  subtitle: string;
+  subtitle?: string;
 }
 
 @Component({
@@ -24,7 +25,9 @@ export interface Header {
             </svg>
             <div>
               <h2>{{ header.title }}</h2>
-              <h3>{{ header.subtitle }}</h3>
+              @if (header.subtitle) {
+                <h3>{{ header.subtitle }}</h3>
+              }
             </div>
           </header>
         }
@@ -36,6 +39,9 @@ export interface Header {
   styleUrl: './modal.component.css'
 })
 export class ModalComponent {
+  private renderer = inject(Renderer2);
+  private document = inject(DOCUMENT);
+
   @Input() width: string = 'auto';
   @Input() height: string = 'auto';
   @Input() padding: number = 10;
@@ -43,12 +49,12 @@ export class ModalComponent {
   @Input() isVisible: boolean = false;
 
   public openModal() {
-
+    this.renderer.addClass( this.document.documentElement, 'no-scroll');
     this.isVisible = true;
   }
 
   public closeModal() {
-
+    this.renderer.removeClass( this.document.documentElement, 'no-scroll');
     this.isVisible = false;
   }
 }
