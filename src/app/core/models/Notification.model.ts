@@ -1,5 +1,6 @@
 export interface NotificationData {
   id: string;
+  index: number;
   isError: boolean;
   type: 'text' | 'timeline' | 'confirmation';
   text: string;

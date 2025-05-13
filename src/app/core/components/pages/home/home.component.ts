@@ -7,7 +7,7 @@ import { TitlePageComponent } from "../../ui/title-page/title-page.component";
 import { OptionsSliderComponent } from "../../inputs/options-slider/options-slider.component";
 import { BtnAuthComponent } from "../../inputs/buttons/btn-auth/btn-auth.component";
 import { UpwardComponent } from "../../inputs/upward/upward.component";
-import { Subscription } from 'rxjs';
+import { filter, Subscription } from 'rxjs';
 import { GenreService } from '../../../services/genre/genre.service';
 import { BtnIconComponent } from "../../inputs/buttons/btn-icon/btn-icon.component";
 import { Genre } from '../../../models/Genre.model';
@@ -41,17 +41,17 @@ import { MovieBasicInfo } from '../../../models/movie/MovieBasicInfo.model';
     InfoMessageComponent,
     LoadingSpinnerComponent,
     TooltipTriggerDirective,
-],
+  ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
-  animations:[
-    trigger('possibleGenreAnimate',[
+  animations: [
+    trigger('possibleGenreAnimate', [
       transition(':enter', [
-        style({ width: '0px' }),
+        style({ width: '0' }),
         animate('.2s ease', style({ width: '180px' })),
       ]),
       transition(':leave', [
-        animate('.2s ease', style({ width: '0px' })),
+        animate('.2s ease', style({ width: '0' })),
       ]),
     ])
   ]
@@ -91,10 +91,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   protected allDataLoaded = false;
 
 
-  ngOnInit() {    
-    this.loadMoreMovies();
-    this.checkScreenSize();
+  ngOnInit() {        
     this.loadDataUser();
+    this.checkScreenSize();
   }
 
   ngOnDestroy(): void {
@@ -102,6 +101,99 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (this.genreSubscription) this.genreSubscription.unsubscribe();
     if (this.userSubscription) this.userSubscription.unsubscribe();
   }
+
+  loadDataUser() {
+    this.userService.getUser();
+
+    this.userSubscription = this.userService.currentUser$.subscribe((currentUser) => {
+
+      if (currentUser) {
+        this.user = currentUser;
+        
+        if (this.user?.genres) {
+          const formattedGenres = this.user.genres.map(genre => ({
+            id: genre.id,
+            name: genre.name,
+            active: true
+          }));
+
+          this.activeGenres = formattedGenres;
+          
+        }
+
+        this.movies = [];
+        this.loadMoreMovies();
+
+      }else{
+        this.user = null;
+        this.activeGenres = [];
+        this.loadMoreMovies();
+      }
+      
+    });
+
+
+
+  }
+
+  loadMoreMovies(newOrderBy?: string, newTermSearch?: string): void {
+    
+    if (newOrderBy || newTermSearch) {
+      this.movies = [];
+      this.page = 1;
+      this.allDataLoaded = false;
+
+    }
+
+    if (!this.utilService.areArraysEqual(this.previousActiveGenres, this.activeGenres)) {
+
+      this.movies = [];
+
+      this.page = 1;
+      this.allDataLoaded = false;
+      this.previousActiveGenres = [...this.activeGenres];
+
+    }
+
+
+    if (this.loading || this.allDataLoaded) return;
+
+    this.loading = true;
+
+    const activeGenreIds = this.activeGenres.map(genre => genre.id);
+
+    this.movieService.getMovies(this.page, this.limit, activeGenreIds, this.orderBy, this.searchTerm).subscribe({
+      next: (data: MovieBasicInfo[]) => {
+
+        this.loading = false;
+
+        if (data.length === 0) {
+          this.allDataLoaded = true;
+
+        } else {
+          const newMovies = data.filter(newMovie => {
+            return !this.movies.some(existingMovie => existingMovie.id === newMovie.id);
+          });
+          
+          this.movies = [...this.movies, ...newMovies];
+          
+          this.page++;
+
+          if (data.length < this.limit) this.allDataLoaded = true;
+
+        }
+
+
+      },
+      error: (error) => {
+        console.error('Error obtaining more films:', error);
+        this.loading = false;
+      }
+    });
+
+  }
+
+
 
   @HostListener('window:scroll', [])
   onWindowScroll(): void {
@@ -112,61 +204,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
       if (scrollPosition > documentHeight - threshold) this.loadMoreMovies();
     }
-  }
-
-  loadMoreMovies(newOrderBy?: string, newTermSearch?: string): void {
-
-    if (newOrderBy || newTermSearch) {
-      this.movies = [];
-      this.page = 1;
-      this.allDataLoaded = false;
-    }
-
-
-    if (!this.utilService.areArraysEqual(this.previousActiveGenres, this.activeGenres)) {
-      this.movies = [];
-      this.page = 1;
-      this.allDataLoaded = false;
-      this.previousActiveGenres = [...this.activeGenres];
-    }
-
-    if (this.loading || this.allDataLoaded) return;
-
-    this.loading = true;
-    const activeGenreIds = this.activeGenres.map(genre => genre.id);
-
-    this.movieService.getMovies(this.page, this.limit, activeGenreIds, this.orderBy, this.searchTerm).subscribe({
-      next: (data: MovieBasicInfo[]) => { 
-
-        setTimeout(() => {
-          this.loading = false; 
-
-          if (data.length === 0) {
-            this.allDataLoaded = true;
-          } else {
-            const newMovies = data.filter(newMovie => {
-              return !this.movies.some(existingMovie => existingMovie.id === newMovie.id);
-            });
-            this.movies = [...this.movies, ...newMovies];
-            this.page++;
-            if (data.length < this.limit) this.allDataLoaded = true;
-          }
-        }, this.timeLoading); 
-      },
-      error: (error) => {
-        console.error('Error obtaining more films:', error);
-        this.loading = false;
-      }
-    });
-
-  }
-
-  loadDataUser(){
-    this.userService.getUser();
-
-    this.userSubscription = this.userService.currentUser$.subscribe((currentUser) => {
-      this.user = currentUser
-    });
   }
 
   @HostListener('window:resize', ['$event'])
@@ -180,9 +217,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   onOrderByChange(value: string): void {
     this.orderBy = value;
-    console.log(this.orderBy);
     this.loadMoreMovies(value)
-    
+
   }
 
   onSearch(term: string): void {
@@ -192,6 +228,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   showSliderGenres(): void {
+
     this.genreService.getGenres().subscribe({
       next: (data: Genre[]) => {
         this.possibleGenres = data.filter(genre => {

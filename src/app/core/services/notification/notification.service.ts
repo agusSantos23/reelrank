@@ -3,6 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import { NotificationData } from '../../models/Notification.model';
 import { NotificationComponent } from '../../components/ui/notification/notification.component';
 import { v4 as uuidv4 } from 'uuid';
+
 interface NotificationInstance {
   componentRef: any;
   data: NotificationData;
@@ -17,32 +18,33 @@ export class NotificationService {
   private notificationSubject = new BehaviorSubject<NotificationInstance[]>([]);
   notifications$ = this.notificationSubject.asObservable();
 
-  show(notification: Omit<NotificationData, 'id'>): void {
+  show(notification: Omit<NotificationData, 'id' | 'index'>): void {
     
     const id = uuidv4();
-    const notificationData: NotificationData = { ...notification, id };
-    
-    const componentRef = createComponent(NotificationComponent, { environmentInjector: this.appRef.injector });
+    const currentNotifications = this.notificationSubject.getValue();
+    const index = currentNotifications.length;
+    const notificationData: NotificationData = { ...notification, id, index };
 
+    const componentRef = createComponent(NotificationComponent, { environmentInjector: this.appRef.injector });
     componentRef.instance.notification = notificationData;
+    componentRef.instance.index = index;
 
     this.appRef.attachView(componentRef.hostView);
     document.body.appendChild(componentRef.location.nativeElement);
-    
-    const currentNotifications = this.notificationSubject.getValue();
+
     this.notificationSubject.next([...currentNotifications, { componentRef, data: notificationData }]);
 
     componentRef.instance.closed.subscribe((closedId) => this.remove(closedId));
 
     if (notificationData.type === 'confirmation') {
-      componentRef.instance.confirmed.subscribe(() => notificationData.onConfirm?.() );
+      componentRef.instance.confirmed.subscribe(() => notificationData.onConfirm?.());
 
-      componentRef.instance.cancelled.subscribe(() => notificationData.onCancel?.() );
+      componentRef.instance.cancelled.subscribe(() => notificationData.onCancel?.());
     }
   }
 
   remove(id: string): void {
-    
+
     const currentNotifications = this.notificationSubject.getValue();
     const notificationToRemove = currentNotifications.find(n => n.data.id === id);
 

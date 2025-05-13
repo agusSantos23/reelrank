@@ -1,10 +1,10 @@
-import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-collapsible-section',
   imports: [],
   template: `
+  <div id="collapsible">
     <header>
 
       <span id="collapsible-header" (click)="toggleCollapse()">
@@ -22,19 +22,9 @@ import { Component, Input } from '@angular/core';
         <ng-content></ng-content>
       </div>
     }
+
+  </div>
   `,
-  animations: [
-    trigger('slideInOut', [
-      transition(':enter', [
-        style({ height: '0px'}),
-        animate('0.3s ease-in-out', style({ height: '*' }))
-      ]),
-      transition(':leave', [
-        style({ height: '*'}),
-        animate('0.3s ease-in-out', style({ height: '0px' }))
-      ])
-    ])
-  ],
   styleUrl: './collapsible-section.component.css'
 })
 export class CollapsibleSectionComponent {

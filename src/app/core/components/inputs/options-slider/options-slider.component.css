@@ -64,6 +64,7 @@
   cursor: grab;
   gap: 15px;
   white-space: nowrap;
+  scrollbar-width: none;
 }
 
 #container::-webkit-scrollbar {

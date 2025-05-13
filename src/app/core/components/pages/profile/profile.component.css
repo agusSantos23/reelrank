@@ -103,11 +103,12 @@ h5 {
 
 
 #statistics-section{
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: auto auto; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
   gap: 10px;
-  margin: 0 19.8%;
+
 }
 
 #statistics-section h4{
@@ -121,6 +122,43 @@ h5 {
   letter-spacing: 1px;
 }
 
+#favorite-genres {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.preference-article {
+  margin-bottom: 25px;
+}
+
+.preference-article > p{
+  margin: 0;
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: 300;
+  letter-spacing: 1px;
+}
+
+#select-score{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+#select-score h4 {
+  margin-bottom: 20px;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+.cursor-po{
+  cursor: pointer;
+}
 
 /* Laptop */
 @media (min-width: 769px) {

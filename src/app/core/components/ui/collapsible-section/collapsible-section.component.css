@@ -1,8 +1,11 @@
+#collapsible{
+  margin-bottom: 25px;
+}
+
 #collapsible-header {
   display: flex;
   justify-content: start;
   align-items: center;
-  padding: 10px;
   cursor: pointer;
 }
 
@@ -16,10 +19,13 @@
 }
 
 h3{
-  margin: 0;
   max-width: max-content;
+  margin: 0;
+  font-weight: 400;
+  font-size: 24px;
 }
 
 #collapsible-content {
   overflow: hidden;
+  margin: 0 8%;
 }

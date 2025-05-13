@@ -1,6 +1,6 @@
 import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { UserService } from '../../../services/user/user.service';
-import { filter, Subscription, take } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { BasicUser } from '../../../models/auth/DataUser.model';
 import { BarComponent } from "../../ui/bar/bar.component";
 import { GoPageComponent } from "../../ui/go-page/go-page.component";
@@ -16,6 +16,11 @@ import { ActivatedRoute } from '@angular/router';
 import { Header, ModalComponent } from "../layout/modal/modal.component";
 import { TooltipTriggerDirective } from '../../../shared/directives/functionality/tooltip-trigger/tooltip-trigger.directive';
 import { CollapsibleSectionComponent } from "../../ui/collapsible-section/collapsible-section.component";
+import { GenreService } from '../../../services/genre/genre.service';
+import { Genre } from '../../../models/Genre.model';
+import { NotificationService } from '../../../services/notification/notification.service';
+import { timeBlocked } from '../../../interceptors/blocked-user/blocked-user.interceptor';
+import { SliderRatingComponent } from "../../inputs/ratings/slider-rating/slider-rating.component";
 
 export type TypeList = 'favorite' | 'see' | 'seen';
 
@@ -32,15 +37,19 @@ export type TypeList = 'favorite' | 'see' | 'seen';
     UpwardComponent,
     ModalComponent,
     TooltipTriggerDirective,
-    CollapsibleSectionComponent
-],
+    CollapsibleSectionComponent,
+    SliderRatingComponent
+  ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
 export class ProfileComponent implements OnInit, OnDestroy {
   private userService = inject(UserService);
   private movieService = inject(MovieService);
+  private genreService = inject(GenreService);
   private activateRoute = inject(ActivatedRoute);
+  private notificationService = inject(NotificationService);
+
 
   @ViewChild(ModalComponent) modalComponent!: ModalComponent;
 
@@ -48,7 +57,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   protected user: BasicUser | null = null;
   protected movies: MovieBasicInfo[] = [];
-  
+  protected genres: Genre[] = [];
+
   protected searchTerm?: string;
   protected typeList: TypeList = 'favorite';
 
@@ -62,18 +72,29 @@ export class ProfileComponent implements OnInit, OnDestroy {
     title: "Configure Profile"
   }
 
+  protected selectedGenres: string[] = [];
+  protected maxSelectedGenres = 3;
+  protected selectEvaluator = 'starts'
+
+  protected maxNumberStars = 5;
+  protected maxSlider = 10;
 
   ngOnInit(): void {
 
     this.loadDataUser();
 
+    this.loadGenres();
+
+
+
     this.activateRoute.paramMap.subscribe(params => {
       const listParam = params.get('list');
-      
+
       if (listParam === 'favorite' || listParam === 'see' || listParam === 'seen') {
         this.typeList = listParam;
         this.loadUserMovies(this.searchTerm, listParam);
       }
+
     });
   }
 
@@ -84,30 +105,34 @@ export class ProfileComponent implements OnInit, OnDestroy {
   private loadDataUser() {
     this.userService.getUser();
 
-    this.userSubscription = this.userService.currentUser$
-      .pipe(
-        filter((currentUser) => currentUser !== null),
-      )
-      .subscribe((currentUser) => {
-        this.user = currentUser;
+    this.userSubscription = this.userService.currentUser$.subscribe((currentUser) => {
+      this.user = currentUser;
 
-        if (this.user?.status === 'blocked') {
+      if (this.user) {
+        if (this.user?.config_scorer) this.selectEvaluator = this.user.config_scorer;
 
-          //-----------------
-        }
 
-        if (!this.user.statistics) {
-          this.userService.statisticsUser();
-        }
-        
-        this.loadUserMovies();
-        
-      });
+
+        if (this.user?.status === 'blocked') timeBlocked(this.userService, this.notificationService);
+
+
+        if (this.user && !this.user.statistics) this.userService.statisticsUser();
+
+        this.maxNumberStars = this.user.maximum_star_rating;
+        this.maxSlider = this.user.maximum_slider_rating;
+
+      }
+
+    
+
+      this.loadUserMovies();
+
+    });
 
   }
 
 
-  private loadUserMovies(newTermSearch?: string , typeList?: TypeList) {
+  private loadUserMovies(newTermSearch?: string, typeList?: TypeList) {
     this.loading = true;
     if (this.user?.id) {
 
@@ -117,12 +142,12 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.allDataLoaded = false;
       }
 
-  
+
       this.movieService.getMoviesUser(this.page, this.limit, this.searchTerm, typeList).subscribe({
         next: (movies) => {
 
           setTimeout(() => {
-            
+
             this.movies = movies;
             this.loading = false;
 
@@ -136,23 +161,175 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
   }
 
-  protected onSearch(term: string): void {    
+  private loadGenres() {
+
+    this.genreService.getGenres().subscribe({
+      next: (data: Genre[]) => {
+        this.genres = data;
+
+        data.forEach(genre => genre.active && this.selectedGenres.push(genre.id))
+
+      },
+      error: (error) => {
+        console.error('Error obtaining genres:', error);
+      }
+    })
+
+  }
+
+  protected onSearch(term: string): void {
     this.searchTerm = term;
     this.loadUserMovies(term, this.typeList)
   }
 
-
-  protected onTypeListChange(list: TypeList): void{
+  protected onTypeListChange(list: TypeList): void {
     if (this.typeList === list) return
-    
+
     this.typeList = list;
     this.loadUserMovies(this.searchTerm, list);
 
   }
 
-
-  openModalSettings() {
+  protected openModalSettings(): void {
     if (this.modalComponent) this.modalComponent.openModal();
-    
   }
+
+  protected toggleFavoriteGenre(genreId: string): void {
+
+    if (this.user?.status === 'blocked') return 
+
+    const index = this.selectedGenres.indexOf(genreId)
+
+
+    if (index > -1) {
+      this.selectedGenres.splice(index, 1);
+
+      this.userService.favoriteGenres(this.selectedGenres).subscribe({
+        next: () => {
+
+          this.userService.getUser();
+
+          this.showNotificationText('Your list of favorite genres has been updated.')
+
+        },
+        error: (err: any) => {
+          console.error(err);
+        }
+      });
+
+    } else if (this.selectedGenres.length < this.maxSelectedGenres) {
+
+      this.selectedGenres.push(genreId);
+
+      this.userService.favoriteGenres(this.selectedGenres).subscribe({
+        next: () => {
+
+          this.showNotificationText('Your list of favorite genres has been updated.')
+
+
+        },
+        error: (err: any) => {
+          console.error(err);
+        }
+      });
+
+    } else {
+
+      this.showNotificationText('Maximum genres reached.Deselect one to choose another.', true)
+
+    }
+
+
+
+  }
+
+
+
+  protected changeSelectEvaluator(value: 'starts' | 'slider'): void {
+
+    if (this.selectEvaluator === value || this.user?.status === 'blocked') return
+
+    this.selectEvaluator = value;
+
+    this.userService.selectEvaluator(value).subscribe({
+      next: () => {
+
+        this.userService.getUser();
+
+        this.showNotificationText('The way it scores movies has been updated');
+      },
+      error: (err: any) => {
+        console.error(err);
+      }
+    })
+
+
+
+  }
+
+  protected sizeStars(acction: '+' | '-') {
+
+    if (acction === '+') {
+
+      if (this.maxNumberStars < 10) this.maxNumberStars++;
+
+    } else {
+
+      if (this.maxNumberStars > 3) this.maxNumberStars--;
+
+    }
+
+    this.userService.highestEvaluation('starts', this.maxNumberStars).subscribe({
+      next: (response) => {
+        
+        this.userService.getUser();
+
+        this.showNotificationText(response.message);
+
+      },
+      error: (err) =>{
+        console.error(err);
+      }
+    })
+
+
+  }
+
+  protected sizeSlider(number: number){
+    this.maxSlider = number;
+
+    this.userService.highestEvaluation('slider', number).subscribe({
+      next: (response) => {
+
+        this.userService.getUser();
+
+        console.log(response);
+        
+      },
+      error: (err) =>{
+        console.error(err);
+      }
+    })
+  }
+
+  get arrayNumberStars(): any[] {
+    return new Array(this.maxNumberStars).fill(null);
+  }
+
+
+
+
+
+
+  private showNotificationText(text: string, error: boolean = false): void {
+
+    this.notificationService.show({
+      type: 'text',
+      isError: error,
+      text: text,
+      position: 'tr',
+      duration: 5000
+    });
+  }
+
 }

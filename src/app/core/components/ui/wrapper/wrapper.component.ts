@@ -20,8 +20,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
       [class.gradient-container]="containerColor === 'g'"
       [class.error-container]="containerColor === 'e'"
       [class.zoom-on-hover]="animation === 'zoom'"
-      [@activeAnimation]="isActive ? 'active' : 'inactive'">
-
+      [@activeAnimation]="isActive === true ? 'active' : (isActive === false ? 'inactive' : null)">
+      
       <div
         [style.justifyContent]="flex?.[0] ?? 'center'"
         [style.gap]="flex?.[1] ?? '0'"
@@ -49,22 +49,14 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   styleUrl: './wrapper.component.css',
   animations: [
     trigger('activeAnimation', [
-      state('inactive', style({
-        background: 'var(--black)'
-      })),
-      state('active', style({
-        background: 'var(--gradient)' 
-      })),
+      state('inactive', style({ background: 'var(--black)' })),
+      state('active', style({ background: 'var(--gradient)' })),
       transition('inactive <=> active', animate('200ms ease-in-out'))
     ]),
 
     trigger('contentScale', [
-      state('normal', style({
-        transform: 'scale(1)'
-      })),
-      state('scaled', style({
-        transform: 'scale(0.9)'
-      })),
+      state('normal', style({ transform: 'scale(1)' })),
+      state('scaled', style({ transform: 'scale(0.95)' })),
       transition('normal <=> scaled', animate('200ms ease-in-out'))
     ])
 
@@ -73,7 +65,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class WrapperComponent implements OnInit {
   @Input() track: any;
   @Input() type: 'text' | 'btn' = 'text';
-  @Input() isActive: boolean = false;
+  @Input() isActive?: boolean;
 
   @Input() width: string = 'auto';
   @Input() height: string = 'auto';
@@ -87,17 +79,17 @@ export class WrapperComponent implements OnInit {
   @Input() animation?: 'zoom';
   @Output() wrapperClick: EventEmitter<any> = new EventEmitter<any>();
 
-  fontWeight: string | number = 'normal';
-  letterSpacing: string = 'normal';
-  textAlign: 'center' | 'right' | 'left' = 'center';
-  fontSize: string | undefined;
+  protected fontWeight: string | number = 'normal';
+  protected letterSpacing: string = 'normal';
+  protected textAlign: 'center' | 'right' | 'left' = 'center';
+  protected fontSize: string | undefined;
 
-  paddingTop: number = 0;
-  paddingRight: number = 0;
-  paddingBottom: number = 0;
-  paddingLeft: number = 0;
+  protected paddingTop: number = 0;
+  protected paddingRight: number = 0;
+  protected paddingBottom: number = 0;
+  protected paddingLeft: number = 0;
 
-  ngOnInit(): void {
+  ngOnInit(): void {    
     this.applyContentPadingType();
     this.applyContentTextStyles();
   }

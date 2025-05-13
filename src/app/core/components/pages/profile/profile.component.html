@@ -134,5 +134,76 @@
 
   </app-collapsible-section>
 
+  <app-collapsible-section title="User Preferences">
+
+    <article class="preference-article">
+
+      <p>Select your three favorite genres to filter the content on the home page.</p>
+
+      <div id="favorite-genres">
+        @for (genre of genres; track genre.id) {
+          <app-wrapper 
+            width="150px"
+            [cursor]="this.selectedGenres.length >= this.maxSelectedGenres && !this.selectedGenres.includes(genre.id) ? 'di' : 'po'"
+            (wrapperClick)="toggleFavoriteGenre(genre.id)"
+            [isActive]="this.selectedGenres.includes(genre.id)">
+
+            {{ genre.name }}
+          </app-wrapper>
+        }
+      </div>
+
+    </article>
+
+    <article class="preference-article">
+
+      <p>Select the scoring style (stars or slider) and, if desired, enter the maximum score.</p>
+
+      <div id="select-score">
+        <app-wrapper 
+          width="28vw" 
+          [cursor]="user?.status !== 'blocked' ? (selectEvaluator === 'slider' ? 'po' : 'de') : 'di'" 
+          [isActive]="selectEvaluator === 'starts' " 
+          (wrapperClick)="changeSelectEvaluator('starts')">
+
+          <h4>STARTS</h4>
+
+          <div>
+            <svg class="cursor-po" (click)="sizeStars('-')" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
+              <path fill="currentColor" d="M7.921 12.677q-.186-.13-.28-.298q-.093-.167-.093-.379t.093-.379t.28-.298l5.843-3.733q.101-.055.213-.083t.213-.028q.326 0 .568.22t.242.588v7.426q0 .368-.243.588q-.244.22-.569.22q-.101 0-.212-.028q-.111-.027-.212-.083z"/>
+            </svg>
+
+            @for (star of arrayNumberStars; track $index) {
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
+                <path fill="var(--start)" d="m8.125 7.092l2.608-3.47q.238-.322.566-.472T12 3t.701.15t.566.471l2.608 3.471l4.02 1.368q.534.18.822.605q.289.426.289.94q0 .237-.07.471t-.228.449l-2.635 3.573l.1 3.83q.025.706-.466 1.189T16.564 20l-.454-.056L12 18.733l-4.11 1.211q-.124.05-.24.053q-.117.003-.214.003q-.665 0-1.15-.483t-.459-1.188l.1-3.856l-2.629-3.548q-.159-.217-.229-.453Q3 10.236 3 10q0-.506.297-.942q.296-.435.828-.618z" />
+              </svg>
+            }
+
+            <svg class="cursor-po" (click)="sizeStars('+')" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
+              <path fill="currentColor" d="M9 15.714V8.287q0-.368.244-.588q.243-.22.568-.22q.102 0 .213.028q.11.027.211.083l5.843 3.733q.186.13.28.298q.093.167.093.379t-.093.379t-.28.298l-5.843 3.733q-.101.055-.213.083t-.213.028q-.326 0-.568-.22T9 15.714"/>
+            </svg>
+
+          </div>
+        </app-wrapper>
+
+        <app-wrapper 
+          width="28vw" 
+          [cursor]="user?.status !== 'blocked' ? (selectEvaluator === 'starts' ? 'po' : 'de') : 'di'" 
+          [isActive]="selectEvaluator === 'slider' " 
+          (wrapperClick)="changeSelectEvaluator('slider')">
+          <h4>SLIDER</h4>
+
+          <app-slider-rating  
+            [max]="100" 
+            [min]="1" 
+            [showZero]="true" 
+            [externalRating]="maxSlider"
+            (ratingChange)="sizeSlider($event)"/>
+          
+        </app-wrapper>
+      </div>
+
+    </article>
+  </app-collapsible-section>
 
 </app-modal>

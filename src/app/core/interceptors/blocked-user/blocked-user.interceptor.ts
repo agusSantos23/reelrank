@@ -6,7 +6,6 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 export const BlockedUserInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> => {
-  const notificationService = inject(NotificationService);
   const userService = inject(UserService);
 
   let isCurrentlyBlocked = false;
@@ -20,6 +19,7 @@ export const BlockedUserInterceptor: HttpInterceptorFn = (req: HttpRequest<unkno
           userService.setUserBlocked();
 
         }
+        
         return throwError(() => error);
       }
       return throwError(() => error);

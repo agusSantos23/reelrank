@@ -6,6 +6,11 @@ import { WrapperComponent } from "../../../ui/wrapper/wrapper.component";
   imports: [WrapperComponent],
   template: `
     <div>
+    
+      @if (showZero) {
+        <span>0</span>
+      }
+
       <input
         type="range"
         [min]="min"
@@ -16,7 +21,9 @@ import { WrapperComponent } from "../../../ui/wrapper/wrapper.component";
         [style.cursor]="isDisable ? 'not-allowed' : 'pointer'"
         (input)="onSliderInput($any($event.target).value)"
         (mouseup)="onSliderMouseUp()"
-        [style.marginRight]="isViewWindow ? '10px' : undefined">
+        [style.marginRight]="isViewWindow ? '10px' : undefined"
+        [style.marginLeft]="isViewWindow ? '10px' : undefined">
+
       @if(isViewWindow){
         <app-wrapper width="40px" [contentPading]="[5,2]" [containerPading]="3">
           {{ hasInteracted ? internalCurrentValue : '-' }}
@@ -28,17 +35,20 @@ import { WrapperComponent } from "../../../ui/wrapper/wrapper.component";
 })
 export class SliderRatingComponent implements OnInit, OnChanges {
   @Input() max: number = 10;
+  @Input() min: number = 0;
   @Input() externalRating?: number;
   @Input() isViewWindow: boolean = true;
-  @Input() isDisable: boolean = false;
+  @Input() isDisable: boolean = false; 
+  @Input() showZero: boolean = false;
+
   @Output() ratingChange = new EventEmitter<number>();
 
-  protected min: number = 0;
   protected currentValue: number = 0;
   protected internalCurrentValue?: number; 
   protected step: number = 1;
   private isDragging: boolean = false;
   protected hasInteracted: boolean = true;
+
 
   ngOnInit(): void {
 

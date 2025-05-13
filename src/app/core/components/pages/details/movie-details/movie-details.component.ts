@@ -106,6 +106,7 @@ export class MovieDetailsComponent implements OnInit {
     this.movieId = this.activateRoute.snapshot.paramMap.get('id') || undefined;
 
     if (this.movieId) {
+
       if (!this.isValidUuid(this.movieId)) {
         this.route.navigate(['error/404']);
         return;
@@ -165,8 +166,9 @@ export class MovieDetailsComponent implements OnInit {
 
     this.userSubscription = this.userService.currentUser$.subscribe((currentUser) => {
       this.user = currentUser;
-      console.log(this.user);
-
+      
+      console.log(this.user?.config_scorer);
+      
       if (this.user?.status === 'blocked') {
         timeBlocked(this.userService, this.notificationService);
       }
@@ -183,6 +185,8 @@ export class MovieDetailsComponent implements OnInit {
   }
 
   protected receiveRating(value: number, column: ColumnRate): void {
+    if (this.ratingValue === value) return
+
     this.ratingValue = value;
 
     if (!this.user) {
@@ -207,9 +211,7 @@ export class MovieDetailsComponent implements OnInit {
 
   }
 
-
   protected toggleFavorite(): void {
-
 
     if (!this.user) {
       this.modalAuth.openModal();
@@ -313,7 +315,6 @@ export class MovieDetailsComponent implements OnInit {
       }
     }
   }
-
 
   protected cancelAuthModal(): void {
     this.ratingValue = undefined;

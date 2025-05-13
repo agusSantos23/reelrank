@@ -20,51 +20,50 @@ export class UserService {
   private _currentUser = new BehaviorSubject<BasicUser | null>(null);
   public readonly currentUser$ = this._currentUser.asObservable();
 
- 
+
   public getUser(): void {
-    if ( this._currentUser.getValue() === null) {
-      const token = this.tokenService.getToken();
+    const token = this.tokenService.getToken();
 
-      if (!token) {
-        this._currentUser.next(null);
-        return;
-      }
-
-      const decodedToken: DecodedToken = jwt_decode.jwtDecode(token);
-
-      this.http.get<BasicUser>(`${this.apiUrl}/auth/token/${decodedToken.id}`).pipe(
-        tap((user) => {
-          this._currentUser.next(user);
-        }),
-        catchError((error) => {
-          this._currentUser.next(null);
-          console.error('Error charging the user:', error);
-          return of(null);
-        })
-      ).subscribe();
+    if (!token) {
+      this._currentUser.next(null);
+      return;
     }
+
+    const decodedToken: DecodedToken = jwt_decode.jwtDecode(token);
+    
+    this.http.get<BasicUser>(`${this.apiUrl}/auth/token/${decodedToken.id}`).pipe(
+      tap((user) => {
+        console.log("Updated user");
+        
+        this._currentUser.next(user);
+      }),
+      catchError((error) => {
+        this._currentUser.next(null);
+        console.error('Error charging the user:', error);
+        return of(null);
+      })
+    ).subscribe();
+  
   }
 
-  public statisticsUser(): void{
+  public statisticsUser(): void {
     const authInfo = this.getAuthHeaders();
 
     if (!authInfo) return;
-    
+
     const { headers, userId } = authInfo;
 
-    console.log(1);
-    
     this.http.get<StatisticsUser>(
       `${this.apiUrl}/user/${userId}/statistics`,
       { headers }
     ).pipe(
       tap((statisticsUserData) => {
         const currentUser = this._currentUser.getValue();
-          
+
         if (currentUser) {
           const updatedUser: BasicUser = { ...currentUser, statistics: statisticsUserData };
-          this._currentUser.next(updatedUser);          
-        }        
+          this._currentUser.next(updatedUser);
+        }
 
       })
 
@@ -76,15 +75,15 @@ export class UserService {
   }
 
   public rateMovie(movieId: string, column: string, value: number): Observable<any> {
-    
+
     const authInfo = this.getAuthHeaders();
 
     if (!authInfo) return of(null);
-    
+
     const { headers, userId } = authInfo;
 
     return this.http.patch<any>(
-      `${this.apiUrl}/usermovies/${userId}/${movieId}/rate`, 
+      `${this.apiUrl}/usermovies/${userId}/${movieId}/rate`,
       { column, value }, { headers }
     )
   }
@@ -93,11 +92,11 @@ export class UserService {
     const authInfo = this.getAuthHeaders();
 
     if (!authInfo) return of(null);
-    
+
     const { headers, userId } = authInfo;
-    
+
     return this.http.patch<any>(
-      `${this.apiUrl}/usermovies/${userId}/${movieId}/favorite`, 
+      `${this.apiUrl}/usermovies/${userId}/${movieId}/favorite`,
       { value }, { headers }
     )
   }
@@ -106,15 +105,49 @@ export class UserService {
     const authInfo = this.getAuthHeaders();
 
     if (!authInfo) return of(null);
-    
+
     const { headers, userId } = authInfo;
-    
+
     return this.http.patch<any>(
-      `${this.apiUrl}/usermovies/${userId}/${movieId}/seen`, 
+      `${this.apiUrl}/usermovies/${userId}/${movieId}/seen`,
       { value }, { headers }
     )
   }
 
+  public favoriteGenres(value: string[]): Observable<any> {
+    const authInfo = this.getAuthHeaders();
+
+    if (!authInfo) return of(null);
+
+    const { headers, userId } = authInfo;
+
+    return this.http.post<any>(
+      `${this.apiUrl}/settings/usergenres/${userId}`,
+      { genre_ids: value }, { headers }
+    )
+
+  }
+
+  public selectEvaluator(value: 'starts' | 'slider'){
+    const authInfo = this.getAuthHeaders();
+
+    if (!authInfo) return of(null);
+
+    const { headers, userId } = authInfo;
+
+    return this.http.post<any>(`${this.apiUrl}/settings/evaluator/${userId}`, { value }, { headers })
+  }
+
+  public highestEvaluation(evaluator: 'starts' | 'slider', max: number){
+    const authInfo = this.getAuthHeaders();
+
+    if (!authInfo) return of(null);
+
+    const { headers, userId } = authInfo;
+
+    return this.http.post<any>(`${this.apiUrl}/settings/highest/${userId}/${evaluator}`, { max }, { headers })
+  
+  }
 
   public unblockUser(): Observable<any> {
     const authInfo = this.getAuthHeaders();
@@ -157,7 +190,8 @@ export class UserService {
       this._currentUser.next(updatedUser);
     }
   }
-  
+
+
   public getAuthHeaders(): { headers: HttpHeaders; userId: string } | null {
     const token = this.tokenService.getToken();
     if (!token) {
@@ -185,6 +219,5 @@ export class UserService {
       return null;
     }
   }
-
 
 }

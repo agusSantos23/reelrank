@@ -15,6 +15,7 @@ export interface BasicUser {
   action_count: number;
   avatar?: Avatar | null;
   statistics?: StatisticsUser;
+  genres?: GenresUser[];
 }
 
 export interface RegisterUser {
@@ -31,10 +32,18 @@ export interface LoginUser {
   password?: string | null;
 }
 
-
 export interface StatisticsUser {
   most_viewed_genre: string;
   rated_movies: number;
   average_rating: number;
   watching_movies: number
+}
+
+export interface GenresUser {
+  id: string;
+  name: string;
+  pivot: {
+    genre_id: string;
+    user_id: string;
+  }
 }
