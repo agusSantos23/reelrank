@@ -21,6 +21,13 @@ import { Genre } from '../../../models/Genre.model';
 import { NotificationService } from '../../../services/notification/notification.service';
 import { timeBlocked } from '../../../interceptors/blocked-user/blocked-user.interceptor';
 import { SliderRatingComponent } from "../../inputs/ratings/slider-rating/slider-rating.component";
+import { InfoInputComponent } from "../../inputs/info-input/info-input.component";
+import { AbstractControlOptions, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FocusInputDirective } from '../../../shared/directives/functionality/focus-input/focus-input.directive';
+import { FloatingLabelDirective } from '../../../shared/directives/animations/floating-label/floating-label.directive';
+import { response } from 'express';
+import { CustomValidators } from '../../../shared/validators/custom-validators';
+import { ViewInputComponent } from "../../inputs/view-input/view-input.component";
 
 export type TypeList = 'favorite' | 'see' | 'seen';
 
@@ -38,8 +45,13 @@ export type TypeList = 'favorite' | 'see' | 'seen';
     ModalComponent,
     TooltipTriggerDirective,
     CollapsibleSectionComponent,
-    SliderRatingComponent
-  ],
+    SliderRatingComponent,
+    InfoInputComponent,
+    FocusInputDirective,
+    FloatingLabelDirective,
+    ReactiveFormsModule,
+    ViewInputComponent
+],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
@@ -51,7 +63,40 @@ export class ProfileComponent implements OnInit, OnDestroy {
   private notificationService = inject(NotificationService);
 
 
-  @ViewChild(ModalComponent) modalComponent!: ModalComponent;
+  @ViewChild('modalSettings') modalSettingsComponent!: ModalComponent;
+  @ViewChild('modalDangerActions') modalDangerActionsComponent!: ModalComponent;
+
+  protected emailControl = new FormControl('', [Validators.required, Validators.email]);
+
+  protected form = new FormGroup({
+    password: new FormControl('', [
+      Validators.required,
+      Validators.minLength(8),
+      Validators.maxLength(64),
+      CustomValidators.hasUpperCase,
+      CustomValidators.hasLowerCase,
+      CustomValidators.hasSpecialCharacter
+    ]),
+    password_confirmation: new FormControl('', [Validators.required])
+  }, { validators: CustomValidators.mustMatch('password', 'password_confirmation') } as AbstractControlOptions);
+
+
+
+  protected infoInputs = {
+    "email": [
+      "Provide a valid email address (user@example.com)"
+    ],
+    "password": [
+      "Must be at least 8 characters",
+      "Must be no more than 64 characters",
+      "Must contain at least one uppercase letter",
+      "Must contain at least one lowercase letter",
+      "Must contain at least one special character"
+    ],
+    "confirmPassword": [
+      "Enter your password again for confirmation",
+    ],
+  };
 
   private userSubscription?: Subscription;
 
@@ -68,10 +113,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
   private timeLoading = 1000;
   protected allDataLoaded = false;
 
-  protected headerSettings: Header = {
-    title: "Configure Profile"
-  }
-
   protected selectedGenres: string[] = [];
   protected maxSelectedGenres = 3;
   protected selectEvaluator = 'starts'
@@ -79,13 +120,16 @@ export class ProfileComponent implements OnInit, OnDestroy {
   protected maxNumberStars = 5;
   protected maxSlider = 10;
 
+  protected selectDangerousActions: 'email' | 'password' | 'delete' = 'email';
+
+  protected viewPassword = false;
+  protected viewConfirmPassword = false;
+
   ngOnInit(): void {
 
     this.loadDataUser();
 
     this.loadGenres();
-
-
 
     this.activateRoute.paramMap.subscribe(params => {
       const listParam = params.get('list');
@@ -123,14 +167,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
       }
 
-    
-
       this.loadUserMovies();
 
     });
 
   }
-
 
   private loadUserMovies(newTermSearch?: string, typeList?: TypeList) {
     this.loading = true;
@@ -191,12 +232,25 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   protected openModalSettings(): void {
-    if (this.modalComponent) this.modalComponent.openModal();
+    if (this.modalSettingsComponent) this.modalSettingsComponent.openModal();
+  }
+
+  protected openModalDangerousActions(acction: 'email' | 'password' | 'delete') {
+
+    if (this.modalDangerActionsComponent) {
+
+      this.selectDangerousActions = acction;
+
+      setTimeout(() => {
+        this.modalDangerActionsComponent.openModal();
+      }, 0);
+
+    }
   }
 
   protected toggleFavoriteGenre(genreId: string): void {
 
-    if (this.user?.status === 'blocked') return 
+    if (this.user?.status === 'blocked') return
 
     const index = this.selectedGenres.indexOf(genreId)
 
@@ -239,11 +293,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
     }
 
-
-
   }
-
-
 
   protected changeSelectEvaluator(value: 'starts' | 'slider'): void {
 
@@ -263,8 +313,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
       }
     })
 
-
-
   }
 
   protected sizeStars(acction: '+' | '-') {
@@ -281,13 +329,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
     this.userService.highestEvaluation('starts', this.maxNumberStars).subscribe({
       next: (response) => {
-        
+
         this.userService.getUser();
 
         this.showNotificationText(response.message);
 
       },
-      error: (err) =>{
+      error: (err) => {
         console.error(err);
       }
     })
@@ -295,7 +343,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   }
 
-  protected sizeSlider(number: number){
+  protected sizeSlider(number: number) {
     this.maxSlider = number;
 
     this.userService.highestEvaluation('slider', number).subscribe({
@@ -304,9 +352,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.userService.getUser();
 
         console.log(response);
-        
+
       },
-      error: (err) =>{
+      error: (err) => {
         console.error(err);
       }
     })
@@ -331,5 +379,60 @@ export class ProfileComponent implements OnInit, OnDestroy {
       duration: 5000
     });
   }
+
+
+  protected onSubmitEmail() {
+
+    if (this.emailControl.valid && this.emailControl.value) {
+
+      console.log('Valid form:', this.emailControl.value);
+
+      this.userService.updateUserField('email', this.emailControl.value).subscribe({
+        next: (response) => {
+          console.log(response);
+
+        },
+        error: (err) => {
+          console.error(err);
+
+        }
+      })
+
+    } else {
+      console.log('Invalid form');
+      this.emailControl.markAllAsTouched()
+
+    }
+  }
+
+  protected onSubmitPassword() {
+
+    if (this.form && this.form.valid) {
+      const userPassword= {
+        password: this.form.value.password || '',
+        password_confirmation: this.form.value.password_confirmation || ''
+      };
+
+
+      this.userService.updateUserField('password', userPassword ).subscribe({
+        next: (response) => {
+          console.log(response);
+
+        },
+        error: (err) => {
+          console.error(err);
+
+        }
+        
+      })
+
+    } else {
+      console.log('Invalid form');
+      this.emailControl.markAllAsTouched()
+
+    }
+
+  }
+
 
 }

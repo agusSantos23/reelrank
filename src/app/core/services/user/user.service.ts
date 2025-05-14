@@ -149,6 +149,22 @@ export class UserService {
   
   }
 
+  public updateUserField(field: 'email' | 'password', value: string | { password: string, password_confirmation: string}): Observable<any> {
+
+    const authInfo = this.getAuthHeaders();
+
+    if (!authInfo) return of(null);
+
+    const { headers, userId } = authInfo;
+
+    return this.http.patch<BasicUser>(
+      `${this.apiUrl}/user/${userId}`,
+      { [field]: value },
+      { headers }
+    )
+  }
+
+
   public unblockUser(): Observable<any> {
     const authInfo = this.getAuthHeaders();
 
@@ -219,5 +235,7 @@ export class UserService {
       return null;
     }
   }
+
+
 
 }

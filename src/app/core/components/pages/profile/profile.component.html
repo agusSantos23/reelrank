@@ -1,38 +1,36 @@
 <header class="mb-35">
-  <app-go-page routeText="" label="home"/>
+  <app-go-page routeText="" label="home" />
 
   <div id="basic-profile">
 
     <div id="text-container">
-      <button 
-        id="btn-settings" 
-        appTooltipTrigger="Settings" 
-        tooltipPosition="bottom"
-        (click)="openModalSettings()">
+      <button id="btn-settings" appTooltipTrigger="Settings" tooltipPosition="bottom" (click)="openModalSettings()">
         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24">
-          <path fill="currentColor" d="M10.96 21q-.349 0-.605-.229q-.257-.229-.319-.571l-.263-2.092q-.479-.145-1.036-.454q-.556-.31-.947-.664l-1.915.824q-.317.14-.644.03t-.504-.415L3.648 15.57q-.177-.305-.104-.638t.348-.546l1.672-1.25q-.045-.272-.073-.559q-.03-.288-.03-.559q0-.252.03-.53q.028-.278.073-.626l-1.672-1.25q-.275-.213-.338-.555t.113-.648l1.06-1.8q.177-.287.504-.406t.644.021l1.896.804q.448-.373.97-.673q.52-.3 1.013-.464l.283-2.092q.061-.342.318-.571T10.96 3h2.08q.349 0 .605.229q.257.229.319.571l.263 2.112q.575.202 1.016.463t.909.654l1.992-.804q.318-.14.645-.021t.503.406l1.06 1.819q.177.306.104.638t-.348.547L18.36 10.92q.082.31.092.569t.01.51q0 .233-.02.491q-.019.259-.088.626l1.69 1.27q.275.213.358.546t-.094.638l-1.066 1.839q-.176.306-.513.415q-.337.11-.654-.03l-1.923-.824q-.467.393-.94.673t-.985.445l-.264 2.111q-.061.342-.318.571t-.605.23zm.04-1h1.956l.369-2.708q.756-.2 1.36-.549q.606-.349 1.232-.956l2.495 1.063l.994-1.7l-2.189-1.644q.125-.427.166-.786q.04-.358.04-.72q0-.38-.04-.72t-.166-.747l2.227-1.683l-.994-1.7l-2.552 1.07q-.454-.499-1.193-.935q-.74-.435-1.4-.577L13 4h-1.994l-.312 2.689q-.756.161-1.39.52q-.633.358-1.26.985L5.55 7.15l-.994 1.7l2.169 1.62q-.125.336-.175.73t-.05.82q0 .38.05.755t.156.73l-2.15 1.645l.994 1.7l2.475-1.05q.589.594 1.222.953q.634.359 1.428.559zm.973-5.5q1.046 0 1.773-.727T14.473 12t-.727-1.773t-1.773-.727q-1.052 0-1.776.727T9.473 12t.724 1.773t1.776.727M12 12"/>
+          <path fill="currentColor"
+            d="M10.96 21q-.349 0-.605-.229q-.257-.229-.319-.571l-.263-2.092q-.479-.145-1.036-.454q-.556-.31-.947-.664l-1.915.824q-.317.14-.644.03t-.504-.415L3.648 15.57q-.177-.305-.104-.638t.348-.546l1.672-1.25q-.045-.272-.073-.559q-.03-.288-.03-.559q0-.252.03-.53q.028-.278.073-.626l-1.672-1.25q-.275-.213-.338-.555t.113-.648l1.06-1.8q.177-.287.504-.406t.644.021l1.896.804q.448-.373.97-.673q.52-.3 1.013-.464l.283-2.092q.061-.342.318-.571T10.96 3h2.08q.349 0 .605.229q.257.229.319.571l.263 2.112q.575.202 1.016.463t.909.654l1.992-.804q.318-.14.645-.021t.503.406l1.06 1.819q.177.306.104.638t-.348.547L18.36 10.92q.082.31.092.569t.01.51q0 .233-.02.491q-.019.259-.088.626l1.69 1.27q.275.213.358.546t-.094.638l-1.066 1.839q-.176.306-.513.415q-.337.11-.654-.03l-1.923-.824q-.467.393-.94.673t-.985.445l-.264 2.111q-.061.342-.318.571t-.605.23zm.04-1h1.956l.369-2.708q.756-.2 1.36-.549q.606-.349 1.232-.956l2.495 1.063l.994-1.7l-2.189-1.644q.125-.427.166-.786q.04-.358.04-.72q0-.38-.04-.72t-.166-.747l2.227-1.683l-.994-1.7l-2.552 1.07q-.454-.499-1.193-.935q-.74-.435-1.4-.577L13 4h-1.994l-.312 2.689q-.756.161-1.39.52q-.633.358-1.26.985L5.55 7.15l-.994 1.7l2.169 1.62q-.125.336-.175.73t-.05.82q0 .38.05.755t.156.73l-2.15 1.645l.994 1.7l2.475-1.05q.589.594 1.222.953q.634.359 1.428.559zm.973-5.5q1.046 0 1.773-.727T14.473 12t-.727-1.773t-1.773-.727q-1.052 0-1.776.727T9.473 12t.724 1.773t1.776.727M12 12" />
         </svg>
       </button>
-      
+
       <div>
         <h2>{{ user?.name }} {{ user?.lastname }}</h2>
         <h3>{{ user?.email }}</h3>
       </div>
     </div>
 
-    <div id="img-container" >
+    <div id="img-container">
       @if (user?.avatar) {
-      
-        <img id="img-content" src="https://i.ibb.co/{{ user?.avatar }}/image.webp" alt="profile Avatar">
-        
+
+      <img id="img-content" src="https://i.ibb.co/{{ user?.avatar }}/image.webp" alt="profile Avatar">
+
       }@else {
-        <svg id="svg-profile" xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24">
-          <path fill="#eee" d="M12 11.385q-1.237 0-2.119-.882T9 8.385t.881-2.12T12 5.386t2.119.88t.881 2.12t-.881 2.118t-2.119.882m-7 7.23V16.97q0-.619.36-1.158q.361-.54.97-.838q1.416-.679 2.834-1.018q1.417-.34 2.836-.34t2.837.34t2.832 1.018q.61.298.97.838q.361.539.361 1.158v1.646zm1-1h12v-.646q0-.332-.215-.625q-.214-.292-.593-.494q-1.234-.598-2.546-.916T12 14.616t-2.646.318t-2.546.916q-.38.202-.593.494Q6 16.637 6 16.97zm6-7.23q.825 0 1.413-.588T14 8.384t-.587-1.412T12 6.384t-1.412.588T10 8.384t.588 1.413t1.412.587m0 7.232" />
-        </svg>
+      <svg id="svg-profile" xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24">
+        <path fill="#eee"
+          d="M12 11.385q-1.237 0-2.119-.882T9 8.385t.881-2.12T12 5.386t2.119.88t.881 2.12t-.881 2.118t-2.119.882m-7 7.23V16.97q0-.619.36-1.158q.361-.54.97-.838q1.416-.679 2.834-1.018q1.417-.34 2.836-.34t2.837.34t2.832 1.018q.61.298.97.838q.361.539.361 1.158v1.646zm1-1h12v-.646q0-.332-.215-.625q-.214-.292-.593-.494q-1.234-.598-2.546-.916T12 14.616t-2.646.318t-2.546.916q-.38.202-.593.494Q6 16.637 6 16.97zm6-7.23q.825 0 1.413-.588T14 8.384t-.587-1.412T12 6.384t-1.412.588T10 8.384t.588 1.413t1.412.587m0 7.232" />
+      </svg>
       }
 
     </div>
-      
+
 
   </div>
 </header>
@@ -41,33 +39,18 @@
   <header class="mb-10">
 
     <div id="select-list">
-      <app-wrapper 
-        (wrapperClick)="onTypeListChange('favorite')" 
-        [isActive]="typeList === 'favorite'" 
-        type="btn" width="190px" 
-        [contentPading]="[15,7]"
-        cursor="po"
-        animation="zoom">
+      <app-wrapper (wrapperClick)="onTypeListChange('favorite')" [isActive]="typeList === 'favorite'" type="btn"
+        width="190px" [contentPading]="[15,7]" cursor="po" animation="zoom">
         FAVORITES MOVIES
       </app-wrapper>
 
-      <app-wrapper 
-        (wrapperClick)="onTypeListChange('see')" 
-        [isActive]="typeList === 'see'" 
-        type="btn" width="85px" 
-        [contentPading]="[15,7]"
-        cursor="po"
-        animation="zoom">
+      <app-wrapper (wrapperClick)="onTypeListChange('see')" [isActive]="typeList === 'see'" type="btn" width="85px"
+        [contentPading]="[15,7]" cursor="po" animation="zoom">
         SEE
       </app-wrapper>
 
-      <app-wrapper 
-        (wrapperClick)="onTypeListChange('seen')" 
-        [isActive]="typeList === 'seen'" 
-        type="btn" width="85px" 
-        [contentPading]="[15,7]"
-        cursor="po"
-        animation="zoom">
+      <app-wrapper (wrapperClick)="onTypeListChange('seen')" [isActive]="typeList === 'seen'" type="btn" width="85px"
+        [contentPading]="[15,7]" cursor="po" animation="zoom">
         SEEN
       </app-wrapper>
     </div>
@@ -78,38 +61,38 @@
   <app-bar width="100%" height="5px" />
 
 
-  
+
   <div #listMoviesContainer id="list-movies">
     @for (movie of movies; track movie.id; let i = $index) {
-      <app-movie-card [delay]="i % limit" [movie]="movie" [fromProfile]="typeList"/>
+    <app-movie-card [delay]="i % limit" [movie]="movie" [fromProfile]="typeList" />
     }@empty {
-      @if (!loading) {
-        <div class="full-col">
-          <app-info-message text="The database did not return any items." [code]="404" />
-        </div>
-      }
+    @if (!loading) {
+    <div class="full-col">
+      <app-info-message text="The database did not return any items." [code]="404" />
+    </div>
     }
-    
+    }
+
 
     @if (loading) {
-      <div class="full-col">
-        <app-loading-spinner />
-      </div>
+    <div class="full-col">
+      <app-loading-spinner />
+    </div>
     }@else if (allDataLoaded && movies.length !== 0) {
-      <div class="full-col">
-        <app-info-message text="All movies have been uploaded."/>
-      </div>
+    <div class="full-col">
+      <app-info-message text="All movies have been uploaded." />
+    </div>
     }
-    
+
   </div>
 </main>
 
 <app-upward></app-upward>
 
-<app-modal [header]="headerSettings" width="70vw" height="80vh">
+<app-modal #modalSettings [header]="{title: 'Configure Profile'}" width="70vw" height="80vh">
 
   <app-collapsible-section title="User Statistics">
-    
+
     <div id="statistics-section">
       <app-wrapper width="20vw">
         <h4>MOST VIEWED GENRE</h4>
@@ -142,14 +125,12 @@
 
       <div id="favorite-genres">
         @for (genre of genres; track genre.id) {
-          <app-wrapper 
-            width="150px"
-            [cursor]="this.selectedGenres.length >= this.maxSelectedGenres && !this.selectedGenres.includes(genre.id) ? 'di' : 'po'"
-            (wrapperClick)="toggleFavoriteGenre(genre.id)"
-            [isActive]="this.selectedGenres.includes(genre.id)">
+        <app-wrapper width="150px"
+          [cursor]="this.selectedGenres.length >= this.maxSelectedGenres && !this.selectedGenres.includes(genre.id) ? 'di' : 'po'"
+          (wrapperClick)="toggleFavoriteGenre(genre.id)" [isActive]="this.selectedGenres.includes(genre.id)">
 
-            {{ genre.name }}
-          </app-wrapper>
+          {{ genre.name }}
+        </app-wrapper>
         }
       </div>
 
@@ -160,50 +141,265 @@
       <p>Select the scoring style (stars or slider) and, if desired, enter the maximum score.</p>
 
       <div id="select-score">
-        <app-wrapper 
-          width="28vw" 
-          [cursor]="user?.status !== 'blocked' ? (selectEvaluator === 'slider' ? 'po' : 'de') : 'di'" 
-          [isActive]="selectEvaluator === 'starts' " 
-          (wrapperClick)="changeSelectEvaluator('starts')">
+        <app-wrapper width="28vw"
+          [cursor]="user?.status !== 'blocked' ? (selectEvaluator === 'slider' ? 'po' : 'de') : 'di'"
+          [isActive]="selectEvaluator === 'starts' " (wrapperClick)="changeSelectEvaluator('starts')">
 
           <h4>STARTS</h4>
 
           <div>
-            <svg class="cursor-po" (click)="sizeStars('-')" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
-              <path fill="currentColor" d="M7.921 12.677q-.186-.13-.28-.298q-.093-.167-.093-.379t.093-.379t.28-.298l5.843-3.733q.101-.055.213-.083t.213-.028q.326 0 .568.22t.242.588v7.426q0 .368-.243.588q-.244.22-.569.22q-.101 0-.212-.028q-.111-.027-.212-.083z"/>
+            <svg class="cursor-po" (click)="sizeStars('-')" xmlns="http://www.w3.org/2000/svg" width="28" height="28"
+              viewBox="0 0 24 24">
+              <path fill="currentColor"
+                d="M7.921 12.677q-.186-.13-.28-.298q-.093-.167-.093-.379t.093-.379t.28-.298l5.843-3.733q.101-.055.213-.083t.213-.028q.326 0 .568.22t.242.588v7.426q0 .368-.243.588q-.244.22-.569.22q-.101 0-.212-.028q-.111-.027-.212-.083z" />
             </svg>
 
             @for (star of arrayNumberStars; track $index) {
-              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
-                <path fill="var(--start)" d="m8.125 7.092l2.608-3.47q.238-.322.566-.472T12 3t.701.15t.566.471l2.608 3.471l4.02 1.368q.534.18.822.605q.289.426.289.94q0 .237-.07.471t-.228.449l-2.635 3.573l.1 3.83q.025.706-.466 1.189T16.564 20l-.454-.056L12 18.733l-4.11 1.211q-.124.05-.24.053q-.117.003-.214.003q-.665 0-1.15-.483t-.459-1.188l.1-3.856l-2.629-3.548q-.159-.217-.229-.453Q3 10.236 3 10q0-.506.297-.942q.296-.435.828-.618z" />
-              </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
+              <path fill="var(--star)"
+                d="m8.125 7.092l2.608-3.47q.238-.322.566-.472T12 3t.701.15t.566.471l2.608 3.471l4.02 1.368q.534.18.822.605q.289.426.289.94q0 .237-.07.471t-.228.449l-2.635 3.573l.1 3.83q.025.706-.466 1.189T16.564 20l-.454-.056L12 18.733l-4.11 1.211q-.124.05-.24.053q-.117.003-.214.003q-.665 0-1.15-.483t-.459-1.188l.1-3.856l-2.629-3.548q-.159-.217-.229-.453Q3 10.236 3 10q0-.506.297-.942q.296-.435.828-.618z" />
+            </svg>
             }
 
-            <svg class="cursor-po" (click)="sizeStars('+')" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
-              <path fill="currentColor" d="M9 15.714V8.287q0-.368.244-.588q.243-.22.568-.22q.102 0 .213.028q.11.027.211.083l5.843 3.733q.186.13.28.298q.093.167.093.379t-.093.379t-.28.298l-5.843 3.733q-.101.055-.213.083t-.213.028q-.326 0-.568-.22T9 15.714"/>
+            <svg class="cursor-po" (click)="sizeStars('+')" xmlns="http://www.w3.org/2000/svg" width="28" height="28"
+              viewBox="0 0 24 24">
+              <path fill="currentColor"
+                d="M9 15.714V8.287q0-.368.244-.588q.243-.22.568-.22q.102 0 .213.028q.11.027.211.083l5.843 3.733q.186.13.28.298q.093.167.093.379t-.093.379t-.28.298l-5.843 3.733q-.101.055-.213.083t-.213.028q-.326 0-.568-.22T9 15.714" />
             </svg>
 
           </div>
         </app-wrapper>
 
-        <app-wrapper 
-          width="28vw" 
-          [cursor]="user?.status !== 'blocked' ? (selectEvaluator === 'starts' ? 'po' : 'de') : 'di'" 
-          [isActive]="selectEvaluator === 'slider' " 
-          (wrapperClick)="changeSelectEvaluator('slider')">
+        <app-wrapper width="28vw"
+          [cursor]="user?.status !== 'blocked' ? (selectEvaluator === 'starts' ? 'po' : 'de') : 'di'"
+          [isActive]="selectEvaluator === 'slider' " (wrapperClick)="changeSelectEvaluator('slider')">
           <h4>SLIDER</h4>
 
-          <app-slider-rating  
-            [max]="100" 
-            [min]="1" 
-            [showZero]="true" 
-            [externalRating]="maxSlider"
-            (ratingChange)="sizeSlider($event)"/>
-          
+          <app-slider-rating [max]="100" [min]="1" [showZero]="true" [externalRating]="maxSlider"
+            (ratingChange)="sizeSlider($event)" />
+
         </app-wrapper>
       </div>
 
     </article>
   </app-collapsible-section>
 
+  <app-collapsible-section title="Dangerous Actions">
+    <article>
+      <p>Change the email address associated with your account.</p>
+
+      <app-wrapper (wrapperClick)="openModalDangerousActions('email')" width="200px" type="btn" cursor="po">
+        UPDATE EMAIL
+      </app-wrapper>
+
+    </article>
+
+    <article>
+      <p>Update your user password. Make sure you remember it, as you will need to use it the next time you log in.</p>
+
+      <app-wrapper (wrapperClick)="openModalDangerousActions('password')" width="200px" type="btn" cursor="po">
+        UPDATE PASSWORD
+      </app-wrapper>
+
+    </article>
+
+    <article>
+      <p>This action is irreversible. If you delete your account, you will lose all your data and will not be able to
+        recover it. Are you sure you want to continue?</p>
+
+      <app-wrapper width="200px" type="btn" cursor="po">
+        DELETE ACCOUNT
+      </app-wrapper>
+
+    </article>
+
+
+  </app-collapsible-section>
+
 </app-modal>
+
+@switch (selectDangerousActions) {
+
+@case ('email') {
+
+<app-modal #modalDangerActions [header]="{title: 'Update Email'}" width="60vw" height="50vh">
+
+  <div id="form">
+    <div id="input">
+
+      <div class="input-container" appFocusInput>
+        <div>
+          <div class="input-content">
+            <label for="email" id="label-email" class="floating-label">Email</label>
+
+            <input id="email" name="email" type="email" [formControl]="emailControl" appFloatingLabel="label-email">
+
+            <app-info-input [isRequired]="true" [annotationsText]="infoInputs['email']" />
+          </div>
+
+          <div class="floor-container">
+            <div class="floor-content"></div>
+          </div>
+        </div>
+
+        @if (emailControl.invalid && (emailControl.dirty || emailControl.touched)) {
+
+        <div class="requirements-container">
+
+          <div class="requirements-content">
+
+            <ul class="requirements">
+
+              @if (emailControl.errors?.['required']) {
+              <li>Email is required</li>
+              }
+
+              @if (emailControl.errors?.['email']) {
+              <li>Email is not valid</li>
+              }
+
+            </ul>
+          </div>
+        </div>
+        }
+
+      </div>
+
+    </div>
+
+
+
+    <div id="buttons">
+      <button id="cancel-container" class="box-btn">
+        <div>
+          <span>CANCEL</span>
+        </div>
+      </button>
+
+      <button id="submit-container" class="box-btn" type="submit" (click)="onSubmitEmail()">
+        <div>
+          <span>LOGIN</span>
+        </div>
+      </button>
+    </div>
+  </div>
+
+
+
+</app-modal>
+}
+
+@case ('password') {
+<app-modal #modalDangerActions [header]="{title: 'Update Password'}" width="60vw" height="50vh">
+
+
+  <form id="form" [formGroup]="form" (ngSubmit)="onSubmitEmail()">
+
+    <div class="input-container" appFocusInput>
+      <div>
+        <div class="input-content">
+          <label for="password" id="label-password" class="floating-label">Password</label>
+          <input id="password" name="password" [type]="viewPassword ? 'text' : 'password' " formControlName="password"
+            appFloatingLabel="label-password">
+
+          <app-view-input (stateView)="viewPassword = $event" />
+
+          <app-info-input [isRequired]="true" [annotationsText]="infoInputs['password']" />
+        </div>
+
+        <div class="floor-container">
+          <div class="floor-content"></div>
+        </div>
+      </div>
+      @if (form.get('password')?.invalid && (form.get('password')?.dirty || form.get('password')?.touched)) {
+
+      <div class="requirements-container">
+
+        <div class="requirements-content">
+          <ul class="requirements">
+            @if (form.get('password')?.errors?.['required']) {
+            <li>Password is required</li>
+            }
+            @if (form.get('password')?.errors?.['minlength']) {
+            <li>Password must be at least {{ form.get('password')?.errors?.['minlength']?.requiredLength }} characters
+            </li>
+            }
+            @if (form.get('password')?.errors?.['maxlength']) {
+            <li>Password cannot be more than {{ form.get('password')?.errors?.['maxlength']?.requiredLength }}
+              characters</li>
+            }
+            @if (form.get('password')?.errors?.['noUpperCase']) {
+            <li>Password must contain at least one uppercase letter</li>
+            }
+            @if (form.get('password')?.errors?.['noLowerCase']) {
+            <li>Password must contain at least one lowercase letter</li>
+            }
+            @if (form.get('password')?.errors?.['noSpecialCharacter']) {
+            <li>Password must contain at least one special character</li>
+            }
+          </ul>
+        </div>
+
+      </div>
+      }
+
+    </div>
+
+    <div class="input-container" appFocusInput>
+      <div>
+        <div class="input-content">
+          <label for="confirmPassword" id="label-confirmPassword" class="floating-label">Confirm Password</label>
+          <input id="confirmPassword" name="password_confirmation" [type]="viewConfirmPassword ? 'text' : 'password' "
+            formControlName="password_confirmation" appFloatingLabel="label-confirmPassword">
+
+          <app-view-input (stateView)="viewConfirmPassword = $event" />
+          <app-info-input [isRequired]="true" [annotationsText]="infoInputs['confirmPassword']" />
+        </div>
+
+        <div class="floor-container">
+          <div class="floor-content"></div>
+        </div>
+      </div>
+      @if (form.get('password_confirmation')?.invalid && (form.get('password_confirmation')?.dirty || form.get('password_confirmation')?.touched)) {
+
+      <div class="requirements-container">
+
+        <div class="requirements-content">
+          <ul class="requirements">
+            @if (form.get('password_confirmation')?.errors?.['required']) {
+            <li>Confirm Password is required</li>
+            }
+            @if (form.get('password_confirmation')?.errors?.['mustMatch']) {
+            <li>Passwords do not match</li>
+            }
+
+          </ul>
+        </div>
+
+      </div>
+      }
+
+    </div>
+
+
+
+    <div id="buttons">
+      <button id="cancel-container" class="box-btn">
+        <div>
+          <span>CANCEL</span>
+        </div>
+      </button>
+
+      <button id="submit-container" class="box-btn" type="submit">
+        <div>
+          <span>LOGIN</span>
+        </div>
+      </button>
+    </div>
+  </form>
+
+
+</app-modal>
+}
+
+}
