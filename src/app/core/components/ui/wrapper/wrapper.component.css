@@ -41,6 +41,6 @@ div{
   transition: transform 0.2s ease-in-out; 
 }
 
-.zoom-on-hover:hover > div {
+.zoom:hover > div {
   transform: scaleX(.97) scaleY(.9);
 }

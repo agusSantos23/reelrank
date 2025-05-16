@@ -96,7 +96,7 @@
     <div id="statistics-section">
       <app-wrapper width="20vw">
         <h4>MOST VIEWED GENRE</h4>
-        <h5>{{ user?.statistics?.most_viewed_genre }}</h5>
+        <h5>{{ user?.statistics?.most_viewed_genre ?? 'GENRE'}}</h5>
       </app-wrapper>
 
       <app-wrapper width="20vw">
@@ -188,7 +188,7 @@
     <article>
       <p>Change the email address associated with your account.</p>
 
-      <app-wrapper (wrapperClick)="openModalDangerousActions('email')" width="200px" type="btn" cursor="po">
+      <app-wrapper (wrapperClick)="openModalDangerousActions('email')" width="200px" type="btn" cursor="po" animation="zoom">
         UPDATE EMAIL
       </app-wrapper>
 
@@ -197,7 +197,7 @@
     <article>
       <p>Update your user password. Make sure you remember it, as you will need to use it the next time you log in.</p>
 
-      <app-wrapper (wrapperClick)="openModalDangerousActions('password')" width="200px" type="btn" cursor="po">
+      <app-wrapper (wrapperClick)="openModalDangerousActions('password')" width="200px" type="btn" cursor="po" animation="zoom">
         UPDATE PASSWORD
       </app-wrapper>
 
@@ -207,7 +207,7 @@
       <p>This action is irreversible. If you delete your account, you will lose all your data and will not be able to
         recover it. Are you sure you want to continue?</p>
 
-      <app-wrapper width="200px" type="btn" cursor="po">
+      <app-wrapper (wrapperClick)="openModalDangerousActions('delete')" width="200px" type="btn" cursor="po" animation="zoom">
         DELETE ACCOUNT
       </app-wrapper>
 
@@ -222,17 +222,17 @@
 
 @case ('email') {
 
-<app-modal #modalDangerActions [header]="{title: 'Update Email'}" width="60vw" height="50vh">
+<app-modal #modalDangerActions [header]="{title: 'Update Email'}" width="60vw" height="70vh">
 
   <div id="form">
-    <div id="input">
+    <div id="inputs">
 
       <div class="input-container" appFocusInput>
         <div>
           <div class="input-content">
             <label for="email" id="label-email" class="floating-label">Email</label>
 
-            <input id="email" name="email" type="email" [formControl]="emailControl" appFloatingLabel="label-email">
+            <input id="email" name="email" type="email" [formControl]="emailForm" appFloatingLabel="label-email">
 
             <app-info-input [isRequired]="true" [annotationsText]="infoInputs['email']" />
           </div>
@@ -242,7 +242,7 @@
           </div>
         </div>
 
-        @if (emailControl.invalid && (emailControl.dirty || emailControl.touched)) {
+        @if (emailForm.invalid && (emailForm.dirty || emailForm.touched)) {
 
         <div class="requirements-container">
 
@@ -250,11 +250,11 @@
 
             <ul class="requirements">
 
-              @if (emailControl.errors?.['required']) {
+              @if (emailForm.errors?.['required']) {
               <li>Email is required</li>
               }
 
-              @if (emailControl.errors?.['email']) {
+              @if (emailForm.errors?.['email']) {
               <li>Email is not valid</li>
               }
 
@@ -270,7 +270,7 @@
 
 
     <div id="buttons">
-      <button id="cancel-container" class="box-btn">
+      <button id="cancel-container" class="box-btn" (click)="closeModalDangerousActions('email')">
         <div>
           <span>CANCEL</span>
         </div>
@@ -278,7 +278,7 @@
 
       <button id="submit-container" class="box-btn" type="submit" (click)="onSubmitEmail()">
         <div>
-          <span>LOGIN</span>
+          <span>UPDATE</span>
         </div>
       </button>
     </div>
@@ -290,101 +290,107 @@
 }
 
 @case ('password') {
-<app-modal #modalDangerActions [header]="{title: 'Update Password'}" width="60vw" height="50vh">
+<app-modal #modalDangerActions [header]="{title: 'Update Password'}" width="60vw" height="70vh">
 
 
-  <form id="form" [formGroup]="form" (ngSubmit)="onSubmitEmail()">
+  <form id="form" [formGroup]="formPassword" (ngSubmit)="onSubmitPassword()">
 
-    <div class="input-container" appFocusInput>
-      <div>
-        <div class="input-content">
-          <label for="password" id="label-password" class="floating-label">Password</label>
-          <input id="password" name="password" [type]="viewPassword ? 'text' : 'password' " formControlName="password"
-            appFloatingLabel="label-password">
 
-          <app-view-input (stateView)="viewPassword = $event" />
 
-          <app-info-input [isRequired]="true" [annotationsText]="infoInputs['password']" />
+    <div id="inputs">
+      <div class="input-container" appFocusInput>
+        <div>
+          <div class="input-content">
+            <label for="password" id="label-password" class="floating-label">Password</label>
+            <input id="password" name="password" [type]="viewPassword ? 'text' : 'password' " formControlName="password"
+              appFloatingLabel="label-password">
+
+            <app-view-input (stateView)="viewPassword = $event" />
+
+            <app-info-input [isRequired]="true" [annotationsText]="infoInputs['password']" />
+          </div>
+
+          <div class="floor-container">
+            <div class="floor-content"></div>
+          </div>
         </div>
+        @if (formPassword.get('password')?.invalid && (formPassword.get('password')?.dirty ||
+        formPassword.get('password')?.touched)) {
 
-        <div class="floor-container">
-          <div class="floor-content"></div>
+        <div class="requirements-container">
+
+          <div class="requirements-content">
+            <ul class="requirements">
+              @if (formPassword.get('password')?.errors?.['required']) {
+              <li>Password is required</li>
+              }
+              @if (formPassword.get('password')?.errors?.['minlength']) {
+              <li>Password must be at least {{ formPassword.get('password')?.errors?.['minlength']?.requiredLength }}
+                characters
+              </li>
+              }
+              @if (formPassword.get('password')?.errors?.['maxlength']) {
+              <li>Password cannot be more than {{ formPassword.get('password')?.errors?.['maxlength']?.requiredLength }}
+                characters</li>
+              }
+              @if (formPassword.get('password')?.errors?.['noUpperCase']) {
+              <li>Password must contain at least one uppercase letter</li>
+              }
+              @if (formPassword.get('password')?.errors?.['noLowerCase']) {
+              <li>Password must contain at least one lowercase letter</li>
+              }
+              @if (formPassword.get('password')?.errors?.['noSpecialCharacter']) {
+              <li>Password must contain at least one special character</li>
+              }
+            </ul>
+          </div>
+
         </div>
+        }
+
       </div>
-      @if (form.get('password')?.invalid && (form.get('password')?.dirty || form.get('password')?.touched)) {
 
-      <div class="requirements-container">
+      <div class="input-container" appFocusInput>
+        <div>
+          <div class="input-content">
+            <label for="confirmPassword" id="label-confirmPassword" class="floating-label">Confirm Password</label>
+            <input id="confirmPassword" name="password_confirmation" [type]="viewConfirmPassword ? 'text' : 'password' "
+              formControlName="password_confirmation" appFloatingLabel="label-confirmPassword">
 
-        <div class="requirements-content">
-          <ul class="requirements">
-            @if (form.get('password')?.errors?.['required']) {
-            <li>Password is required</li>
-            }
-            @if (form.get('password')?.errors?.['minlength']) {
-            <li>Password must be at least {{ form.get('password')?.errors?.['minlength']?.requiredLength }} characters
-            </li>
-            }
-            @if (form.get('password')?.errors?.['maxlength']) {
-            <li>Password cannot be more than {{ form.get('password')?.errors?.['maxlength']?.requiredLength }}
-              characters</li>
-            }
-            @if (form.get('password')?.errors?.['noUpperCase']) {
-            <li>Password must contain at least one uppercase letter</li>
-            }
-            @if (form.get('password')?.errors?.['noLowerCase']) {
-            <li>Password must contain at least one lowercase letter</li>
-            }
-            @if (form.get('password')?.errors?.['noSpecialCharacter']) {
-            <li>Password must contain at least one special character</li>
-            }
-          </ul>
+            <app-view-input (stateView)="viewConfirmPassword = $event" />
+            <app-info-input [isRequired]="true" [annotationsText]="infoInputs['confirmPassword']" />
+          </div>
+
+          <div class="floor-container">
+            <div class="floor-content"></div>
+          </div>
         </div>
+        @if (formPassword.get('password_confirmation')?.invalid && (formPassword.get('password_confirmation')?.dirty ||
+        formPassword.get('password_confirmation')?.touched)) {
+
+        <div class="requirements-container">
+
+          <div class="requirements-content">
+            <ul class="requirements">
+              @if (formPassword.get('password_confirmation')?.errors?.['required']) {
+              <li>Confirm Password is required</li>
+              }
+              @if (formPassword.get('password_confirmation')?.errors?.['mustMatch']) {
+              <li>Passwords do not match</li>
+              }
+
+            </ul>
+          </div>
+
+        </div>
+        }
 
       </div>
-      }
-
     </div>
-
-    <div class="input-container" appFocusInput>
-      <div>
-        <div class="input-content">
-          <label for="confirmPassword" id="label-confirmPassword" class="floating-label">Confirm Password</label>
-          <input id="confirmPassword" name="password_confirmation" [type]="viewConfirmPassword ? 'text' : 'password' "
-            formControlName="password_confirmation" appFloatingLabel="label-confirmPassword">
-
-          <app-view-input (stateView)="viewConfirmPassword = $event" />
-          <app-info-input [isRequired]="true" [annotationsText]="infoInputs['confirmPassword']" />
-        </div>
-
-        <div class="floor-container">
-          <div class="floor-content"></div>
-        </div>
-      </div>
-      @if (form.get('password_confirmation')?.invalid && (form.get('password_confirmation')?.dirty || form.get('password_confirmation')?.touched)) {
-
-      <div class="requirements-container">
-
-        <div class="requirements-content">
-          <ul class="requirements">
-            @if (form.get('password_confirmation')?.errors?.['required']) {
-            <li>Confirm Password is required</li>
-            }
-            @if (form.get('password_confirmation')?.errors?.['mustMatch']) {
-            <li>Passwords do not match</li>
-            }
-
-          </ul>
-        </div>
-
-      </div>
-      }
-
-    </div>
-
 
 
     <div id="buttons">
-      <button id="cancel-container" class="box-btn">
+      <button type="button" id="cancel-container" class="box-btn" (click)="closeModalDangerousActions('password')">
         <div>
           <span>CANCEL</span>
         </div>
@@ -392,11 +398,33 @@
 
       <button id="submit-container" class="box-btn" type="submit">
         <div>
-          <span>LOGIN</span>
+          <span>UPDATE</span>
         </div>
       </button>
     </div>
   </form>
+
+
+</app-modal>
+}
+
+@case ('delete') {
+<app-modal #modalDangerActions [header]="headerDeleteCount" width="50vw" height="30vh">
+
+  <div id="buttons">
+    <button type="button" id="cancel-container" class="box-btn" (click)="closeModalDangerousActions()">
+      <div>
+        <span>CANCEL</span>
+      </div>
+    </button>
+
+    <button id="submit-container" class="box-btn" (click)="deleteCount()">
+      <div>
+        <span>DELETE COUNT</span>
+      </div>
+    </button>
+
+  </div>
 
 
 </app-modal>

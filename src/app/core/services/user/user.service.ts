@@ -86,6 +86,7 @@ export class UserService {
       `${this.apiUrl}/usermovies/${userId}/${movieId}/rate`,
       { column, value }, { headers }
     )
+
   }
 
   public favoriteMovie(movieId: string, value: boolean): Observable<any> {
@@ -150,19 +151,30 @@ export class UserService {
   }
 
   public updateUserField(field: 'email' | 'password', value: string | { password: string, password_confirmation: string}): Observable<any> {
-
     const authInfo = this.getAuthHeaders();
 
     if (!authInfo) return of(null);
 
     const { headers, userId } = authInfo;
 
+    let body: any = {};
+
+    if (field === 'password' && typeof value === 'object' && value !== null) {
+      body = value; 
+
+    } else {
+      body = { [field]: value }; 
+
+    }
+
     return this.http.patch<BasicUser>(
       `${this.apiUrl}/user/${userId}`,
-      { [field]: value },
+      body,
       { headers }
-    )
+    );
   }
+
+  
 
 
   public unblockUser(): Observable<any> {
@@ -236,6 +248,19 @@ export class UserService {
     }
   }
 
+
+  public deleteUser(): Observable<any>{
+    const authInfo = this.getAuthHeaders();
+
+    if (!authInfo) return of(null);
+
+    const { headers, userId } = authInfo;
+
+    return this.http.delete<BasicUser>(
+      `${this.apiUrl}/user/${userId}`,
+      { headers }
+    );
+  }
 
 
 }

@@ -53,8 +53,8 @@ export class ModalComponent {
     this.isVisible = true;
   }
 
-  public closeModal() {
-    this.renderer.removeClass( this.document.documentElement, 'no-scroll');
+  public closeModal(isScrollBody: boolean = true) {
+    if (isScrollBody) this.renderer.removeClass( this.document.documentElement, 'no-scroll');
     this.isVisible = false;
   }
 }

@@ -19,7 +19,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
       [class.black-container]="containerColor === 'b'"
       [class.gradient-container]="containerColor === 'g'"
       [class.error-container]="containerColor === 'e'"
-      [class.zoom-on-hover]="animation === 'zoom'"
+      [class.zoom]="animation === 'zoom'"
       [@activeAnimation]="isActive === true ? 'active' : (isActive === false ? 'inactive' : null)">
       
       <div
@@ -55,7 +55,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
     ]),
 
     trigger('contentScale', [
-      state('normal', style({ transform: 'scale(1)' })),
+      state('normal', style({ transform: 'scale(*)' })),
       state('scaled', style({ transform: 'scale(0.95)' })),
       transition('normal <=> scaled', animate('200ms ease-in-out'))
     ])
@@ -90,6 +90,8 @@ export class WrapperComponent implements OnInit {
   protected paddingLeft: number = 0;
 
   ngOnInit(): void {    
+    console.log(this.animation);
+    
     this.applyContentPadingType();
     this.applyContentTextStyles();
   }

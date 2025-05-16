@@ -12,7 +12,7 @@ import { MovieCardComponent } from "../../ui/movie-card/movie-card.component";
 import { InfoMessageComponent } from "../../ui/info-message/info-message.component";
 import { LoadingSpinnerComponent } from "../../ui/loading-spinner/loading-spinner.component";
 import { UpwardComponent } from "../../inputs/upward/upward.component";
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Header, ModalComponent } from "../layout/modal/modal.component";
 import { TooltipTriggerDirective } from '../../../shared/directives/functionality/tooltip-trigger/tooltip-trigger.directive';
 import { CollapsibleSectionComponent } from "../../ui/collapsible-section/collapsible-section.component";
@@ -25,9 +25,9 @@ import { InfoInputComponent } from "../../inputs/info-input/info-input.component
 import { AbstractControlOptions, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FocusInputDirective } from '../../../shared/directives/functionality/focus-input/focus-input.directive';
 import { FloatingLabelDirective } from '../../../shared/directives/animations/floating-label/floating-label.directive';
-import { response } from 'express';
 import { CustomValidators } from '../../../shared/validators/custom-validators';
 import { ViewInputComponent } from "../../inputs/view-input/view-input.component";
+import { log } from 'node:console';
 
 export type TypeList = 'favorite' | 'see' | 'seen';
 
@@ -51,7 +51,7 @@ export type TypeList = 'favorite' | 'see' | 'seen';
     FloatingLabelDirective,
     ReactiveFormsModule,
     ViewInputComponent
-],
+  ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
@@ -61,14 +61,15 @@ export class ProfileComponent implements OnInit, OnDestroy {
   private genreService = inject(GenreService);
   private activateRoute = inject(ActivatedRoute);
   private notificationService = inject(NotificationService);
+  private router = inject(Router)
 
 
   @ViewChild('modalSettings') modalSettingsComponent!: ModalComponent;
   @ViewChild('modalDangerActions') modalDangerActionsComponent!: ModalComponent;
 
-  protected emailControl = new FormControl('', [Validators.required, Validators.email]);
+  protected emailForm = new FormControl('', [Validators.required, Validators.email]);
 
-  protected form = new FormGroup({
+  protected formPassword = new FormGroup({
     password: new FormControl('', [
       Validators.required,
       Validators.minLength(8),
@@ -97,6 +98,12 @@ export class ProfileComponent implements OnInit, OnDestroy {
       "Enter your password again for confirmation",
     ],
   };
+
+  protected headerDeleteCount: Header = {
+    title: 'Delete Count',
+    subtitle: 'Are you sure you want to delete your account?'
+
+  }
 
   private userSubscription?: Subscription;
 
@@ -248,6 +255,25 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
   }
 
+  protected closeModalDangerousActions(acction: 'email' | 'password' = 'email') {
+
+    if (this.modalDangerActionsComponent) {
+
+      this.selectDangerousActions = acction;
+
+      setTimeout(() => {
+        this.modalDangerActionsComponent.closeModal(false);
+      }, 0);
+
+    }
+
+    acction === 'email'
+      ?this.emailForm.reset()
+      :this.formPassword.reset()
+  }
+
+
+
   protected toggleFavoriteGenre(genreId: string): void {
 
     if (this.user?.status === 'blocked') return
@@ -367,7 +393,108 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
 
 
+  protected onSubmitEmail() {
 
+    if (this.emailForm.valid && this.emailForm.value) {
+
+      console.log('Valid form:', this.emailForm.value);
+
+      this.userService.updateUserField('email', this.emailForm.value).subscribe({
+        next: (response) => {
+          console.log(response);
+
+          this.showNotificationText(response.message);
+
+          this.loadDataUser();
+
+          this.closeModalDangerousActions('email')
+          
+
+        },
+        error: (err) => {
+          console.error(err);
+
+        }
+      })
+
+    } else {
+      console.log('Invalid form');
+      this.emailForm.markAllAsTouched()
+
+    }
+  }
+
+  protected onSubmitPassword() {
+
+    if (this.formPassword && this.formPassword.valid) {
+
+      const userPassword = {
+        password: this.formPassword.value.password || '',
+        password_confirmation: this.formPassword.value.password_confirmation || ''
+      };
+
+      console.log(userPassword);
+      
+
+      this.userService.updateUserField('password', userPassword).subscribe({
+        next: (response) => {
+          console.log(response);
+          this.showNotificationText(response.message);
+
+          this.loadDataUser();
+
+          this.closeModalDangerousActions('password')
+        },
+        error: (err) => {
+          console.error(err);
+
+        }
+
+      })
+
+    } else {
+      
+      this.formPassword.markAllAsTouched()
+
+    }
+
+  }
+
+
+  protected deleteCount(){
+
+    this.userService.deleteUser().subscribe({
+        next: (response) => {
+
+          this.notificationService.show({
+            type: 'timeline',
+            isError: false,
+            text: response.message,
+            position: 'tr',
+            duration: 4000
+          });          
+
+          this.closeModalDangerousActions()
+
+          this.modalSettingsComponent.closeModal();
+          
+          setTimeout(() => {
+            this.loadDataUser();
+
+            this.router.navigate(['auth/login']);
+          }, 4000);
+
+        },
+        error: (err) => {
+          console.error(err);
+
+        }
+
+      })
+
+
+
+  }
 
   private showNotificationText(text: string, error: boolean = false): void {
 
@@ -378,60 +505,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
       position: 'tr',
       duration: 5000
     });
-  }
-
-
-  protected onSubmitEmail() {
-
-    if (this.emailControl.valid && this.emailControl.value) {
-
-      console.log('Valid form:', this.emailControl.value);
-
-      this.userService.updateUserField('email', this.emailControl.value).subscribe({
-        next: (response) => {
-          console.log(response);
-
-        },
-        error: (err) => {
-          console.error(err);
-
-        }
-      })
-
-    } else {
-      console.log('Invalid form');
-      this.emailControl.markAllAsTouched()
-
-    }
-  }
-
-  protected onSubmitPassword() {
-
-    if (this.form && this.form.valid) {
-      const userPassword= {
-        password: this.form.value.password || '',
-        password_confirmation: this.form.value.password_confirmation || ''
-      };
-
-
-      this.userService.updateUserField('password', userPassword ).subscribe({
-        next: (response) => {
-          console.log(response);
-
-        },
-        error: (err) => {
-          console.error(err);
-
-        }
-        
-      })
-
-    } else {
-      console.log('Invalid form');
-      this.emailControl.markAllAsTouched()
-
-    }
-
   }
 
 
