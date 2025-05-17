@@ -18,7 +18,7 @@ import { Component, Input } from '@angular/core';
     </header>
 
     @if(isCollapsed){
-      <div @slideInOut id="collapsible-content" [class.collapsed]="!isCollapsed">
+      <div id="collapsible-content" [class.collapsed]="!isCollapsed">
         <ng-content></ng-content>
       </div>
     }

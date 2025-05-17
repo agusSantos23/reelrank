@@ -55,7 +55,6 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
     ]),
 
     trigger('contentScale', [
-      state('normal', style({ transform: 'scale(*)' })),
       state('scaled', style({ transform: 'scale(0.95)' })),
       transition('normal <=> scaled', animate('200ms ease-in-out'))
     ])
@@ -90,7 +89,6 @@ export class WrapperComponent implements OnInit {
   protected paddingLeft: number = 0;
 
   ngOnInit(): void {    
-    console.log(this.animation);
     
     this.applyContentPadingType();
     this.applyContentTextStyles();

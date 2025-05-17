@@ -11,8 +11,9 @@ export const authGuard: CanActivateFn = (route, state): Observable<boolean> => {
   const tokenService = inject(TokenServiceService);
   const token = tokenService.getToken();
   const apiUrl = environment.apiUrl; 
-
+  
   if (!token) {
+    
     router.navigate(['/auth/login']);
     return of(false);
   }

@@ -33,7 +33,6 @@ export class UserService {
     
     this.http.get<BasicUser>(`${this.apiUrl}/auth/token/${decodedToken.id}`).pipe(
       tap((user) => {
-        console.log("Updated user");
         
         this._currentUser.next(user);
       }),

@@ -166,9 +166,7 @@ export class MovieDetailsComponent implements OnInit {
 
     this.userSubscription = this.userService.currentUser$.subscribe((currentUser) => {
       this.user = currentUser;
-      
-      console.log(this.user?.config_scorer);
-      
+            
       if (this.user?.status === 'blocked') {
         timeBlocked(this.userService, this.notificationService);
       }
