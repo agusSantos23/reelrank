@@ -33,7 +33,7 @@ export class CollapsibleSectionComponent {
 
   protected isCollapsed = true;
 
-  toggleCollapse() {
+  protected toggleCollapse() {
     this.isCollapsed = !this.isCollapsed;
   }
 

@@ -21,13 +21,13 @@ export class BtnIconComponent implements OnInit {
   @Input() isDisable: boolean = false;
   @Output() clicked: EventEmitter<void> = new EventEmitter<void>();
 
-  protected sizeContent!: number;
+  public sizeContent!: number;
 
   ngOnInit(): void {
     this.sizeContent = this.size - 10;
   }
 
-  handleClick() {
+  public handleClick() {
     this.clicked.emit();
   }
 }

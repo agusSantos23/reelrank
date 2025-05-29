@@ -29,20 +29,21 @@ import { FocusInputDirective } from '../../../shared/directives/functionality/fo
 export class SearchComponent {
   @Output() searchSubmitted = new EventEmitter<string>();
   @ViewChild('searchInput') searchInput: ElementRef | undefined;
-  isInputFocused: boolean = false;
+  
+  public isInputFocused: boolean = false;
 
 
-  search(term: string){    
+  public search(term: string){    
     this.searchSubmitted.emit(term)
     if (this.searchInput) this.searchInput.nativeElement.blur();
     
   }
 
-  onFocus() {
+  public onFocus() {
     this.isInputFocused = true;
   }
 
-  onBlur() {
+  public onBlur() {
     this.isInputFocused = false;
   }
 }

@@ -20,12 +20,14 @@ export class TooltipTriggerDirective implements OnChanges{
     }
   }
 
-  @HostListener('mouseenter') onMouseEnter(): void {
+  @HostListener('mouseenter')
+  onMouseEnter(): void {
     if (!this.tooltipComponentRef) this.showTooltip();
     
   }
 
-  @HostListener('mouseleave') onMouseLeave(): void {
+  @HostListener('mouseleave') 
+  onMouseLeave(): void {
     if (this.tooltipComponentRef) this.hideTooltip();
     
   }

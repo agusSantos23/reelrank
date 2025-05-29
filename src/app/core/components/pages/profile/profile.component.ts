@@ -27,7 +27,6 @@ import { FocusInputDirective } from '../../../shared/directives/functionality/fo
 import { FloatingLabelDirective } from '../../../shared/directives/animations/floating-label/floating-label.directive';
 import { CustomValidators } from '../../../shared/validators/custom-validators';
 import { ViewInputComponent } from "../../inputs/view-input/view-input.component";
-import { log } from 'node:console';
 
 export type TypeList = 'favorite' | 'see' | 'seen';
 
@@ -81,6 +80,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     password_confirmation: new FormControl('', [Validators.required])
   }, { validators: CustomValidators.mustMatch('password', 'password_confirmation') } as AbstractControlOptions);
 
+  private userSubscription?: Subscription;
 
 
   protected infoInputs = {
@@ -104,8 +104,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
     subtitle: 'Are you sure you want to delete your account?'
 
   }
-
-  private userSubscription?: Subscription;
 
   protected user: BasicUser | null = null;
   protected movies: MovieBasicInfo[] = [];
@@ -158,7 +156,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
     this.userSubscription = this.userService.currentUser$.subscribe((currentUser) => {
       this.user = currentUser;
-
+      
       if (this.user) {
         if (this.user?.config_scorer) this.selectEvaluator = this.user.config_scorer;
 
@@ -272,8 +270,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
       :this.formPassword.reset()
   }
 
-
-
   protected toggleFavoriteGenre(genreId: string): void {
 
     if (this.user?.status === 'blocked') return
@@ -377,7 +373,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
         this.userService.getUser();
 
-        console.log(response);
 
       },
       error: (err) => {
@@ -390,18 +385,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
     return new Array(this.maxNumberStars).fill(null);
   }
 
-
-
-
   protected onSubmitEmail() {
 
     if (this.emailForm.valid && this.emailForm.value) {
 
-      console.log('Valid form:', this.emailForm.value);
 
       this.userService.updateUserField('email', this.emailForm.value).subscribe({
         next: (response) => {
-          console.log(response);
 
           this.showNotificationText(response.message);
 
@@ -418,7 +408,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
       })
 
     } else {
-      console.log('Invalid form');
       this.emailForm.markAllAsTouched()
 
     }
@@ -433,12 +422,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
         password_confirmation: this.formPassword.value.password_confirmation || ''
       };
 
-      console.log(userPassword);
       
 
       this.userService.updateUserField('password', userPassword).subscribe({
         next: (response) => {
-          console.log(response);
           this.showNotificationText(response.message);
 
           this.loadDataUser();
@@ -459,7 +446,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
 
   }
-
 
   protected deleteCount(){
 
@@ -506,6 +492,5 @@ export class ProfileComponent implements OnInit, OnDestroy {
       duration: 5000
     });
   }
-
 
 }

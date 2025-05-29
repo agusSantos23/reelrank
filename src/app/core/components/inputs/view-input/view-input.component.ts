@@ -34,7 +34,7 @@ export class ViewInputComponent {
   @Input() isView: boolean = false;
   @Output() stateView = new EventEmitter<boolean>();
 
-  protected onClick(): void {
+  public onClick(): void {
     this.isView = !this.isView;
     this.stateView.emit(this.isView);
   }

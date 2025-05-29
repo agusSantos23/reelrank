@@ -14,11 +14,10 @@ export class SelectComponent implements OnDestroy, OnInit {
   @Input() options: SelectOption[] = [];
   @Output() selectionChange = new EventEmitter<any>();
 
-  default!: SelectOption;
-  selectedValue!: string;
-  isOpen: boolean = false;
+  public default!: SelectOption;
+  public selectedValue!: string;
+  public isOpen: boolean = false;
 
-  private clickListener: (() => void) | null = null;
 
   ngOnInit() {
     
@@ -31,8 +30,11 @@ export class SelectComponent implements OnDestroy, OnInit {
     }
   }
 
+  ngOnDestroy() {
+    if (this.clickListener) this.clickListener();
+  }
 
-  toggleOpen() {
+  public toggleOpen() {
     this.isOpen = !this.isOpen;
 
     if (this.isOpen) {
@@ -52,7 +54,7 @@ export class SelectComponent implements OnDestroy, OnInit {
     }
   }
 
-  selectOption(option: SelectOption) {
+  public selectOption(option: SelectOption) {
     this.selectedValue = option.value;
     this.selectionChange.emit(this.selectedValue);
     this.isOpen = false;
@@ -62,13 +64,14 @@ export class SelectComponent implements OnDestroy, OnInit {
     return this.options.filter((option) => option.value !== this.selectedValue);
   }
 
-  getSelectedLabel(): string {
+  public getSelectedLabel(): string {
     const selectedOption = this.options.find((option) => option.value === this.selectedValue);
     return selectedOption ? selectedOption.label : this.default.label;
   }
 
 
-  ngOnDestroy() {
-    if (this.clickListener) this.clickListener();
-  }
+  public clickListener: (() => void) | null = null;
+
+
+
 }

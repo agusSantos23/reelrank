@@ -14,10 +14,10 @@ export class StarRatingComponent implements OnInit, OnChanges {
   @Input() isDisable: boolean = false;
   @Output() ratingChange = new EventEmitter<number>();
 
-  protected stars: { filled: boolean; }[] = [];
-  protected starAnimationStates: string[] = [];
-  protected starSize: number = 40;
-  private internalRating: number = 0;
+  public stars: { filled: boolean; }[] = [];
+  public starAnimationStates: string[] = [];
+  public starSize: number = 40;
+  public internalRating: number = 0;
 
   ngOnInit(): void {
 
@@ -57,7 +57,7 @@ export class StarRatingComponent implements OnInit, OnChanges {
     }
   }
 
-  private initializeStars(): void {
+  public initializeStars(): void {
 
     this.starAnimationStates = Array(this.maxStars).fill('normal');
     this.stars = Array(this.maxStars)
@@ -65,7 +65,7 @@ export class StarRatingComponent implements OnInit, OnChanges {
       .map(() => ({ filled: false }));
   }
 
-  private setRating(rating: number): void {
+  public setRating(rating: number): void {
     if (rating >= 1 && rating <= this.maxStars) {
       this.internalRating = rating;
       this.updateStarDisplay(this.internalRating);
@@ -74,7 +74,7 @@ export class StarRatingComponent implements OnInit, OnChanges {
     }
   }
 
-  protected handleStarClick(index: number): void {
+  public handleStarClick(index: number): void {
     if (this.isDisable) return
 
     this.triggerStarAnimation(index)
@@ -83,13 +83,13 @@ export class StarRatingComponent implements OnInit, OnChanges {
 
   }
 
-  protected handleStarHover(index: number): void {
+  public handleStarHover(index: number): void {
     if (this.isDisable) return
 
     this.updateStarDisplay(index + 1);
   }
 
-  private triggerStarAnimation(index: number): void {
+  public triggerStarAnimation(index: number): void {
     this.starAnimationStates[index] = 'clicked';
 
     setTimeout(() => {
@@ -97,17 +97,17 @@ export class StarRatingComponent implements OnInit, OnChanges {
     }, 200); 
   }
 
-  protected resetStarDisplay(): void {
+  public resetStarDisplay(): void {
     this.updateStarDisplay(this.internalRating);
   }
 
-  private updateStarDisplay(rating: number): void {
+  public updateStarDisplay(rating: number): void {
     this.stars.forEach((star, i) => {
       star.filled = rating >= i + 1;
     });
   }
 
-  private calculateStarSize(): void {
+  public calculateStarSize(): void {
     if (this.maxStars >= 3 && this.maxStars <= 10) {
       const slope = (30 - 50) / (10 - 3);
       const intercept = 50 - slope * 3;
@@ -122,12 +122,12 @@ export class StarRatingComponent implements OnInit, OnChanges {
     }
   }
 
-  private ratingToPercentage(rating: number): number {
+  public ratingToPercentage(rating: number): number {
     if (this.maxStars <= 1) return rating > 0 ? 100 : 0;
     return Math.round(((rating - 1) / (this.maxStars - 1)) * 100);
   }
 
-  private percentageToRating(percentage: number): number {
+  public percentageToRating(percentage: number): number {
     if (this.maxStars <= 1) return percentage > 0 ? this.maxStars : 0;
     return Math.round((percentage / 100) * this.maxStars);
   }

@@ -22,7 +22,7 @@ import { NotificationService } from '../../../../services/notification/notificat
 import { timeBlocked } from '../../../../interceptors/blocked-user/blocked-user.interceptor';
 import { Movie } from '../../../../models/movie/Movie.model';
 import { TypeList } from '../../profile/profile.component';
-import { ConvertToDecimalPipe } from '../../../../pipe/format-to-decimal/format-to-decimal';
+import { ConvertToDecimalPipe } from '../../../../pipe/format-to-decimal/format-to-decimal.pipe';
 
 export type ColumnRate =
   | 'rating'
@@ -57,7 +57,6 @@ export type ColumnRate =
   ],
   templateUrl: './movie-details.component.html',
   styleUrl: './movie-details.component.css',
-
 })
 export class MovieDetailsComponent implements OnInit {
   private userService = inject(UserService);
@@ -116,7 +115,6 @@ export class MovieDetailsComponent implements OnInit {
         
         this.movieService.getUserMovie(this.movieId, this.user.id).subscribe({
           next: (data: Movie) => {
-            console.log(data);
 
             this.movie = data;
             this.ratingValue = data.user_relation.rating;
@@ -201,7 +199,7 @@ export class MovieDetailsComponent implements OnInit {
           this.showNotificationText(response.message);
         },
         error: (err) => {
-          console.log(err);
+          console.error(err);
         }
       })
     }
@@ -226,12 +224,11 @@ export class MovieDetailsComponent implements OnInit {
           
           if (this.movieId) this.userService.favoriteMovie(this.movieId, this.movie.user_relation.is_favorite).subscribe({
             next: (response: any) => {
-              console.log(response);
               this.showNotificationText(response.message);
               
             },
             error: (err: any) => {
-              console.log(err);
+              console.error(err);
             }
           })
         
@@ -299,7 +296,7 @@ export class MovieDetailsComponent implements OnInit {
   
               },
               error: (err: any) => {
-                console.log(err);
+                console.error(err);
               }
             });
           

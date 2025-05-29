@@ -87,7 +87,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   private page = 1;
   protected limit = 20;
   protected loading = false;
-  private timeLoading = 1000;
   protected allDataLoaded = false;
 
 
@@ -102,7 +101,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (this.userSubscription) this.userSubscription.unsubscribe();
   }
 
-  loadDataUser() {
+  protected loadDataUser() {
     this.userService.getUser();
 
     this.userSubscription = this.userService.currentUser$.subscribe((currentUser) => {
@@ -136,7 +135,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   }
 
-  loadMoreMovies(newOrderBy?: string, newTermSearch?: string): void {
+  protected loadMoreMovies(newOrderBy?: string, newTermSearch?: string): void {
     
     if (newOrderBy || newTermSearch) {
       this.movies = [];
@@ -211,23 +210,23 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.checkScreenSize();
   }
 
-  checkScreenSize(): void {
+  protected checkScreenSize(): void {
     if (typeof window !== 'undefined') this.isMobile = window.innerWidth < 1215;
   }
 
-  onOrderByChange(value: string): void {
+  protected onOrderByChange(value: string): void {
     this.orderBy = value;
     this.loadMoreMovies(value)
 
   }
 
-  onSearch(term: string): void {
+  protected onSearch(term: string): void {
     this.searchTerm = term;
     this.loadMoreMovies(this.orderBy, term)
 
   }
 
-  showSliderGenres(): void {
+  protected showSliderGenres(): void {
 
     this.genreService.getGenres().subscribe({
       next: (data: Genre[]) => {
@@ -244,8 +243,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.showSlider = true;
   }
 
-
-  onNewGenderSearch(gender: Genre): void {
+  protected onNewGenderSearch(gender: Genre): void {
 
     this.activeGenres.push(gender);
 
@@ -254,10 +252,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.loadMoreMovies();
   }
 
-  onCancelGender(genderId: string): void {
+  protected onCancelGender(genderId: string): void {
     this.activeGenres = this.activeGenres.filter(genre => genre.id !== genderId);
     this.loadMoreMovies();
   }
-
 
 }

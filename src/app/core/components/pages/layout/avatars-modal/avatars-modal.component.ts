@@ -9,7 +9,12 @@ import { ModalComponent } from "../modal/modal.component";
 
 @Component({
   selector: 'app-avatars-modal',
-  imports: [ProfileAvatarComponent, OptionsSliderComponent, TitleCasePipe, ModalComponent],
+  imports: [
+    ProfileAvatarComponent, 
+    OptionsSliderComponent, 
+    TitleCasePipe, 
+    ModalComponent
+  ],
   templateUrl: './avatars-modal.component.html',
   styleUrl: './avatars-modal.component.css',
 })
@@ -52,7 +57,7 @@ export class AvatarsModalComponent implements OnInit {
     this.isVisible = false;
   }
 
-  protected onAvatar(avatar: any) {
+  protected onAvatar(avatar: Avatar) {
     this.newAvatar = true;
     this.temporalAvatar = avatar;
   }

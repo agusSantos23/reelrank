@@ -26,7 +26,7 @@ export class InfoInputComponent implements OnInit {
   @Input() isRequired: boolean = false;
   @Input() isHalf: boolean = false;
 
-  protected onInfo: Boolean = false;
+  public onInfo: Boolean = false;
 
   ngOnInit(): void {
     

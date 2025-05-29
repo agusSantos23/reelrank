@@ -32,8 +32,7 @@ import { Component, HostListener, Input } from '@angular/core';
 export class UpwardComponent {
   @Input() scrollOffset: number = 500;
 
-  protected showButton: boolean = false;
-
+  public showButton: boolean = false;
 
   @HostListener('window:scroll', [])
   onWindowScroll() {   
@@ -41,7 +40,7 @@ export class UpwardComponent {
     this.showButton = window.scrollY > this.scrollOffset
   }
 
-  scrollToTop() {
+  public scrollToTop() {
     window.scrollTo(0, 0);
 
   }

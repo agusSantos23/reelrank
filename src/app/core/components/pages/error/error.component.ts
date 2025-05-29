@@ -13,7 +13,7 @@ export class ErrorComponent implements OnInit {
 
   protected errorCode: string | null = null;
 
-  dataLink: DataLink = {
+  protected dataLink: DataLink = {
     name: 'home',
     link: ''
   }

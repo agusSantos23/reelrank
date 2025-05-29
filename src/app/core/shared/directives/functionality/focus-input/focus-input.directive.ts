@@ -17,15 +17,18 @@ export class FocusInputDirective implements AfterViewInit{
     }
   }
 
-  @HostListener('click') onClick(): void {
+  @HostListener('click') 
+  onClick(): void {
     if (this.inputElement) this.inputElement.focus();
   }
 
-  @HostListener('mouseenter') onMouseEnter(): void {
+  @HostListener('mouseenter') 
+  onMouseEnter(): void {
     this.renderer.setStyle(this.el.nativeElement, 'cursor', 'text');
   }
 
-  @HostListener('mouseleave') onMouseLeave(): void {
+  @HostListener('mouseleave') 
+  onMouseLeave(): void {
     this.renderer.setStyle(this.el.nativeElement, 'cursor', 'default');
   }
 }

@@ -18,7 +18,7 @@ export class MovieService {
   private apiUrl = environment.apiUrl;
 
 
-  getMovies(page: number = 1, limit: number = 30, genreIds?: string[], selectedOrderBy?: string, searchTerm?: string): Observable<MovieBasicInfo[]> {
+  public getMovies(page: number = 1, limit: number = 30, genreIds?: string[], selectedOrderBy?: string, searchTerm?: string): Observable<MovieBasicInfo[]> {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('limit', limit.toString());
@@ -34,15 +34,15 @@ export class MovieService {
     return this.http.get<MovieBasicInfo[]>(`${this.apiUrl}/movies`, { params });
   }
 
-  getMovie(movieId: string): Observable<Movie> {
+  public getMovie(movieId: string): Observable<Movie> {
     return this.http.get<Movie>(`${this.apiUrl}/movies/${movieId}`);
   }
 
-  getUserMovie(movieId: string, userId: string): Observable<Movie> {
+  public getUserMovie(movieId: string, userId: string): Observable<Movie> {
     return this.http.get<Movie>(`${this.apiUrl}/movies/${movieId}/${userId}`);
   }
 
-  getMoviesUser(page: number = 1, limit: number = 30, searchTerm?: string, list: string = 'favorite'): Observable<MovieBasicInfo[]> {
+  public getMoviesUser(page: number = 1, limit: number = 30, searchTerm?: string, list: string = 'favorite'): Observable<MovieBasicInfo[]> {
     const authInfo = this.userService.getAuthHeaders()
 
     if (!authInfo) return of([]);

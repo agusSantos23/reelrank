@@ -8,7 +8,10 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile-avatar',
-  imports: [UpperCasePipe, ClickOutSideDirective],
+  imports: [
+    UpperCasePipe, 
+    ClickOutSideDirective
+  ],
   templateUrl: './profile-avatar.component.html',
   styleUrl: './profile-avatar.component.css',
   animations: [

@@ -67,7 +67,6 @@ export class LoginComponent {
   protected onSubmit() {
 
     if (this.form && this.form.valid) {
-      console.log('Valid form:', this.form.value);
 
       this.authService.login(this.form.value).subscribe({
         next: () => {
@@ -104,7 +103,6 @@ export class LoginComponent {
       })
 
     } else {
-      console.log('Invalid form');
       this.form.markAllAsTouched()
       
     }

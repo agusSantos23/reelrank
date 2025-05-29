@@ -52,19 +52,19 @@ export class AssetCancelComponent {
   @Input() data!: Data;
   @Output() cancelEmitter: EventEmitter<string> = new EventEmitter();
 
-  protected isHovering: boolean = false;
-  animationState: 'initial' | 'hovered' = 'initial';
+  public isHovering: boolean = false;
+  public animationState: 'initial' | 'hovered' = 'initial';
 
-  onCancel() {
+  public onCancel() {
     this.cancelEmitter.emit(this.data.id);
   }
 
-  onMouseEnter() {
+  public onMouseEnter() {
     this.isHovering = true;
     this.animationState = 'hovered';
   }
 
-  onMouseLeave() {
+  public onMouseLeave() {
     this.isHovering = false;
     this.animationState = 'initial';
   }

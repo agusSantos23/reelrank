@@ -43,11 +43,11 @@ export class SliderRatingComponent implements OnInit, OnChanges {
 
   @Output() ratingChange = new EventEmitter<number>();
 
-  protected currentValue: number = 0;
-  protected internalCurrentValue?: number; 
-  protected step: number = 1;
-  private isDragging: boolean = false;
-  protected hasInteracted: boolean = true;
+  public currentValue: number = 0;
+  public internalCurrentValue?: number; 
+  public step: number = 1;
+  public isDragging: boolean = false;
+  public hasInteracted: boolean = true;
 
 
   ngOnInit(): void {
@@ -73,7 +73,7 @@ export class SliderRatingComponent implements OnInit, OnChanges {
     }
   }
 
-  protected onSliderInput(value: string): void {
+  public onSliderInput(value: string): void {
     if (this.isDisable) return
 
     this.hasInteracted = true;
@@ -81,7 +81,7 @@ export class SliderRatingComponent implements OnInit, OnChanges {
     this.isDragging = true;
   }
 
-  protected onSliderMouseUp(): void {
+  public onSliderMouseUp(): void {
     if (this.isDragging && this.internalCurrentValue && !this.isDisable) {
       
       this.currentValue = this.internalCurrentValue;
@@ -91,7 +91,7 @@ export class SliderRatingComponent implements OnInit, OnChanges {
     }
   }
 
-  private ensureMaxRange(): void {
+  public ensureMaxRange(): void {
     if (this.max < 1) {
       this.max = 1;
     } else if (this.max > 100) {
@@ -99,12 +99,12 @@ export class SliderRatingComponent implements OnInit, OnChanges {
     }
   }
 
-  private emitRealRating(): void {
+  public emitRealRating(): void {
     const realRating = Math.round((this.currentValue / this.max) * 100);
     this.ratingChange.emit(realRating);
   }
 
-  private setExternalValue(newValue: number | undefined): void {
+  public setExternalValue(newValue: number | undefined): void {
     if (newValue !== undefined && newValue >= 0 && newValue <= 100) {
       this.currentValue = Math.round((newValue / 100) * this.max);
       this.internalCurrentValue = this.currentValue; 

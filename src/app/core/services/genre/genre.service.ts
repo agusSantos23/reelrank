@@ -13,7 +13,6 @@ export class GenreService {
   private http = inject(HttpClient);
   private apiUrl = environment.apiUrl;
 
-  constructor() { }
 
   getGenres(): Observable<Genre[]> {
 

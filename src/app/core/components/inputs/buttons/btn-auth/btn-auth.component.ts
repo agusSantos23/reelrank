@@ -27,7 +27,7 @@ export class BtnAuthComponent {
   @Input() type: 'start' | 'center' | 'space-between' = 'space-between';
 
 
-  onAuthClick() {
+  public onAuthClick() {
     this.router.navigate(['/auth/login']);
   }
 

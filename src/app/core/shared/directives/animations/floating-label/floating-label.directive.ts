@@ -18,17 +18,20 @@ export class FloatingLabelDirective implements AfterViewInit {
     
   }
 
-  @HostListener('focus') onFocus(): void {
+  @HostListener('focus') 
+  onFocus(): void {
     this.isFocused = true;
     this.animateLabel(true);
   }
 
-  @HostListener('blur') onBlur(): void {
+  @HostListener('blur') 
+  onBlur(): void {
     this.isFocused = false;
     this.checkInputValue();
   }
 
-  @HostListener('input') onInput(): void {
+  @HostListener('input') 
+  onInput(): void {
     this.checkInputValue();
   }
 

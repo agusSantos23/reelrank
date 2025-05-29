@@ -6,7 +6,7 @@ import { cardEnlarge } from '../../../shared/directives/animations/trigger/cardE
 import { TooltipTriggerDirective } from '../../../shared/directives/functionality/tooltip-trigger/tooltip-trigger.directive';
 import { MovieBasicInfo } from '../../../models/movie/MovieBasicInfo.model';
 import { TypeList } from '../../pages/profile/profile.component';
-import { ConvertToDecimalPipe } from '../../../pipe/format-to-decimal/format-to-decimal';
+import { ConvertToDecimalPipe } from '../../../pipe/format-to-decimal/format-to-decimal.pipe';
 
 @Component({
   selector: 'app-movie-card',
@@ -39,7 +39,6 @@ export class MovieCardComponent {
   }
 
   protected onMovieClick(): void {
-    console.log(this.fromProfile);
     
     if (this.fromProfile) {
       this.router.navigate(['/details/movie', this.movie.id, this.fromProfile]);

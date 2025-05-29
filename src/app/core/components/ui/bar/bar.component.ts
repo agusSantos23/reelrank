@@ -17,7 +17,7 @@ export class BarComponent implements OnInit, OnChanges{
   @Input() height?: string;
   @Input() text?: string;
 
-  dynamicHeight: string = '60%'; 
+  protected dynamicHeight: string = '60%'; 
 
   ngOnInit(): void {    
     if (this.text) this.setDynamicHeight(this.text?.length);      

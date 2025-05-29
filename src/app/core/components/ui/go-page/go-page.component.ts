@@ -6,7 +6,10 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 
 @Component({
   selector: 'app-go-page',
-  imports: [WrapperComponent, UpperCasePipe],
+  imports: [
+    WrapperComponent, 
+    UpperCasePipe
+  ],
   template: `
     <div [@hoverMove]="hoverState">
       <app-wrapper
@@ -48,7 +51,7 @@ export class GoPageComponent {
   @Input() routeText: string = '';
   @Input() label: string = 'text';
 
-  hoverState: 'default' | 'hovered' = 'default';
+  protected hoverState: 'default' | 'hovered' = 'default';
 
   goRoute(element: any) {
 

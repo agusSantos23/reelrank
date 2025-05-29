@@ -1,11 +1,9 @@
 import { Component, ElementRef, EventEmitter, HostListener, Input, Output, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-options-slider',
-  standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './options-slider.component.html',
   styleUrl: './options-slider.component.css',
   animations: [
@@ -28,18 +26,18 @@ export class OptionsSliderComponent {
   @Output() optionEmitter = new EventEmitter<any>();
   @ViewChild('container') container!: ElementRef;
 
-  private isDragging: boolean = false;
-  private startX: number = 0;
-  private scrollLeft: number = 0;
-  private hasMoved: boolean = false;
+  public isDragging: boolean = false;
+  public startX: number = 0;
+  public scrollLeft: number = 0;
+  public hasMoved: boolean = false;
 
 
-  selectedOption(option: any): void {
+  public selectedOption(option: any): void {
     if (!this.hasMoved) this.optionEmitter.emit(option);
     this.hasMoved = false;
   }
 
-  onMouseDown(e: MouseEvent): void {
+  public onMouseDown(e: MouseEvent): void {
     this.isDragging = true;
     this.hasMoved = false;
     this.startX = e.pageX - this.container.nativeElement.offsetLeft;
@@ -47,7 +45,7 @@ export class OptionsSliderComponent {
     this.container.nativeElement.style.cursor = 'grabbing';
   }
 
-  onMouseMove(e: MouseEvent): void {
+  public onMouseMove(e: MouseEvent): void {
     if (!this.isDragging) return;
 
     this.hasMoved = true;
@@ -55,7 +53,7 @@ export class OptionsSliderComponent {
     this.container.nativeElement.scrollLeft = this.scrollLeft - walk;
   }
 
-  onMouseUp(): void {
+  public onMouseUp(): void {
     this.isDragging = false;
     this.container.nativeElement.style.cursor = 'grab';
 

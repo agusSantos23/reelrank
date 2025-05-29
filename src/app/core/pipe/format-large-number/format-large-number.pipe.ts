@@ -1,15 +1,14 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform, Inject, LOCALE_ID } from '@angular/core';
 import { formatNumber } from '@angular/common';
-import { LOCALE_ID, Inject } from '@angular/core';
 
 @Pipe({
-  name: 'formatLargeNumber'
+  name: 'formatLargeNumber',
 })
 export class FormatLargeNumberPipe implements PipeTransform {
 
   constructor(@Inject(LOCALE_ID) private locale: string) {}
 
-  transform(value: number | string | undefined): string {
+  transform(value: number | string | undefined | null): string { 
     if (value === null || value === undefined) return '-';
     
     const num = typeof value === 'string' ? parseFloat(value) : value;

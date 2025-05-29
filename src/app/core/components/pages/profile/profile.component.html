@@ -20,7 +20,7 @@
     <div id="img-container">
       @if (user?.avatar) {
 
-      <img id="img-content" src="https://i.ibb.co/{{ user?.avatar }}/image.webp" alt="profile Avatar">
+      <img id="img-content" src="https://i.ibb.co/{{ user?.avatar?.image_id }}/image.png" alt="profile Avatar">
 
       }@else {
       <svg id="svg-profile" xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24">
