@@ -1,0 +1,148 @@
+
+#shadow-btn {
+  position: relative;
+}
+
+#shadow-img {
+  position: relative;
+}
+
+#shadow-btn::before {
+  content: '';
+  position: absolute;
+  left: -1px;
+  top: -1px;
+  width: 5%;
+  height: 105%;
+  background-image: linear-gradient(to left, transparent, var(--white)); 
+  pointer-events: none; 
+  z-index: 5;
+}
+
+#shadow-btn::after {
+  content: '';
+  position: absolute;
+  right: -5%;
+  top: -1px;
+  width: 20%;
+  height: 105%;
+  background-image: linear-gradient(to right, transparent, var(--white)); 
+  pointer-events: none; 
+  z-index: 5;
+}
+
+#shadow-img::before {
+  content: '';
+  position: absolute;
+  left: -1px;
+  top: -1px;
+  width: 5%;
+  height: 105%;
+  background-image: linear-gradient(to left, transparent, var(--white)); 
+  pointer-events: none; 
+  z-index: 5;
+}
+
+#shadow-img::after {
+  content: '';
+  position: absolute;
+  right: -1px;
+  top: -1px;
+  width: 5%;
+  height: 105%;
+  background-image: linear-gradient(to right, transparent, var(--white)); 
+  pointer-events: none; 
+  z-index: 5;
+}
+
+
+#container {
+  width: 100%;
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  cursor: grab;
+  gap: 15px;
+  white-space: nowrap;
+  scrollbar-width: none;
+}
+
+#container::-webkit-scrollbar {
+  display: none;
+}
+
+.btn-container {
+  width: 180px;
+  padding: 5px;
+  background-color: var(--black);
+  border-radius: 5px;
+  user-select: none;
+  cursor: pointer;
+}
+
+.btn-content {
+  width: 170px;
+  padding: 5px 0;
+  background-color: var(--white);
+  border-radius: 5px;
+}
+
+
+
+
+
+
+
+.btn-content > span {
+  width: 100%;
+  display: block;
+  text-align: center;
+  font-weight: 600;
+  letter-spacing: 1px;
+  transition: .2s ease-in;
+}
+ 
+.btn-content > span:hover {
+  transform: scale(1.1);
+}
+
+.btn-container:hover span {
+  transform: scale(1.1);
+}
+
+
+.img-container {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  background-color: var(--black);
+  border-radius: 5px;
+  user-select: none;
+  cursor: pointer;
+}
+
+.img-content {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--white);
+  border-radius: 5px;
+}
+
+img{
+  width: 80px;
+  height: 80px;
+  border-radius: 10px;
+  object-fit: cover;
+  pointer-events: none;
+  transition: .2s ease-in-out;
+}
+
+.img-container:hover img {
+  transform: scale(1.2);
+}

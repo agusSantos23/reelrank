@@ -1,0 +1,46 @@
+
+:host{
+  display: block;
+  width: min-content;
+  height: min-content;
+}
+
+button{
+  width: 100%;
+  border: 0;
+}
+
+.flex-content{
+  display: flex;
+  align-items: center;
+}
+
+.black-container{
+  background-color: var(--black);
+}
+
+.gradient-container{
+  background-image: var(--gradient);
+}
+
+.error-container{
+  background-color: var(--red);
+}
+
+
+.white-content{
+  background-color: var(--white);
+}
+
+.white-disabled-content{
+  background-color: var(--white);
+  opacity: .8;
+}
+
+div{
+  transition: transform 0.2s ease-in-out; 
+}
+
+.zoom:hover > div {
+  transform: scaleX(.97) scaleY(.9);
+}

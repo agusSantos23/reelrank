@@ -1,0 +1,31 @@
+#collapsible{
+  margin-bottom: 25px;
+}
+
+#collapsible-header {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  cursor: pointer;
+}
+
+#arrow {
+  margin-right: 10px;
+  transition: transform 0.3s ease-in-out;
+}
+
+#arrow.collapsed {
+  transform: rotate(-90deg);
+}
+
+h3{
+  max-width: max-content;
+  margin: 0;
+  font-weight: 400;
+  font-size: 24px;
+}
+
+#collapsible-content {
+  overflow: hidden;
+  margin: 0 8%;
+}

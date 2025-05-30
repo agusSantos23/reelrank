@@ -1,0 +1,26 @@
+<app-title-link namePage="error" [dataLink]="dataLink"/>
+
+
+<main>
+  @switch (errorCode) {
+    @case ('404') {
+      <img src="/assets/svg/error-404.svg" alt="error 404">
+
+      <p>
+        Oops! The page you were looking for was not found. 
+        You may have followed a broken link or the URL is incorrect. 
+        Go back to the top and find what you're looking for.
+      </p>
+    }
+
+    @default {
+      <img src="/assets/svg/error-500.svg" alt="error 500">
+
+      <p>
+        Oops, something went wrong. 
+        We're working on fixing the problem. 
+        Please try again later.
+      </p>
+    }
+  }
+</main>

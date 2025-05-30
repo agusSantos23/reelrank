@@ -1,0 +1,41 @@
+h1, h2, h3{
+  margin: 0;
+}
+
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+span {
+  position: relative;
+}
+
+h1 {
+  font-size: 36px;
+  font-weight: 900;
+}
+
+h2 {
+  position: absolute;
+  bottom: -11px;
+  left: 206px;
+  transform: translateY(-50%);
+  font-size: 24px;
+  font-weight: 700;
+}
+
+
+h3 {
+  color: var(--black);
+  background-color: var(--white);
+  font-size: 24px;
+  cursor: pointer;
+  transition: .2s ease-in;
+}
+
+h3:hover {
+  color: var(--orange);
+}

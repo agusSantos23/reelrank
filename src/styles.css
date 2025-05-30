@@ -1,1 +1,83 @@
 /* You can add global styles to this file, and also import other style files */
+
+@font-face {
+  font-family: 'montserrat';
+  src: url('../public/assets/fonts/Montserrat-VariableFont_wght.ttf') format('truetype');
+}
+
+:root {
+  --white: #f3f3e7;
+  --black: #1c1c1c;
+  --orange: #ba480e;
+  --red: #A42609;
+  --star: #edaf32;
+  --gradient: linear-gradient(to bottom right, 
+    #edaf32, 
+    #d15711, 
+    #c22f06, 
+    #7d1b0c,
+    #521316, 
+    #331911 
+  );
+}
+
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body{
+  background-color: var(--white);
+  font-family: 'montserrat', Arial, Helvetica, sans-serif;
+}
+
+/* Phone */
+@media (max-width: 768px) {
+  body{
+    margin: .5em;
+
+  }
+}
+
+/* Laptop */
+@media (min-width: 769px) {
+  body{
+    margin: 2em;
+
+  }
+
+
+}
+
+
+.no-scroll{
+  overflow: hidden;
+}
+
+
+.input-content { 
+  position: relative;
+}
+
+.floating-label { 
+  position: absolute;
+  top: 0; 
+  left: 0; 
+  font-size: 24px;
+  color: var(--black);
+  transition: font-size 0.3s ease, top 0.3s ease, left 0.3s ease;
+  pointer-events: none; 
+}
+
+
+.label-float-up {
+  top: 0px; 
+  left: 5px;
+  font-size: 14px; 
+}
+
+.label-float-down {
+  top: 20px; 
+  left: 10px;
+}

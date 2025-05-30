@@ -1,0 +1,44 @@
+
+  <app-wrapper 
+    id="notification-container" 
+    #notificationInner 
+    width="300px" 
+    [style.top.px]="notification.position.startsWith('t') ? '10' : null"
+    [style.bottom.px]="notification.position.startsWith('b') ? '10' : null"
+    [style.left.px]="notification.position.endsWith('l') ? '10' : null"
+    [style.right.px]="notification.position.endsWith('r') ? '10' : null"
+    [style.marginTop]="`${this.index * (25 + 5)}px`"
+    [contentPading]="[15, 5]"
+    [containerColor]="notification.isError ? 'e' : 'b'" [@notificationAnimation]="{ value: animationState }"
+    (@notificationAnimation.done)="onAnimationDone($event)">
+
+    @switch (notification.type) {
+    @case ('text') {
+    {{ notification.text }}
+    }
+
+    @case ('timeline') {
+    <p>{{ notification.text }}</p>
+    <div id="timeline-bar-container">
+      <div id="timeline-bar" [style.width.%]="timelineProgress"></div>
+    </div>
+    }
+
+    @case ('confirmation') {
+    <p>{{ notification.text }}</p>
+    <div id="confirmation-buttons">
+      <button (click)="confirm()">Confirm</button>
+      <button (click)="cancel()">Cancel</button>
+    </div>
+    }
+    }
+
+    @if (notification.type === 'text') {
+    <div id="close-notification" (click)="close()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
+        <path fill="currentColor"
+          d="m12 12.727l-3.244 3.252q-.161.16-.358.15t-.358-.17t-.16-.363t.16-.363L11.274 12L8.04 8.782q-.16-.161-.16-.367t.16-.368t.364-.16q.204 0 .363.16L12 11.298l3.219-3.252q.161-.16.358-.16t.358.16q.165.166.165.367t-.165.36L12.702 12l3.252 3.244q.16.161.16.358t-.16.358q-.166.165-.367.165t-.36-.165z" />
+      </svg>
+    </div>
+    }
+  </app-wrapper>

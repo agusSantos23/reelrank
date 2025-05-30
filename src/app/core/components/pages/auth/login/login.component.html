@@ -1,0 +1,123 @@
+<app-title-link namePage="login" [dataLink]="dataLink" />
+
+
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  
+  <div id="inputs">
+    <div class="input-container" appFocusInput>
+      <div>
+        <div class="input-content">
+          <label for="email" id="label-email" class="floating-label">Email</label>
+          <input id="email" name="email" type="email" formControlName="email" appFloatingLabel="label-email">
+
+          <app-info-input [isRequired]="true" [annotationsText]="infoInputs['email']"/>
+        </div>
+
+        <div class="floor-container">
+          <div class="floor-content"></div>
+        </div>
+      </div>
+
+      @if (form.get('email')?.invalid && (form.get('email')?.dirty || form.get('email')?.touched)) {
+
+      <div class="requirements-container">
+
+        <div class="requirements-content">
+
+          <ul class="requirements">
+
+            @if (form.get('email')?.errors?.['required']) {
+            <li>Email is required</li>
+            }
+
+            @if (form.get('email')?.errors?.['email']) {
+            <li>Email is not valid</li>
+            }
+
+          </ul>
+        </div>
+      </div>
+      }
+
+    </div>
+
+
+    <div class="input-container" appFocusInput>
+      <div>
+        <div class="input-content">
+          <label for="password" id="label-password" class="floating-label">Password</label>
+          <input id="password" name="password" [type]="viewPassword ? 'text' : 'password' " formControlName="password" appFloatingLabel="label-password">
+          
+          <app-view-input (stateView)="viewPassword = $event"/>
+          <app-info-input [isRequired]="true" [annotationsText]="infoInputs['password']"/>
+
+        </div>
+
+        <div class="floor-container">
+          <div class="floor-content"></div>
+        </div>
+      </div>
+
+      @if (form.get('password')?.invalid && (form.get('password')?.dirty || form.get('password')?.touched)) {
+
+      <div class="requirements-container" >
+
+        <div class="requirements-content">
+          <ul class="requirements">
+            @if (form.get('password')?.errors?.['required']) {
+            <li>Password is required</li>
+            }
+            @if (form.get('password')?.errors?.['minlength']) {
+            <li>Password must be at least {{ form.get('password')?.errors?.['minlength']?.requiredLength }} characters</li>
+            }
+            @if (form.get('password')?.errors?.['maxlength']) {
+            <li>Password cannot be more than {{ form.get('password')?.errors?.['maxlength']?.requiredLength }} characters</li>
+            }
+            @if (form.get('password')?.errors?.['noUpperCase']) {
+            <li>Password must contain at least one uppercase letter</li>
+            }
+            @if (form.get('password')?.errors?.['noLowerCase']) {
+            <li>Password must contain at least one lowercase letter</li>
+            }
+            @if (form.get('password')?.errors?.['noSpecialCharacter']) {
+            <li>Password must contain at least one special character</li>
+            }
+          </ul>
+        </div>
+
+      </div>
+    }
+
+    </div>
+
+
+  </div>
+
+  @if (generalErrors.length > 0) {
+    <div id="error-container">
+      <div>
+        <ul>
+          @for (error of generalErrors; track error) {
+            <li>{{ error }}</li>
+          }
+        </ul>
+      </div>
+    </div>
+  }
+
+  <div id="buttons">
+    <button id="cancel-container" class="box-btn" (click)="onCancel()">
+      <div>
+        <span>CANCEL</span>
+      </div>
+    </button>
+
+    <button id="submit-container" class="box-btn" type="submit">
+      <div>
+        
+        <span>LOGIN</span>
+      </div>
+    </button>
+  </div>
+</form>

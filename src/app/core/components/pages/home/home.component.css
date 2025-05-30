@@ -1,0 +1,160 @@
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'montserrat';
+}
+
+main{
+  width: 100%;
+  font-family: 'montserrat';
+}
+
+main > header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+main > header > div {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+main > header > app-options-slider {
+  width: 100%;
+}
+
+main > header > app-bar {
+  width: 100%;
+}
+
+#possible-genre{
+  width: 180px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  background-image: var(--gradient);
+  cursor: pointer;
+}
+
+#possible-genre > div{
+  width: 170px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  background-color: var(--white);
+}
+
+#possible-genre svg{
+  transform: scale(1.1);
+  transition: .2s ease;
+
+}
+
+#possible-genre:hover  svg{
+  color: var(--orange);
+  transform: scale(1.4);
+}
+
+
+#list-movies {
+  display: grid;
+  margin: 40px 0;
+}
+
+.full-col{
+  grid-column: 1 / -1;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+/* Phone */
+@media (max-width: 768px) {
+  #identify {
+    border-radius: 50%;
+  }
+
+  #identify > span {
+    display: none;
+  }
+
+  main > header {
+    margin-top: 25px;
+    gap: 10px;
+  }
+
+  main > header > div {
+    width: 100%;
+  }
+
+  app-genre-group {
+    width: 100%;
+  }
+
+  #info-data > div {
+    max-width: 320px;
+    flex-wrap: wrap;
+  }
+
+  #list-movies {
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 15px;
+  }
+}
+
+/* Laptop */
+@media (min-width: 769px) {
+  
+  #identify {
+    width: 180px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 15px;
+    font-family: 'montserrat';
+    font-weight: 700;
+  }
+
+  main > header {
+    margin-top: 35px;
+    gap: 10px;
+  }
+
+
+  #filters{
+    height: 53px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+  }
+
+  #filters > div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+  }
+
+  app-asset-cancel{
+    height: 40px;
+  }
+
+  #list-movies {
+    grid-template-columns: repeat(5, 1fr); 
+    gap: 25px;
+  }
+
+}

@@ -1,0 +1,117 @@
+#custom-select {
+  position: relative;
+  font-family: 'montserrat';
+  font-size: 14px;
+  font-weight: 600;
+}
+
+#selected-option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+  cursor: pointer;
+  color: var(--white);
+  background-color: var(--black);
+  border-radius: 5px;
+  user-select: none;
+  transition: .2s ease;
+}
+
+#selected-option:hover {
+  color: var(--black);
+  background-color: var(--white);
+  border: 5px solid var(--black);
+}
+
+#selected-option > span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+#options {
+  position: absolute;
+  top: 105%; 
+  left: 5%;
+  width: 95%;
+  color: var(--white);
+  background-color: var(--black);
+  border: 5px solid var(--black);
+  border-radius: 5px;
+  z-index: 10;
+}
+
+#options > div {
+  padding: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: .2s ease;
+}
+
+#options > div:hover {
+  color: var(--black);
+  background-color: var(--white);
+}
+
+#options > div > span {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 5px;
+}
+
+
+/* Phone */
+@media (max-width: 768px) {
+  #custom-select{
+    min-width: 130px;
+  }
+
+  #selected-option {
+    gap: 3px;
+    border: 2px solid var(--black);
+    font-size: 12px;
+  }
+
+  #selected-option > span > svg{
+    display: none;
+  }
+  #selected-option > svg {
+    width: 18px;
+    height: 18px;
+    scale: 1.5;
+  }
+
+  #options > div {
+    padding: 5px;
+    font-size: 12px;
+
+  }
+
+
+  #options > div > span > svg {
+    display: none;
+  }
+
+}
+
+/* Laptop */
+@media (min-width: 769px) {
+  #custom-select {
+    min-width: 200px;
+  }
+
+  #selected-option {
+    border: 5px solid var(--black);
+
+  }
+
+  #selected-option > svg {
+    width: 24px;
+    height: 24px;
+    scale: 1.5;
+  }
+
+}
